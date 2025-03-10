@@ -6,7 +6,7 @@ export const appColor = {
 
 export const storagePropertiesName = {
   isFristTime: 'isFirstTime',
-  user: 'user',
+  authToken: 'authToken',
 };
 
 export const imageList = [
@@ -16,5 +16,6 @@ export const imageList = [
 ];
 
 export const appInfo = {
-  baseUrl: 'http://192.168.1.4:8000/api/v1',
+  baseUrl: 'http://192.168.1.4:8001/api/v1',
+  emailRegex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
 };
