@@ -8,10 +8,11 @@ interface Props {
   type: 'normal' | 'password';
   placeHolder: string;
   iconName?: MaterialIconName;
+  onChange: (val: string) => void;
 }
 
 const TextInputComponent: React.FC<Props> = (props: Props) => {
-  const {type, placeHolder, iconName} = props;
+  const {type, placeHolder, iconName, onChange} = props;
 
   const [focusState, setFocusState] = useState<boolean>(false);
   const [isHidePassword, setHidePassword] = useState<boolean>(
@@ -41,6 +42,7 @@ const TextInputComponent: React.FC<Props> = (props: Props) => {
         secureTextEntry={isHidePassword}
         onFocus={() => setFocusState(true)}
         onBlur={() => setFocusState(false)}
+        onChangeText={onChange}
       />
     </View>
   );
