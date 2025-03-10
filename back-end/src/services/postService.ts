@@ -5,7 +5,6 @@ import { PostDTO } from "../dtos/postDTO";
 import { handleException } from "../exceptions/handleException";
 import MissingFieldValue from "../types/exceptions/missingFieldValue";
 import NotFoundException from "../types/exceptions/notFoundException";
-import { Post } from "@prisma/client";
 
 const getPosts = async (req: Request, res: Response) => {
   try {
@@ -25,7 +24,6 @@ const getPosts = async (req: Request, res: Response) => {
         userId: true,
         imgUrl: true,
         isPublished: true,
-        content: true,
         summary: true,
         _count: {
           select: { postLikes: true, postVisits: true },
@@ -38,30 +36,29 @@ const getPosts = async (req: Request, res: Response) => {
       take: size,
     });
 
-    // const postDtos = posts.map<PostDTO>((item) => ({
-    //   id: item.id,
-    //   title: item.title,
-    //   createdAt: item.createdAt,
-    //   totalLikes: item._count.postLikes,
-    //   totalVisits: item._count.postVisits,
-    //   updatedAt: item.updatedAt,
-    //   userId: item.userId,
-    //   imgUrl: item.imgUrl,
-    //   content: item.content,
-    //   isPublished: item.isPublished,
-    //   sumary: item.summary,
-    // }));
+    const postDtos = posts.map<PostDTO>((item) => ({
+      id: item.id,
+      title: item.title,
+      createdAt: item.createdAt,
+      totalLikes: item._count.postLikes,
+      totalVisits: item._count.postVisits,
+      updatedAt: item.updatedAt,
+      userId: item.userId,
+      imgUrl: item.imgUrl,
+      isPublished: item.isPublished,
+      sumary: item.summary,
+    }));
 
-    // const result: ResponseDTO<Post[]> = {
-    //   data: posts,
-    //   total: totalCount,
-    //   pageNum: page,
-    //   pageSize: size,
-    //   success: true,
-    //   message: "Posts fetched successfully",
-    // };
+    const result: ResponseDTO<PostDTO[]> = {
+      data: postDtos,
+      total: totalCount,
+      pageNum: page,
+      pageSize: size,
+      success: true,
+      message: "Posts fetched successfully",
+    };
 
-    res.json(posts);
+    res.status(200).json(result);
   } catch (err) {
     handleException(err, res);
   }
@@ -92,7 +89,7 @@ const getPostById = async (req: Request, res: Response) => {
       content: post.content,
       updatedAt: post.updatedAt,
     };
-    res.json(result);
+    res.status(200).json(result);
   } catch (error) {
     handleException(error, res);
   }

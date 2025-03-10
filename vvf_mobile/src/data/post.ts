@@ -1,13 +1,13 @@
 export interface Post {
-  id?: String;
-  title: String;
-  content?: String;
-  summary?: String;
-  imgUrl?: String;
+  id: string | null;
+  title: string | null;
+  content?: string | null;
+  sumary?: string | null;
+  imgUrl?: string | null;
   isPublished?: Boolean;
   createdAt: Date;
   updatedAt: Date;
-  userId: String;
-  totalLike: number;
-  totalVisited: number;
+  userId: string | null;
+  totalLikes: number;
+  totalVisits: number;
 }
