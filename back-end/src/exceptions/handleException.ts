@@ -11,7 +11,7 @@ export const handleException = (error: unknown, res: Response) => {
     });
   } else if (error instanceof ZodError) {
     res.status(400).json({
-      message: error.errors,
+      message: error.errors[0].message,
       name: error.name,
       time: new Date(),
     });
