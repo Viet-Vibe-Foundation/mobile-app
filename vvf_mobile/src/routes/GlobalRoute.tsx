@@ -1,5 +1,5 @@
 import React from 'react';
-import {useMMKVBoolean, useMMKVObject} from 'react-native-mmkv';  
+import {useMMKVBoolean, useMMKVString} from 'react-native-mmkv';
 import AuthRoute from './AuthRoute';
 import WelcomeScreen from '../ui/welcome/WelcomScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -10,13 +10,13 @@ const Stack = createNativeStackNavigator();
 
 const GlobalRoute: React.FC = () => {
   const [isFirstTime] = useMMKVBoolean(storagePropertiesName.isFristTime);
-  const [isAuthenticated] = useMMKVObject(storagePropertiesName.user);
+  const [isAuthenticated] = useMMKVString(storagePropertiesName.authToken);
 
   return (
     <Stack.Navigator
-      screenOptions={{headerShown: false}}
+      screenOptions={{headerShown: false, statusBarTranslucent: true}}
       initialRouteName={
-        !isFirstTime ? 'Welcome' : isAuthenticated ? 'Auth' : 'Main'
+        !isFirstTime ? 'Welcome' : isAuthenticated ? 'Main' : 'Auth'
       }>
       <Stack.Screen name="Auth" component={AuthRoute} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />

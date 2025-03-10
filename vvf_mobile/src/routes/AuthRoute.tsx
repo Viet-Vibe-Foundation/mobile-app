@@ -9,7 +9,7 @@ const AuthRoute: React.FC = () => {
   return (
     <Stack.Navigator
       initialRouteName="SignIn"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{headerShown: false, statusBarTranslucent: true}}>
       <Stack.Screen name="SignIn" component={SignInForm} />
       <Stack.Screen name="SignUp" component={SignUpForm} />
     </Stack.Navigator>
