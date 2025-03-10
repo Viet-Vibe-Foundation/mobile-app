@@ -5,8 +5,11 @@ import ExistedUserException from "../types/exceptions/existedUserException";
 import { signInSchema } from "../libs/zodSchema/signInSchema";
 import { signUpSchema } from "../libs/zodSchema/signUpSchema";
 import { comparePassword, encryptPassword } from "../utils/bcrypt";
-import { createToken } from "../utils/jwtUtil";
+import { createJWTToken } from "../utils/jwtUtil";
+import { createVerifyToken } from "./tokenService";
 import { getUserByEmailOrPhone } from "./userService";
+import { prisma } from "../libs/db";
+import { sendEmail } from "../utils/sendEmail";
 
 const SignIn = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -32,7 +35,7 @@ const SignIn = async (req: Request, res: Response): Promise<void> => {
 
     const { password, ...jwtData } = existingUser;
 
-    const jwtToken = createToken(jwtData);
+    const jwtToken = createJWTToken(jwtData);
 
     res.status(200).json({
       type: "Bearer",
@@ -55,32 +58,32 @@ const SignUp = async (req: Request, res: Response) => {
     const hashedPassword = await encryptPassword(password);
     const fullName = `${firstName} ${lastName}`;
 
-    // Do not save
+    const user = await prisma.user.create({
+      data: {
+        name: fullName,
+        email: email,
+        age: String(age),
+        phone: String(phoneNumber),
+        address: address,
+        password: hashedPassword,
+      },
+    });
 
-    // const user = await prisma.user.create({
-    //   data: {
-    //     name: fullName,
-    //     email: email,
-    //     age: String(age),
-    //     phone: String(phoneNumber),
-    //     address: address,
-    //     password: hashedPassword,
-    //   },
-    // });
+    const verifyToken = await createVerifyToken(user.email);
 
-    const user = {
-      name: fullName,
-      email: email,
-      age: String(age),
-      phone: String(phoneNumber),
-      address: address,
-    };
-
-    const token = createToken(user);
+    if (verifyToken && user) {
+      console.log("before sending email");
+      await sendEmail({
+        firstName: user.name!,
+        to: user.email,
+        token: verifyToken.token,
+      });
+    }
 
     res.status(201).json({
-      type: "Bearer",
-      token: token,
+      data: null,
+      message:
+        "Account created successfully, please check your email to verify",
     });
   } catch (error) {
     handleException(error, res);

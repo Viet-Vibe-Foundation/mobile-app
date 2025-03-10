@@ -5,7 +5,7 @@ env.config();
 
 const secretKey = process.env.AUTH_SECRET ?? "";
 
-const verifyToken = (token: string) => {
+const verifyJWTToken = (token: string) => {
   try {
     return jwt.verify(token, secretKey);
   } catch (err) {
@@ -13,7 +13,7 @@ const verifyToken = (token: string) => {
   }
 };
 
-const createToken = (data: any) =>
+const createJWTToken = (data: any) =>
   jwt.sign({ data }, secretKey, { expiresIn: "1d" });
 
-export { verifyToken, createToken };
+export { verifyJWTToken, createJWTToken };
