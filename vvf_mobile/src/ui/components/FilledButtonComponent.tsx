@@ -1,4 +1,10 @@
-import {Text, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+  ActivityIndicator,
+} from 'react-native';
 import React from 'react';
 import {appColor} from '../../constants';
 import Icon from '@react-native-vector-icons/material-icons';
@@ -9,11 +15,12 @@ interface Props {
   title?: string;
   iconName?: MaterialIconName;
   color?: string;
+  loading?: boolean;
   style?: ViewStyle | ViewStyle[];
 }
 
 const FilledButtonComponent = (props: Props) => {
-  const {onPress, title, iconName, color, style} = props;
+  const {onPress, title, iconName, color, style, loading} = props;
 
   return (
     <TouchableOpacity
@@ -23,8 +30,14 @@ const FilledButtonComponent = (props: Props) => {
         style,
       ]}
       onPress={onPress}>
-      {title && <Text style={styles.title}>{title}</Text>}
-      {iconName && <Icon name={iconName} size={30} />}
+      {loading ? (
+        <ActivityIndicator size="small" color={'#FFF'} />
+      ) : (
+        <>
+          {title && <Text style={styles.title}>{title}</Text>}
+          {iconName && <Icon name={iconName} size={30} />}
+        </>
+      )}
     </TouchableOpacity>
   );
 };
