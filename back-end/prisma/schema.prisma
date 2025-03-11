@@ -38,6 +38,7 @@ model Event {
   days          String[]
   isPublished   Boolean         @default(false)
   imgUrl        String?
+  formLink      String?
   EventSchedule EventSchedule[]
   EventTicket   EventTicket[]
   EventCategory EventCategory[] @relation("EventToEventCategory")
