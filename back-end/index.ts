@@ -5,8 +5,6 @@ import PostRouter from "./src/routes/postRoutes";
 import EventRouter from "./src/routes/eventRoutes";
 import UserRouter from "./src/routes/userRoutes";
 import AuthRouter from "./src/routes/authRoutes";
-import { sendEmail } from "./src/utils/sendEmail";
-import { handleException } from "src/exceptions/handleException";
 
 dotenv.config({ path: __dirname + "/.env" });
 

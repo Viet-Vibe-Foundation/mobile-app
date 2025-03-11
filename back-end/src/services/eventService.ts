@@ -3,6 +3,7 @@ import { handleException } from "../exceptions/handleException";
 import { prisma } from "../libs/db";
 import { EventDTO } from "../dtos/eventDTO";
 import { ResponseDTO } from "../types/responseDTO";
+import MissingFieldValue from "../types/exceptions/missingFieldValue";
 
 const getEvents = async (req: Request, res: Response) => {
   try {
@@ -61,11 +62,77 @@ const getEvents = async (req: Request, res: Response) => {
       success: true,
       message: "Events fetched successfully",
     };
-
     res.status(200).json(result);
   } catch (err) {
     handleException(err, res);
   }
 };
 
-export default { getEvents };
+const getEventById = async (
+  req: Request<{ eventId: string }>,
+  res: Response
+) => {
+  try {
+    const { eventId } = req.params;
+
+    if (!eventId) throw new MissingFieldValue("eventId");
+
+    const event = await prisma.event.findUnique({
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        location: true,
+        startDate: true,
+        startTime: true,
+        imgUrl: true,
+        endTime: true,
+        formLink: true,
+        User: {
+          select: {
+            name: true,
+          },
+        },
+        EventSchedule: {
+          select: {
+            id: true,
+            startTime: true,
+            endTime: true,
+            description: true,
+          },
+        },
+      },
+      where: {
+        id: eventId,
+      },
+    });
+
+    const result: EventDTO = {
+      id: event?.id,
+      title: event?.title,
+      description: event?.description,
+      location: event?.location,
+      startDate: event?.startDate,
+      imgUrl: event?.imgUrl,
+      startTime: event?.startTime,
+      endTime: event?.endTime,
+      formLink: event?.formLink,
+      eventSchedules: event?.EventSchedule.map((item) => ({
+        description: item.description,
+        endTime: item.endTime,
+        id: item.id,
+        starTime: item.startTime,
+      })),
+    };
+
+    res.status(200).json({
+      message: "Fetch event by id",
+      success: true,
+      data: result,
+    } as ResponseDTO<EventDTO>);
+  } catch (error) {
+    handleException(error, res);
+  }
+};
+
+export default { getEvents, getEventById };
