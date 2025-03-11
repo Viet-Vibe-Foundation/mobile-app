@@ -16,35 +16,67 @@ const SignUpForm: React.FC = () => {
       <Divider type="horizontal" />
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>First Name</Text>
-        <TextInputComponent placeHolder="eg: Joe" type="normal" />
+        <TextInputComponent
+          placeHolder="eg: Joe"
+          type="normal"
+          onChange={() => {}}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Last Name</Text>
-        <TextInputComponent placeHolder="eg: Smith" type="normal" />
+        <TextInputComponent
+          placeHolder="eg: Smith"
+          type="normal"
+          onChange={() => {}}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Email</Text>
-        <TextInputComponent placeHolder="JohnSmith@gmail.com" type="normal" />
+        <TextInputComponent
+          placeHolder="JohnSmith@gmail.com"
+          type="normal"
+          onChange={() => {}}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Age</Text>
-        <TextInputComponent placeHolder="eg: 26" type="normal" />
+        <TextInputComponent
+          placeHolder="eg: 26"
+          type="normal"
+          onChange={() => {}}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Phone Number</Text>
-        <TextInputComponent placeHolder="eg: 1234567890" type="normal" />
+        <TextInputComponent
+          placeHolder="eg: 1234567890"
+          type="normal"
+          onChange={() => {}}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Address</Text>
-        <TextInputComponent placeHolder="eg: 123 Main St" type="normal" />
+        <TextInputComponent
+          placeHolder="eg: 123 Main St"
+          type="normal"
+          onChange={() => {}}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Password</Text>
-        <TextInputComponent placeHolder="Enter your password" type="password" />
+        <TextInputComponent
+          placeHolder="Enter your password"
+          type="password"
+          onChange={() => {}}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Confirm Password</Text>
-        <TextInputComponent placeHolder="Confirm password" type="password" />
+        <TextInputComponent
+          placeHolder="Confirm password"
+          type="password"
+          onChange={() => {}}
+        />
       </View>
       <FilledButtonComponent
         style={styles.signUpBtn}

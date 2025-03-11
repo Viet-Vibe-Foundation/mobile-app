@@ -46,6 +46,8 @@ const SignInForm: React.FC = () => {
         setError(error.response?.data.message);
       } else if (error instanceof Error) {
         setError(error.message);
+      } else {
+        setError('Un-expected error. Please try again');
       }
     } finally {
       setLoading(false);

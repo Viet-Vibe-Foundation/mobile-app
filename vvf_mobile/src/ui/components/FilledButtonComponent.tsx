@@ -14,19 +14,33 @@ interface Props {
   onPress: () => void;
   title?: string;
   iconName?: MaterialIconName;
-  color?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  iconColor?: string;
   loading?: boolean;
   style?: ViewStyle | ViewStyle[];
 }
 
 const FilledButtonComponent = (props: Props) => {
-  const {onPress, title, iconName, color, style, loading} = props;
+  const {
+    onPress,
+    title,
+    iconName,
+    backgroundColor,
+    textColor,
+    style,
+    iconColor,
+    loading,
+  } = props;
 
   return (
     <TouchableOpacity
       style={[
         styles.container,
-        color && {backgroundColor: color, borderColor: color},
+        backgroundColor && {
+          backgroundColor: backgroundColor,
+          borderColor: backgroundColor,
+        },
         style,
       ]}
       onPress={onPress}>
@@ -34,8 +48,14 @@ const FilledButtonComponent = (props: Props) => {
         <ActivityIndicator size="small" color={'#FFF'} />
       ) : (
         <>
-          {title && <Text style={styles.title}>{title}</Text>}
-          {iconName && <Icon name={iconName} size={30} />}
+          {title && (
+            <Text style={[styles.title, {color: textColor ?? 'white'}]}>
+              {title}
+            </Text>
+          )}
+          {iconName && (
+            <Icon name={iconName} size={30} color={iconColor ?? 'black'} />
+          )}
         </>
       )}
     </TouchableOpacity>
@@ -49,6 +69,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: appColor.primaryColor,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     textAlign: 'center',
