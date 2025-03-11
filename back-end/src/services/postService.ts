@@ -64,11 +64,11 @@ const getPosts = async (req: Request, res: Response) => {
   }
 };
 
-const getPostById = async (req: Request, res: Response) => {
+const getPostById = async (req: Request<{ postId: string }>, res: Response) => {
   try {
-    const { postId } = req.query;
+    const { postId } = req.params;
 
-    if (!postId || typeof postId !== "string") {
+    if (!postId) {
       throw new MissingFieldValue("PostId");
     }
 
@@ -89,7 +89,11 @@ const getPostById = async (req: Request, res: Response) => {
       content: post.content,
       updatedAt: post.updatedAt,
     };
-    res.status(200).json(result);
+    res.status(200).json({
+      message: "Fetch Post by Id",
+      data: result,
+      success: true,
+    } as ResponseDTO<PostDTO>);
   } catch (error) {
     handleException(error, res);
   }
