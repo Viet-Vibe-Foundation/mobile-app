@@ -16,20 +16,21 @@ const HeaderComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: 'auto',
     flexDirection: 'row',
-    borderRadius: 20,
-    backgroundColor: appColor.toolBarColor,
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
   },
+
   logo: {
     width: 100,
-    aspectRatio: 1,
-    resizeMode: 'cover',
+    height: 100,
+    resizeMode: 'contain',
+    marginRight: 8,
   },
+
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: appColor.primaryColor,
   },

@@ -1,3 +1,5 @@
+import {EventSchedule} from './eventSchedule';
+
 export interface Event {
   id: string | null;
   title: string | null;
@@ -12,7 +14,9 @@ export interface Event {
   endDate?: Date | null;
   endTime?: string | null;
   imgUrl: string | null;
+  formLink: string | null;
   isPublished: Boolean;
   remainingTicket: number | null; // Capacity - ticketSold
   eventType: string | null;
+  eventSchedules?: EventSchedule[];
 }
