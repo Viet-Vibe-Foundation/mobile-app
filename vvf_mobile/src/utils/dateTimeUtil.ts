@@ -13,11 +13,9 @@ export const calculateMinute = (to: string, from: string) => {
   const fromDate = timeToDate(from);
 
   if (!toDate.isValid() || !fromDate.isValid()) {
-    console.error('Invalid date format');
     return 'N/A';
   }
 
   const result = fromDate.diff(toDate, 'minute');
-  console.log(`Difference in minutes: ${result}`);
   return result;
 };

@@ -1,17 +1,19 @@
-import React from 'react';
-import {WebView} from 'react-native-webview';
+import React, {useState} from 'react';
+import AutoHeightWebView from 'react-native-autoheight-webview';
 
 interface Props {
   html: string | null;
 }
 
 const HtmlComponent = ({html}: Props) => {
+  const [height, setHeight] = useState<number>(300);
+
   if (!html) return null;
 
   const htmlContent = `
     <html>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <style>
           body { margin: 0; padding: 10px; font-size: 16px; }
         </style>
@@ -23,17 +25,16 @@ const HtmlComponent = ({html}: Props) => {
   `;
 
   return (
-    <WebView
+    <AutoHeightWebView
       source={{html: htmlContent}}
-      scrollEnabled={true}
-      nestedScrollEnabled={true}
-      javaScriptEnabled={true}
-      domStorageEnabled={true}
-      allowFileAccess={true}
-      allowUniversalAccessFromFileURLs={true}
-      textZoom={100}
-      originWhitelist={['*']}
-      style={{flex: 1, height: 300, backgroundColor: 'transparent'}}
+      viewportContent={'width=device-width, initial-scale=1, maximum-scale=1'}
+      onSizeUpdated={size => {
+        if (size.height !== height) {
+          setHeight(size.height);
+        }
+      }}
+      style={{width: '100%', height, backgroundColor: 'transparent'}}
+      setSupportMultipleWindows={false}
     />
   );
 };

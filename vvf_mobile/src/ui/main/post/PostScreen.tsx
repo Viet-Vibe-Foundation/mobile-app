@@ -1,4 +1,4 @@
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet, ActivityIndicator, Dimensions} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import WebView from 'react-native-webview';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -37,12 +37,10 @@ const PostScreen = () => {
     }
   };
 
-  console.log(postId);
-
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator size={'large'} />
+        <ActivityIndicator size={'large'} style={styles.activityIndicator} />
       ) : (
         <>
           {postContent?.content ? (
@@ -57,6 +55,12 @@ const PostScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: Dimensions.get('window').height / 2,
+    left: Dimensions.get('window').width / 2,
   },
 });
 
