@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     position: 'absolute',
-    top: Dimensions.get('window').height / 2,
+    bottom: (Dimensions.get('window').height - 40) / 2,
     left: Dimensions.get('window').width / 2,
   },
 });
