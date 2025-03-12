@@ -25,6 +25,7 @@ const MainScreen = () => {
         component={HomeScreen}
         options={{
           headerShown: true,
+
           tabBarIcon: ({focused}) => (
             <MaterialIcons
               name={'home'}
@@ -58,6 +59,7 @@ const MainScreen = () => {
         name="More"
         component={SettingScreen}
         options={{
+          headerTitle: () => <HeaderComponent />,
           tabBarIcon: ({focused}) => (
             <MaterialIcons
               name={'list'}
