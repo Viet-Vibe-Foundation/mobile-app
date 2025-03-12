@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
-import React from 'react';
+import React, {memo} from 'react';
 import {appColor} from '../../constants';
 
 const HeaderComponent = () => {
@@ -36,4 +36,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeaderComponent;
+export default memo(HeaderComponent);
