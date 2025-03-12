@@ -22,7 +22,7 @@ model EventCategory {
 
 model Event {
   id            String          @id @default(cuid())
-  title         String
+  title         String          @unique
   description   String?
   location      String?
   startTime     String?
@@ -39,6 +39,7 @@ model Event {
   isPublished   Boolean         @default(false)
   imgUrl        String?
   formLink      String?
+  keyName       String          @unique
   EventSchedule EventSchedule[]
   EventTicket   EventTicket[]
   EventCategory EventCategory[] @relation("EventToEventCategory")
