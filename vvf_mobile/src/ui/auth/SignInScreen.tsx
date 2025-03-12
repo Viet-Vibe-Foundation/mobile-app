@@ -64,7 +64,7 @@ const SignInForm: React.FC = () => {
         <TextInputComponent
           placeHolder="JohnSmith@gmail.com"
           type="normal"
-          onChange={setEmail}
+          onChangeText={setEmail}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -72,7 +72,7 @@ const SignInForm: React.FC = () => {
         <TextInputComponent
           placeHolder="Enter Your Password"
           type="password"
-          onChange={setPassword}
+          onChangeText={setPassword}
         />
       </View>
       <Text style={styles.errorText}>{error}</Text>

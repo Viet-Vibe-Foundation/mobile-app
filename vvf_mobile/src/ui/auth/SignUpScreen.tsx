@@ -19,7 +19,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="eg: Joe"
           type="normal"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -27,7 +27,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="eg: Smith"
           type="normal"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -35,7 +35,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="JohnSmith@gmail.com"
           type="normal"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -43,7 +43,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="eg: 26"
           type="normal"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -51,7 +51,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="eg: 1234567890"
           type="normal"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -59,7 +59,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="eg: 123 Main St"
           type="normal"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -67,7 +67,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="Enter your password"
           type="password"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -75,7 +75,7 @@ const SignUpForm: React.FC = () => {
         <TextInputComponent
           placeHolder="Confirm password"
           type="password"
-          onChange={() => {}}
+          onChangeText={() => {}}
         />
       </View>
       <FilledButtonComponent
