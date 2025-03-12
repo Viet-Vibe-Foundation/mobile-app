@@ -1,4 +1,12 @@
-import {View, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  NativeSyntheticEvent,
+  TextInputSubmitEditingEventData,
+  ViewStyle,
+} from 'react-native';
 import React, {useState} from 'react';
 import {appColor} from '../../constants';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
@@ -8,11 +16,16 @@ interface Props {
   type: 'normal' | 'password';
   placeHolder: string;
   iconName?: MaterialIconName;
-  onChange: (val: string) => void;
+  onChangeText: (val: string) => void;
+  onSubmitEditting?: (
+    val: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
+  ) => void;
+  style?: ViewStyle | ViewStyle[];
 }
 
 const TextInputComponent: React.FC<Props> = (props: Props) => {
-  const {type, placeHolder, iconName, onChange} = props;
+  const {type, placeHolder, iconName, onChangeText, onSubmitEditting, style} =
+    props;
 
   const [focusState, setFocusState] = useState<boolean>(false);
   const [isHidePassword, setHidePassword] = useState<boolean>(
@@ -24,6 +37,7 @@ const TextInputComponent: React.FC<Props> = (props: Props) => {
       style={[
         styles.inputContainer,
         {borderColor: focusState ? appColor.primaryColor : 'black'},
+        style,
       ]}>
       {type === 'password' ? (
         <TouchableOpacity onPress={() => setHidePassword(prev => !prev)}>
@@ -42,7 +56,8 @@ const TextInputComponent: React.FC<Props> = (props: Props) => {
         secureTextEntry={isHidePassword}
         onFocus={() => setFocusState(true)}
         onBlur={() => setFocusState(false)}
-        onChangeText={onChange}
+        onSubmitEditing={onSubmitEditting}
+        onChangeText={onChangeText}
       />
     </View>
   );
