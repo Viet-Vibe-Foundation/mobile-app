@@ -99,4 +99,56 @@ const getPostById = async (req: Request<{ postId: string }>, res: Response) => {
   }
 };
 
-export default { getPosts, getPostById };
+const searchPost = async (req: Request, res: Response) => {
+  const { searchText } = req.query;
+  try {
+    const posts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        createdAt: true,
+        updatedAt: true,
+        userId: true,
+        imgUrl: true,
+        isPublished: true,
+        summary: true,
+        _count: {
+          select: { postLikes: true, postVisits: true },
+        },
+      },
+      where: {
+        content: {
+          contains: searchText as string,
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const postDtos = posts.map<PostDTO>((item) => ({
+      id: item.id,
+      title: item.title,
+      createdAt: item.createdAt,
+      totalLikes: item._count.postLikes,
+      totalVisits: item._count.postVisits,
+      updatedAt: item.updatedAt,
+      userId: item.userId,
+      imgUrl: item.imgUrl,
+      isPublished: item.isPublished,
+      sumary: item.summary,
+    }));
+
+    const result: ResponseDTO<PostDTO[]> = {
+      data: postDtos,
+      success: postDtos.length > 0 ? true : false,
+      message: "Posts fetched successfully",
+    };
+
+    res.status(200).json(result);
+  } catch (err) {
+    handleException(err, res);
+  }
+};
+
+export default { getPosts, getPostById, searchPost };
