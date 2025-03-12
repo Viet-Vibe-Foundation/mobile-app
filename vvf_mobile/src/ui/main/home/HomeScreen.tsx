@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  ScrollView,
   StyleSheet,
   Text,
   View,
   Alert,
+  Dimensions,
 } from 'react-native';
 import axiosInstance from 'src/services/apis/axios';
 import {Post} from 'src/data/post';
@@ -16,63 +16,120 @@ import EventCard from './components/EventCard';
 import PostListItem from './components/PostListItem';
 
 const HomeScreen = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [posts, setPosts] = useState<ResponseDTO<Post[]>>({
+    data: [],
+    pageNum: 1,
+    total: 0,
+  });
+  const [events, setEvents] = useState<ResponseDTO<Event[]>>({
+    data: [],
+    pageNum: 1,
+    total: 0,
+  });
 
   useEffect(() => {
-    setLoading(true);
-    getPosts();
-    getEvents();
-    setLoading(false);
-  }, []);
+    getPosts(posts.pageNum);
+  }, [posts.pageNum]);
 
-  const getPosts = async () => {
+  useEffect(() => {
+    getEvents(events.pageNum);
+  }, [events.pageNum]);
+
+  const getPosts = async (pageNum: number = 1) => {
     try {
-      const res = await axiosInstance.get<ResponseDTO<Post[]>>('/posts');
-      setPosts(res.data?.data || []);
+      const res = await axiosInstance.get<ResponseDTO<Post[]>>(
+        `/posts?pageNum=${pageNum}`,
+      );
+
+      const newPosts = res.data.data || [];
+
+      if (newPosts.length === 0) return;
+
+      setPosts(prev => ({
+        ...prev,
+        data: [...(prev.data ?? []), ...newPosts],
+        total: res.data.total,
+      }));
+
+      console.log(pageNum);
     } catch (error: any) {
       console.error(error);
       Alert.alert('Error', 'Failed to load posts. Please try again.');
     }
   };
 
-  const getEvents = async () => {
+  const getEvents = async (pageNum: number = 1) => {
     try {
-      const res = await axiosInstance.get<ResponseDTO<Event[]>>('/events');
-      setEvents(res.data?.data || []);
+      const res = await axiosInstance.get<ResponseDTO<Event[]>>(
+        `/events?pageNum=${pageNum}`,
+      );
+
+      const newEvents = res.data.data || [];
+
+      if (newEvents.length === 0) return;
+
+      setEvents(prev => ({
+        ...prev,
+        data: [...(prev.data ?? []), ...newEvents],
+        total: res.data.total,
+      }));
+      console.log(pageNum);
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Failed to load events. Please try again.');
     }
   };
 
-  return isLoading ? (
-    <ActivityIndicator size={'large'} />
-  ) : (
+  const handlePostEndReached = () => {
+    if ((posts.data?.length ?? 0) < (posts.total ?? 0)) {
+      setPosts(prev => ({
+        ...prev,
+        pageNum: (prev.pageNum ?? 1) + 1,
+      }));
+    }
+  };
+
+  const handleEventEndReached = () => {
+    if ((events.data?.length ?? 0) < (events.total ?? 0)) {
+      setEvents(prev => ({
+        ...prev,
+        pageNum: (prev.pageNum ?? 1) + 1,
+      }));
+    }
+  };
+
+  return (
     <FlatList
       style={styles.container}
       ListHeaderComponent={
         <View>
           <Text style={styles.sectionHeader}>Events</Text>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {events.length > 0 ? (
-              events.map(event => <EventCard key={event.id} event={event} />)
-            ) : (
-              <Text style={styles.emptyText}>No events available</Text>
-            )}
-          </ScrollView>
+          <FlatList
+            data={events?.data}
+            renderItem={({item}) => <EventCard event={item} />}
+            horizontal
+            keyExtractor={(item, index) => `event-${item.id}-${index}`}
+            showsHorizontalScrollIndicator={false}
+            onEndReached={handleEventEndReached}
+            ListEmptyComponent={
+              <ActivityIndicator
+                style={styles.activityIndicator}
+                size={'large'}
+              />
+            }
+          />
 
           <Text style={styles.sectionHeader}>Posts</Text>
         </View>
       }
       showsVerticalScrollIndicator={false}
-      data={posts}
-      keyExtractor={(item, index) => item.id?.toString() ?? `post-${index}`}
+      data={posts.data}
+      keyExtractor={(item, index) => `post-${item.id}-${index}`}
       renderItem={({item}) => <PostListItem post={item} />}
+      onEndReached={handlePostEndReached}
       ListEmptyComponent={
-        <Text style={styles.emptyText}>No posts available</Text>
+        <ActivityIndicator style={styles.activityIndicator} size={'large'} />
       }
     />
   );
@@ -94,6 +151,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 20,
     color: 'gray',
+  },
+  activityIndicator: {
+    position: 'absolute',
+    bottom: (Dimensions.get('window').height - 40) / 2,
+    left: Dimensions.get('window').width / 2,
   },
 });
 
