@@ -7,10 +7,10 @@ import {
   TextInputSubmitEditingEventData,
   ViewStyle,
 } from 'react-native';
-import React, {useState} from 'react';
-import {appColor} from '../../constants';
+import React, { useState } from 'react';
+import { appColor } from '../../constants';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import {MaterialIconName} from '@types/materialType';
+import { MaterialIconName } from '@types/materialType';
 
 interface Props {
   type: 'normal' | 'password';
@@ -24,7 +24,7 @@ interface Props {
 }
 
 const TextInputComponent: React.FC<Props> = (props: Props) => {
-  const {type, placeHolder, iconName, onChangeText, onSubmitEditting, style} =
+  const { type, placeHolder, iconName, onChangeText, onSubmitEditting, style } =
     props;
 
   const [focusState, setFocusState] = useState<boolean>(false);
@@ -36,7 +36,7 @@ const TextInputComponent: React.FC<Props> = (props: Props) => {
     <View
       style={[
         styles.inputContainer,
-        {borderColor: focusState ? appColor.primaryColor : 'black'},
+        { borderColor: focusState ? appColor.primaryColor : 'black' },
         style,
       ]}>
       {type === 'password' ? (
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
+    height: 50
   },
   icon: {
     marginRight: 10,
