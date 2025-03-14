@@ -1,13 +1,11 @@
 import {View, Text, StyleSheet, Button} from 'react-native';
 import React, {useState} from 'react';
-import {useMMKVObject} from 'react-native-mmkv';
 import {storagePropertiesName} from '../../../constants';
 import {User} from 'src/data/user';
 import i18next from 'i18next';
 import {useTranslation} from 'react-i18next';
 
 const SettingScreen = () => {
-  const [user] = useMMKVObject<User>(storagePropertiesName.userInfo);
   const {t} = useTranslation();
   const [language, setLanguage] = useState(i18next.language);
 

@@ -7,15 +7,24 @@ import {appColor, appInfo, storagePropertiesName} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
 import axiosInstance from 'src/services/apis/axios';
 import axios from 'axios';
-import {useMMKVObject, useMMKVString} from 'react-native-mmkv';
 import {useTranslation} from 'react-i18next';
 import AuthHeaderComponent from './components/AuthHeaderComponent';
 import {decodeToken} from 'react-jwt';
+import {useMMKVStorage} from 'react-native-mmkv-storage';
+import {mmkvStorage} from 'src/libs/mmvkStorage';
 
 const SignInForm: React.FC = () => {
   const navigation = useNavigation<any>();
-  const [_, setAuthToken] = useMMKVString(storagePropertiesName.authToken);
-  const [__, setUser] = useMMKVObject(storagePropertiesName.userInfo);
+  const [_, setAuthToken] = useMMKVStorage(
+    storagePropertiesName.authToken,
+    mmkvStorage,
+    '',
+  );
+  const [__, setUser] = useMMKVStorage(
+    storagePropertiesName.userInfo,
+    mmkvStorage,
+    '',
+  );
   const {t} = useTranslation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -25,7 +34,6 @@ const SignInForm: React.FC = () => {
   const handelLogin = async () => {
     try {
       setLoading(true);
-
       if (!email || !password) {
         throw new Error(`${t('email_password_required')}`);
       } else if (!email.match(appInfo.emailRegex)) {
@@ -37,6 +45,8 @@ const SignInForm: React.FC = () => {
         email,
         password,
       };
+
+      console.log(req);
       const res = await axiosInstance.post('/auth/signin', req);
       if (res.data) {
         setAuthToken(res.data.token);

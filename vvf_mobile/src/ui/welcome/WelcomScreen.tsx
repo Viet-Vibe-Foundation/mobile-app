@@ -4,11 +4,16 @@ import PagerView from 'react-native-pager-view';
 import ButtonComponent from '../components/OullinedButtonComponent';
 import {storagePropertiesName} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
-import {useMMKVBoolean} from 'react-native-mmkv';
+import {mmkvStorage} from 'src/libs/mmvkStorage';
+import {useMMKVStorage} from 'react-native-mmkv-storage';
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<any>();
-  const [_, setFirstTime] = useMMKVBoolean(storagePropertiesName.isFristTime);
+  const [_, setShouldWelcome] = useMMKVStorage(
+    storagePropertiesName.isFristTime,
+    mmkvStorage,
+    true,
+  );
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pagerViewRef = useRef<PagerView>(null);
 
@@ -19,13 +24,17 @@ const WelcomeScreen: React.FC = () => {
   ];
 
   const handleNextPage = () => {
-    if (currentPage === imageList.length - 1) {
-      setFirstTime(true);
-      navigation.replace('Auth');
-    } else {
-      const nextPage = currentPage + 1;
-      setCurrentPage(nextPage);
-      pagerViewRef.current?.setPage(nextPage);
+    try {
+      if (currentPage === imageList.length - 1) {
+        setShouldWelcome(false);
+        navigation.replace('Auth');
+      } else {
+        const nextPage = currentPage + 1;
+        setCurrentPage(nextPage);
+        pagerViewRef.current?.setPage(nextPage);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
