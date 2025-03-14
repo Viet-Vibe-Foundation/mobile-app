@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   View,
   FlatList,
+  Text,
 } from 'react-native';
 import TextInputComponent from 'src/ui/components/TextInputComponent';
 import {debouce} from 'src/utils/debouce';
@@ -43,9 +44,7 @@ const SearchScreen = () => {
       <FlatList
         data={posts}
         renderItem={({item}) => <PostListItem post={item} />}
-        ListEmptyComponent={
-          <ActivityIndicator style={styles.activityIndicator} size={'large'} />
-        }
+        ListEmptyComponent={<Text>No content</Text>}
         style={styles.resultList}
       />
     </View>
@@ -58,11 +57,6 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     margin: 20,
-  },
-  activityIndicator: {
-    position: 'absolute',
-    bottom: (Dimensions.get('window').height - 40) / 2,
-    left: Dimensions.get('window').width / 2,
   },
   resultList: {
     marginHorizontal: 10,

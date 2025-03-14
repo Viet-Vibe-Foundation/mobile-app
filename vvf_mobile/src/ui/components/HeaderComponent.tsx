@@ -1,7 +1,6 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
 import React, {memo} from 'react';
 import {appColor} from '../../constants';
-import i18next from 'i18next';
 
 const HeaderComponent = () => {
   return (
@@ -20,14 +19,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 60,
+    marginVertical: 10,
   },
 
   logo: {
     width: 100,
     height: 100,
-    resizeMode: 'contain',
-    marginRight: 8,
+    resizeMode: 'cover',
   },
 
   title: {
