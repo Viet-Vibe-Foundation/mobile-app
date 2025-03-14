@@ -1,0 +1,12 @@
+{
+  "email_password_required": "Email and password is required",
+  "email_not_formatted": "Email is not formatted",
+  "password_8_character": "Password must be at lease 8 characters",
+  "un_expected_error": "Un-expected error. Please try again",
+  "no_event_detail_available": "No event details available.",
+  "no_content": "No content",
+  "failed_to_load_events": "Failed to load events. Please try again.",
+  "failed_to_load_posts": "Failed to load posts. Please try again.",
+  "events": "Events",
+  "posts": "Posts"
+}

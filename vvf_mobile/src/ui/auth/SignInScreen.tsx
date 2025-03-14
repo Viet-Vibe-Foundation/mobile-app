@@ -6,14 +6,17 @@ import FilledButtonComponent from '../components/FilledButtonComponent';
 import {appColor, appInfo, storagePropertiesName} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
 import axiosInstance from 'src/services/apis/axios';
-import axios, {AxiosError} from 'axios';
-import {useMMKVString} from 'react-native-mmkv';
+import axios from 'axios';
+import {useMMKVObject, useMMKVString} from 'react-native-mmkv';
+import {useTranslation} from 'react-i18next';
+import AuthHeaderComponent from './components/AuthHeaderComponent';
+import {decodeToken} from 'react-jwt';
 
 const SignInForm: React.FC = () => {
   const navigation = useNavigation<any>();
-  const [authToken, setAuthToken] = useMMKVString(
-    storagePropertiesName.authToken,
-  );
+  const [_, setAuthToken] = useMMKVString(storagePropertiesName.authToken);
+  const [__, setUser] = useMMKVObject(storagePropertiesName.userInfo);
+  const {t} = useTranslation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -24,11 +27,11 @@ const SignInForm: React.FC = () => {
       setLoading(true);
 
       if (!email || !password) {
-        throw new Error('Email and passowrd is required');
+        throw new Error(`${t('email_password_required')}`);
       } else if (!email.match(appInfo.emailRegex)) {
-        throw new Error('Email is not formatted');
+        throw new Error(`${t('email_not_formatted')}`);
       } else if (password.length < 8) {
-        throw new Error('Password must be at lease 8 characters');
+        throw new Error(`${t('password_8_character')}`);
       }
       const req = {
         email,
@@ -37,9 +40,11 @@ const SignInForm: React.FC = () => {
       const res = await axiosInstance.post('/auth/signin', req);
       if (res.data) {
         setAuthToken(res.data.token);
+        const decoded = decodeToken<any>(res.data.token);
+        setUser(decoded.data);
         navigation.replace('Main');
       } else {
-        setError('Un-expected error. Please try again');
+        setError(`${t('un_expected_error')}`);
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -47,7 +52,7 @@ const SignInForm: React.FC = () => {
       } else if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError('Un-expected error. Please try again');
+        setError(`${t('un_expected_error')}`);
       }
     } finally {
       setLoading(false);
@@ -56,8 +61,10 @@ const SignInForm: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <Text>Login to your account to book event tickets or lessons</Text>
+      <AuthHeaderComponent
+        subTitle={t('login_to_your_account_to_book_event_tickets_or_lessons')}
+        title={t('login')}
+      />
       <Divider type="horizontal" />
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Email</Text>
@@ -70,7 +77,7 @@ const SignInForm: React.FC = () => {
       <View style={styles.inputContainer}>
         <Text style={styles.inputTitle}>Password</Text>
         <TextInputComponent
-          placeHolder="Enter Your Password"
+          placeHolder={t('enter_your_passowrd')}
           type="password"
           onChangeText={setPassword}
         />
@@ -98,11 +105,11 @@ const SignInForm: React.FC = () => {
         onPress={() => {}}
       />
 
-      <Text style={styles.textOr}>Or</Text>
+      <Text style={styles.textOr}>{t('or')}</Text>
       <View style={styles.textSignUpContainer}>
-        <Text>Don't have an account? </Text>
+        <Text>{t('dont_have_account')}</Text>
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.textLinkSignUp}>Sign Up</Text>
+          <Text style={styles.textLinkSignUp}>{t('sign_up')}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -116,19 +123,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     backgroundColor: 'whitesmoke',
   },
-  title: {
-    textAlign: 'left',
-    fontSize: 30,
-    color: appColor.primaryColor,
-    marginVertical: 20,
-    fontWeight: 'bold',
-  },
-  subTitle: {
-    textAlign: 'left',
-    fontSize: 20,
-    color: appColor.textSecondary,
-  },
-
   inputContainer: {
     marginVertical: 5,
     gap: 5,

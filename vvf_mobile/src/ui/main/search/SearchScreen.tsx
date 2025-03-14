@@ -6,15 +6,16 @@ import {
   View,
   FlatList,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import TextInputComponent from 'src/ui/components/TextInputComponent';
 import {debouce} from 'src/utils/debouce';
 import axiosInstance from 'src/services/apis/axios';
 import {Post} from 'src/data/post';
 import PostListItem from '../home/components/PostListItem';
+import {useTranslation} from 'react-i18next';
 
 const SearchScreen = () => {
   const [posts, setPost] = useState<Post[]>([]);
+  const {t} = useTranslation();
 
   const handleSearch = async (searchString: string) => {
     try {
@@ -34,7 +35,7 @@ const SearchScreen = () => {
       <TextInputComponent
         onChangeText={val => debouce(() => handleSearch(val), 1000)}
         onSubmitEditting={({nativeEvent}) => handleSearch(nativeEvent.text)}
-        placeHolder="Search posts"
+        placeHolder={`${t('search_post')}`}
         type="normal"
         iconName="search"
         style={styles.searchInput}

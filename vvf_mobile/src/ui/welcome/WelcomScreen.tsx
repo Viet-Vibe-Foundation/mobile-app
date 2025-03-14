@@ -2,17 +2,21 @@ import React, {useRef, useState} from 'react';
 import {Image, StyleSheet, View, Dimensions} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import ButtonComponent from '../components/OullinedButtonComponent';
-import {imageList, storagePropertiesName} from '../../constants';
+import {storagePropertiesName} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
 import {useMMKVBoolean} from 'react-native-mmkv';
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<any>();
-  const [isFirstTime, setFirstTime] = useMMKVBoolean(
-    storagePropertiesName.isFristTime,
-  );
+  const [_, setFirstTime] = useMMKVBoolean(storagePropertiesName.isFristTime);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pagerViewRef = useRef<PagerView>(null);
+
+  const imageList = [
+    require('../../../assets/images/guitar-background.jpg'),
+    require('../../../assets/images/pianoInstruction-home.jpg'),
+    require('../../../assets/images/tennis-team-bg.jpg'),
+  ];
 
   const handleNextPage = () => {
     if (currentPage === imageList.length - 1) {

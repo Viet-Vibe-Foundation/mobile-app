@@ -1,0 +1,15 @@
+{
+  "sign_up": "Đăng ký",
+  "let_us_get_you_all_set_up": "Hãy để chúng tôi giúp bạn thiết lập tất cả",
+  "first_name": "Tên",
+  "last_name": "Họ",
+  "email": "Email",
+  "age": "Tuổi",
+  "phoneNumber": "Số điện thoại",
+  "address": "Địa chỉ",
+  "password": "Mật khẩu",
+  "enter_your_passowrd": "Nhập mật khẩu của bạn",
+  "confirm_password": "Xác nhận mật khẩu",
+  "create_account": "Tạo tài khoản",
+  "already_have_account": "Đã có tài khoản? "
+}

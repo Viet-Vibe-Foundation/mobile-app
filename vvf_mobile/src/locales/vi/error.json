@@ -1,0 +1,12 @@
+{
+  "email_password_required": "Email và mật khẩu không được trống",
+  "email_not_formatted": "Email không đúng định dạng",
+  "password_8_character": "Password phải có ít nhất 8 ký tự",
+  "un_expected_error": "Lỗi không xác định. Hãy thử lại sau",
+  "no_event_detail_available": "Không có thông tin về sự kiện này",
+  "no_content": "Không có nội dung",
+  "failed_to_load_events": "Tải sự kiện thất bại. Vui lòng thử lại sau",
+  "failed_to_load_posts": "Tải bài viết thất bại. Vui lòng thử lại sau",
+  "events": "Sự kiện",
+  "posts": "Bài viết"
+}

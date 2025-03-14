@@ -1,6 +1,7 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
 import React, {memo} from 'react';
 import {appColor} from '../../constants';
+import i18next from 'i18next';
 
 const HeaderComponent = () => {
   return (

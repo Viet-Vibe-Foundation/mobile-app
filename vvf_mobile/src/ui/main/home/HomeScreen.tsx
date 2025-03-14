@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useTransition} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -14,8 +14,10 @@ import {Event} from 'src/data/event';
 import ResponseDTO from 'src/data/responseDTO';
 import EventCard from './components/EventCard';
 import PostListItem from './components/PostListItem';
+import {useTranslation} from 'react-i18next';
 
 const HomeScreen = () => {
+  const {t} = useTranslation();
   const [posts, setPosts] = useState<ResponseDTO<Post[]>>({
     data: [],
     pageNum: 1,
@@ -40,18 +42,13 @@ const HomeScreen = () => {
       const res = await axiosInstance.get<ResponseDTO<Post[]>>(
         `/posts?pageNum=${pageNum}`,
       );
-
       const newPosts = res.data.data || [];
-
       if (newPosts.length === 0) return;
-
       setPosts(prev => ({
         ...prev,
         data: [...(prev.data ?? []), ...newPosts],
         total: res.data.total,
       }));
-
-      console.log(pageNum);
     } catch (error: any) {
       console.error(error);
       Alert.alert('Error', 'Failed to load posts. Please try again.');
@@ -103,7 +100,7 @@ const HomeScreen = () => {
       style={styles.container}
       ListHeaderComponent={
         <View>
-          <Text style={styles.sectionHeader}>Events</Text>
+          <Text style={styles.sectionHeader}>{t('events')}</Text>
 
           <FlatList
             data={events?.data}
@@ -120,7 +117,7 @@ const HomeScreen = () => {
             }
           />
 
-          <Text style={styles.sectionHeader}>Posts</Text>
+          <Text style={styles.sectionHeader}>{t('posts')}</Text>
         </View>
       }
       showsVerticalScrollIndicator={false}

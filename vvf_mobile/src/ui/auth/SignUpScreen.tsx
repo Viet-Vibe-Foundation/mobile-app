@@ -1,95 +1,117 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableNativeFeedback,
+  Keyboard,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import {appColor} from '../../constants';
 import Divider from '../components/Divider';
 import TextInputComponent from '../components/TextInputComponent';
 import FilledButtonComponent from '../components/FilledButtonComponent';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
+import AuthHeaderComponent from './components/AuthHeaderComponent';
 
 const SignUpForm: React.FC = () => {
   const navigation = useNavigation<any>();
-
+  const {t} = useTranslation();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <Text>Let us get you all set up.</Text>
-      <Divider type="horizontal" />
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>First Name</Text>
-        <TextInputComponent
-          placeHolder="eg: Joe"
-          type="normal"
-          onChangeText={() => {}}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Last Name</Text>
-        <TextInputComponent
-          placeHolder="eg: Smith"
-          type="normal"
-          onChangeText={() => {}}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Email</Text>
-        <TextInputComponent
-          placeHolder="JohnSmith@gmail.com"
-          type="normal"
-          onChangeText={() => {}}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Age</Text>
-        <TextInputComponent
-          placeHolder="eg: 26"
-          type="normal"
-          onChangeText={() => {}}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Phone Number</Text>
-        <TextInputComponent
-          placeHolder="eg: 1234567890"
-          type="normal"
-          onChangeText={() => {}}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Address</Text>
-        <TextInputComponent
-          placeHolder="eg: 123 Main St"
-          type="normal"
-          onChangeText={() => {}}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Password</Text>
-        <TextInputComponent
-          placeHolder="Enter your password"
-          type="password"
-          onChangeText={() => {}}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Confirm Password</Text>
-        <TextInputComponent
-          placeHolder="Confirm password"
-          type="password"
-          onChangeText={() => {}}
-        />
-      </View>
-      <FilledButtonComponent
-        style={styles.signUpBtn}
-        onPress={() => {}}
-        title="Create account"
-      />
-      <View style={styles.textSignUpContainer}>
-        <Text>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.textLinkSignUp}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1}}>
+      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          style={styles.container}>
+          <AuthHeaderComponent
+            subTitle={t('let_us_get_you_all_set_up')}
+            title={t('sign_up')}
+          />
+          <Divider type="horizontal" />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>{t('first_name')}</Text>
+            <TextInputComponent
+              placeHolder="eg: Joe"
+              type="normal"
+              onChangeText={() => {}}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>{t('last_name')}</Text>
+            <TextInputComponent
+              placeHolder="eg: Smith"
+              type="normal"
+              onChangeText={() => {}}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>Email</Text>
+            <TextInputComponent
+              placeHolder="JohnSmith@gmail.com"
+              type="normal"
+              onChangeText={() => {}}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>{t('age')}</Text>
+            <TextInputComponent
+              placeHolder="eg: 26"
+              type="normal"
+              onChangeText={() => {}}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>{t('phoneNumber')}</Text>
+            <TextInputComponent
+              placeHolder="eg: 1234567890"
+              type="normal"
+              onChangeText={() => {}}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>{t('address')}</Text>
+            <TextInputComponent
+              placeHolder="eg: 123 Main St"
+              type="normal"
+              onChangeText={() => {}}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>{t('pasword')}</Text>
+            <TextInputComponent
+              placeHolder={t('enter_your_password')}
+              type="password"
+              onChangeText={() => {}}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>{t('confirm_password')}</Text>
+            <TextInputComponent
+              placeHolder={t('enter_your_password')}
+              type="password"
+              onChangeText={() => {}}
+            />
+          </View>
+          <FilledButtonComponent
+            style={styles.signUpBtn}
+            onPress={() => {}}
+            title={t('create_account')}
+          />
+          <View style={styles.textSignUpContainer}>
+            <Text>{t('already_have_account')} </Text>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={styles.textLinkSignUp}>{t('login')}</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </TouchableNativeFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -99,21 +121,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingTop: 30,
     backgroundColor: 'whitesmoke',
-    justifyContent: 'center',
-    alignContent: 'center',
   },
-  title: {
-    textAlign: 'left',
-    fontSize: 30,
-    color: appColor.primaryColor,
-    marginVertical: 20,
-    fontWeight: 'bold',
-  },
-  subTitle: {
-    textAlign: 'left',
-    fontSize: 20,
-    color: appColor.textSecondary,
-  },
+
   inputContainer: {
     marginVertical: 5,
     gap: 5,
