@@ -7,7 +7,7 @@ const secretKey = process.env.AUTH_SECRET ?? "";
 
 const verifyJWTToken = (token: string) => {
   try {
-    return jwt.verify(token, secretKey);
+    return jwt.verify(token, secretKey) as jwt.JwtPayload;
   } catch (err) {
     throw err;
   }
