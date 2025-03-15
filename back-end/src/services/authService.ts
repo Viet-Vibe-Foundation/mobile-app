@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { handleException } from "../exceptions/handleException";
-import UnAuthorizedException from "../types/exceptions/unAuthorizeException";
-import ExistedUserException from "../types/exceptions/existedUserException";
 import { signInSchema } from "../libs/zodSchema/signInSchema";
 import { signUpSchema } from "../libs/zodSchema/signUpSchema";
 import { comparePassword, encryptPassword } from "../utils/bcrypt";
@@ -10,6 +8,9 @@ import { createVerifyToken } from "./tokenService";
 import { getUserByEmailOrPhone } from "./userService";
 import { prisma } from "../libs/db";
 import { sendEmail } from "../utils/sendEmail";
+import UnAuthorizedException from "../types/exceptions/unAuthorizeException";
+import ExistedUserException from "../types/exceptions/existedUserException";
+import MissingFieldValue from "../types/exceptions/missingFieldValue";
 
 const SignIn = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -30,6 +31,15 @@ const SignIn = async (req: Request, res: Response): Promise<void> => {
       throw new UnAuthorizedException("Wrong email or password");
 
     if (!existingUser.emailVerified) {
+      const newToken = await createVerifyToken(existingUser.email);
+      if (newToken?.token) {
+        sendEmail({
+          firstName: existingUser.name ?? "N/a",
+          to: existingUser.email,
+          token: newToken?.token,
+        });
+        throw new UnAuthorizedException("Email is not verified", true);
+      }
       throw new UnAuthorizedException("Email is not verified");
     }
 
@@ -90,6 +100,15 @@ const SignUp = async (req: Request, res: Response) => {
   }
 };
 
-const VerifyToken = async (req: Request, res: Response) => {};
+const VerifyToken = async (req: Request, res: Response) => {
+  try {
+    const { token } = req.query;
+    if (!token) {
+      throw new MissingFieldValue("Token");
+    }
+  } catch (error) {
+    handleException(error, res);
+  }
+};
 
 export default { SignIn, SignUp, VerifyToken };
