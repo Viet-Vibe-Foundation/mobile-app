@@ -4,12 +4,12 @@ interface EmailTemplateProps {
 }
 
 export const EmailTemplate = ({ firstName, token }: EmailTemplateProps) => {
-  const testlink = `http://localhost:8000/verifyAccount?token=${token}`;
-  // const prodLink = `https://www.vietvibe.org/verifyAccount?token=${token}`;
+  // const testlink = `http://localhost:8000/verifyAccount?token=${token}`;
+  const prodLink = `https://www.vietvibe.org/verifyAccount?token=${token}`;
   return `<div>
       <h1>Welcome, ${firstName}!</h1>
       <p>
-        <a href=${testlink}>Click</a> here to verify your account
+        <a href=${prodLink}>Click</a> here to verify your account
       </p>
     </div>
     `;
