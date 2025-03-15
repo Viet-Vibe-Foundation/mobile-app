@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
 import CircularAvatar from 'src/ui/components/CircularAvatar';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
@@ -10,7 +10,9 @@ interface Props {
 }
 
 const UserInfoComponent = ({name, email, image}: Props) => {
-  const handleAddImage = () => {};
+  const handleAddImage = () => {
+    Alert.alert('Error', 'Sorry, this function is not available for now');
+  };
 
   return (
     <View style={styles.container}>

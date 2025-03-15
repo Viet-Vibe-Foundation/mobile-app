@@ -16,9 +16,9 @@ const CircularAvatar: React.FC<Prop> = ({imageUrl, size = 50}) => {
       ]}>
       <Image
         source={
-          imageUrl
+          imageUrl !== 'N/a'
             ? {uri: imageUrl}
-            : require('@assets/images/default_avatar.jpg')
+            : require('../../../assets/images/default_avatar.jpg')
         }
         style={styles.image}
       />
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
 });
 
