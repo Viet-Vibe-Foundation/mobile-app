@@ -15,7 +15,7 @@ const MainRoute: React.FC = () => {
       screenOptions={{
         statusBarTranslucent: true,
         headerTitleAlign: 'center',
-        header: () => <HeaderComponent />,
+        header: () => <HeaderComponent isMainRouter={true} />,
       }}>
       <Stack.Screen
         name="index"

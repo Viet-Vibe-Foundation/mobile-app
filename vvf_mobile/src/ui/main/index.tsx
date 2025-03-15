@@ -21,7 +21,7 @@ const MainScreen = () => {
           borderRadius: 15,
           backgroundColor: appColor.toolBarColor,
         },
-        header: (prop: BottomTabHeaderProps) => <HeaderComponent />,
+        header: () => <HeaderComponent />,
       }}>
       <Tab.Screen
         name="Home"
@@ -62,7 +62,7 @@ const MainScreen = () => {
         name="More"
         component={SettingScreen}
         options={{
-          headerTitle: () => <HeaderComponent />,
+          header: () => <HeaderComponent />,
           tabBarIcon: ({focused}) => (
             <MaterialIcons
               name={'list'}
