@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
 import {Image, StyleSheet, View, Dimensions} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import ButtonComponent from '../components/OullinedButtonComponent';
 import {storagePropertiesName} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
+import FilledButtonComponent from '../components/FilledButtonComponent';
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -60,8 +60,16 @@ const WelcomeScreen: React.FC = () => {
         ))}
       </PagerView>
       <View style={styles.buttonContainer}>
-        <ButtonComponent title="Previous" onPress={handlePreviousPage} />
-        <ButtonComponent title="Next" onPress={handleNextPage} />
+        <FilledButtonComponent
+          title="Previous"
+          onPress={handlePreviousPage}
+          style={styles.button}
+        />
+        <FilledButtonComponent
+          title="Next"
+          onPress={handleNextPage}
+          style={styles.button}
+        />
       </View>
     </View>
   );
@@ -93,7 +101,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   button: {
-    borderRadius: 20,
+    width: 100,
+    height: 50,
+    justifyContent: 'center',
+    alignContent: 'center',
   },
 });
 

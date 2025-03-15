@@ -1,12 +1,18 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
 import React, {memo} from 'react';
 import {appColor} from '../../constants';
+import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs';
 
-const HeaderComponent = () => {
+interface Prop {
+  bottomTabHeaderProp?: BottomTabHeaderProps;
+}
+
+const HeaderComponent = ({bottomTabHeaderProp}: Prop) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, {height: bottomTabHeaderProp?.layout.height}]}>
       <Image
-        source={require('@assets/images/main-logo.jpg')}
+        source={require('@assets/images/main-logo.png')}
         style={styles.logo}
       />
       <Text style={styles.title}>Viet Vibe Foundation</Text>
@@ -19,12 +25,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 10,
+    paddingTop: 60,
+    paddingBottom: 10,
+    backgroundColor: 'white',
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
   },
 
   logo: {
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     resizeMode: 'cover',
   },
 

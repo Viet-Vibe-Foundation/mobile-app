@@ -1,4 +1,4 @@
-import {Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, ViewStyle} from 'react-native';
 import React from 'react';
 import {appColor} from '../../constants';
 
@@ -6,16 +6,20 @@ interface Props {
   onPress: () => void;
   title: string;
   color?: string;
+  style?: ViewStyle | ViewStyle[];
 }
 
 const OutlinedButtonComponent = (props: Props) => {
-  const {onPress, title, color} = props;
+  const {onPress, title, color, style} = props;
 
   return (
     <TouchableOpacity
-      style={
-        color ? {...styles.container, backgroundColor: color} : styles.container
-      }
+      style={[
+        color
+          ? {...styles.container, backgroundColor: color}
+          : styles.container,
+        style,
+      ]}
       onPress={onPress}>
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>

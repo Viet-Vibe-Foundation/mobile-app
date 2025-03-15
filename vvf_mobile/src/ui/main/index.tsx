@@ -1,4 +1,7 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabHeaderProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import {appColor} from '../../constants';
@@ -18,7 +21,7 @@ const MainScreen = () => {
           borderRadius: 15,
           backgroundColor: appColor.toolBarColor,
         },
-        headerTitle: () => <HeaderComponent />,
+        header: (prop: BottomTabHeaderProps) => <HeaderComponent />,
       }}>
       <Tab.Screen
         name="Home"
