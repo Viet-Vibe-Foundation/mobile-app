@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {
   StyleSheet,
-  Dimensions,
-  ActivityIndicator,
   View,
   FlatList,
   Text,
+  ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import TextInputComponent from 'src/ui/components/TextInputComponent';
 import {debouce} from 'src/utils/debouce';
@@ -16,10 +16,12 @@ import {useTranslation} from 'react-i18next';
 
 const SearchScreen = () => {
   const [posts, setPost] = useState<Post[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const {t} = useTranslation();
 
   const handleSearch = async (searchString: string) => {
     try {
+      setLoading(true);
       const res = await axiosInstance.get(
         `/posts/search?searchText=${searchString.trim()}`,
       );
@@ -28,6 +30,8 @@ const SearchScreen = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,7 +48,13 @@ const SearchScreen = () => {
       <FlatList
         data={posts}
         renderItem={({item}) => <PostListItem post={item} />}
-        ListEmptyComponent={<Text>No content</Text>}
+        ListEmptyComponent={
+          isLoading ? (
+            <ActivityIndicator style={styles.indicator} size="large" />
+          ) : (
+            <Text style={styles.indicator}>No content</Text>
+          )
+        }
         style={styles.resultList}
       />
     </View>
@@ -57,6 +67,11 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     margin: 20,
+  },
+  indicator: {
+    position: 'absolute',
+    top: Dimensions.get('window').height / 4,
+    left: Dimensions.get('window').width / 2.5,
   },
   resultList: {
     marginHorizontal: 10,
