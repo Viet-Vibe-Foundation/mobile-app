@@ -8,19 +8,83 @@ import {
   TouchableNativeFeedback,
   Keyboard,
   ScrollView,
+  Alert,
 } from 'react-native';
-import React from 'react';
-import {appColor} from '../../constants';
+import React, {useState} from 'react';
+import {appColor, appInfo} from '../../constants';
 import Divider from '../components/Divider';
 import TextInputComponent from '../components/TextInputComponent';
 import FilledButtonComponent from '../components/FilledButtonComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import AuthHeaderComponent from './components/AuthHeaderComponent';
+import axios from 'axios';
+import axiosInstance from 'src/services/apis/axios';
 
 const SignUpForm: React.FC = () => {
   const navigation = useNavigation<any>();
   const {t} = useTranslation();
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [age, setAge] = useState<number | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const handleSignUp = async () => {
+    try {
+      if (
+        !email ||
+        !password ||
+        !firstName ||
+        !lastName ||
+        !phoneNumber ||
+        !age ||
+        !address ||
+        !confirmPassword
+      ) {
+        throw new Error(t('email_password_required'));
+      } else if (!email.match(appInfo.emailRegex)) {
+        throw new Error(t('email_not_formatted'));
+      } else if (password.length < 8) {
+        throw new Error(t('password_8_character'));
+      } else if (password !== confirmPassword) {
+        throw new Error(t('password_not_matched'));
+      }
+
+      const reqData = {
+        firstName,
+        lastName,
+        email,
+        age: String(age),
+        phoneNumber,
+        address,
+        password,
+        confirmPassword,
+      };
+      const res = await axiosInstance.post('/auth/signup', reqData);
+
+      if (res.status === 201) {
+        Alert.alert(
+          'Notification',
+          'Sign Up successfully, please check your email to verify',
+          [{text: 'OK', onPress: () => navigation.goBack()}],
+        );
+      }
+    } catch (error: any) {
+      let message: string = t('un_expected_error');
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || message;
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
+      setErrorMessage(message);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -39,7 +103,7 @@ const SignUpForm: React.FC = () => {
             <TextInputComponent
               placeHolder="eg: Joe"
               type="normal"
-              onChangeText={() => {}}
+              onChangeText={setFirstName}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -47,7 +111,7 @@ const SignUpForm: React.FC = () => {
             <TextInputComponent
               placeHolder="eg: Smith"
               type="normal"
-              onChangeText={() => {}}
+              onChangeText={setLastName}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -55,7 +119,8 @@ const SignUpForm: React.FC = () => {
             <TextInputComponent
               placeHolder="JohnSmith@gmail.com"
               type="normal"
-              onChangeText={() => {}}
+              keyboardType="email-address"
+              onChangeText={setEmail}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -63,7 +128,8 @@ const SignUpForm: React.FC = () => {
             <TextInputComponent
               placeHolder="eg: 26"
               type="normal"
-              onChangeText={() => {}}
+              keyboardType="numeric"
+              onChangeText={text => setAge(Number(text))}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -71,7 +137,8 @@ const SignUpForm: React.FC = () => {
             <TextInputComponent
               placeHolder="eg: 1234567890"
               type="normal"
-              onChangeText={() => {}}
+              keyboardType="phone-pad"
+              onChangeText={setPhoneNumber}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -79,28 +146,29 @@ const SignUpForm: React.FC = () => {
             <TextInputComponent
               placeHolder="eg: 123 Main St"
               type="normal"
-              onChangeText={() => {}}
+              onChangeText={setAddress}
             />
           </View>
           <View style={styles.inputContainer}>
-            <Text style={styles.inputTitle}>{t('pasword')}</Text>
+            <Text style={styles.inputTitle}>{t('password')}</Text>
             <TextInputComponent
-              placeHolder={t('enter_your_password')}
+              placeHolder={t('enter_your_passowrd')}
               type="password"
-              onChangeText={() => {}}
+              onChangeText={setPassword}
             />
           </View>
           <View style={styles.inputContainer}>
             <Text style={styles.inputTitle}>{t('confirm_password')}</Text>
             <TextInputComponent
-              placeHolder={t('enter_your_password')}
+              placeHolder={t('enter_your_passowrd')}
               type="password"
-              onChangeText={() => {}}
+              onChangeText={setConfirmPassword}
             />
           </View>
+          <Text style={styles.errorText}>{errorMessage}</Text>
           <FilledButtonComponent
             style={styles.signUpBtn}
-            onPress={() => {}}
+            onPress={handleSignUp}
             title={t('create_account')}
           />
           <View style={styles.textSignUpContainer}>
@@ -119,8 +187,9 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     paddingHorizontal: 30,
-    paddingTop: 30,
+    paddingTop: 40,
     backgroundColor: 'whitesmoke',
+    marginBottom: 30,
   },
 
   inputContainer: {
@@ -142,6 +211,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   textLinkSignUp: {color: appColor.primaryColor, fontWeight: 'bold'},
+  errorText: {
+    marginTop: 5,
+    fontSize: 15,
+    color: 'red',
+  },
 });
 
 export default SignUpForm;

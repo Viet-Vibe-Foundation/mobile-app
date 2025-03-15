@@ -99,7 +99,7 @@ const SignInForm: React.FC = () => {
         style={styles.loginButton}
         onPress={handelLogin}
       />
-      <FilledButtonComponent
+      {/* <FilledButtonComponent
         title="Login"
         style={styles.loginButton}
         onPress={() => {}}
@@ -113,7 +113,7 @@ const SignInForm: React.FC = () => {
         title="Login"
         style={styles.loginButton}
         onPress={() => {}}
-      />
+      /> */}
 
       <Text style={styles.textOr}>{t('or')}</Text>
       <View style={styles.textSignUpContainer}>
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 30,
-    paddingTop: 30,
+    paddingTop: 40,
     backgroundColor: 'whitesmoke',
   },
   inputContainer: {

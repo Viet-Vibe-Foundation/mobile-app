@@ -6,16 +6,18 @@ import {
   NativeSyntheticEvent,
   TextInputSubmitEditingEventData,
   ViewStyle,
+  KeyboardTypeOptions,
 } from 'react-native';
-import React, { useState } from 'react';
-import { appColor } from '../../constants';
+import React, {useState} from 'react';
+import {appColor} from '../../constants';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import { MaterialIconName } from '@types/materialType';
+import {MaterialIconName} from '@types/materialType';
 
 interface Props {
   type: 'normal' | 'password';
   placeHolder: string;
   iconName?: MaterialIconName;
+  keyboardType?: KeyboardTypeOptions;
   onChangeText: (val: string) => void;
   onSubmitEditting?: (
     val: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
@@ -23,10 +25,15 @@ interface Props {
   style?: ViewStyle | ViewStyle[];
 }
 
-const TextInputComponent: React.FC<Props> = (props: Props) => {
-  const { type, placeHolder, iconName, onChangeText, onSubmitEditting, style } =
-    props;
-
+const TextInputComponent: React.FC<Props> = ({
+  type,
+  placeHolder,
+  iconName,
+  keyboardType = 'default',
+  onChangeText,
+  style,
+  onSubmitEditting,
+}: Props) => {
   const [focusState, setFocusState] = useState<boolean>(false);
   const [isHidePassword, setHidePassword] = useState<boolean>(
     type === 'password',
@@ -36,7 +43,7 @@ const TextInputComponent: React.FC<Props> = (props: Props) => {
     <View
       style={[
         styles.inputContainer,
-        { borderColor: focusState ? appColor.primaryColor : 'black' },
+        {borderColor: focusState ? appColor.primaryColor : 'black'},
         style,
       ]}>
       {type === 'password' ? (
@@ -58,6 +65,7 @@ const TextInputComponent: React.FC<Props> = (props: Props) => {
         onBlur={() => setFocusState(false)}
         onSubmitEditing={onSubmitEditting}
         onChangeText={onChangeText}
+        keyboardType={keyboardType}
       />
     </View>
   );
@@ -70,7 +78,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
-    height: 50
+    height: 50,
   },
   icon: {
     marginRight: 10,
