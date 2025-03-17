@@ -1,1 +1,0 @@
-export type authType = "github" | "google" | "facebook"
