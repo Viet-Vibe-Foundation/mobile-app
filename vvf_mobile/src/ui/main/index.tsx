@@ -42,7 +42,7 @@ const MainScreen = () => {
       />
 
       <Tab.Screen
-        name="Seacrh"
+        name="Search"
         component={SearchScreen}
         options={{
           tabBarIcon: ({focused}) => (

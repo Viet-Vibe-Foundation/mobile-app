@@ -28,6 +28,7 @@ const HtmlComponent = ({html}: Props) => {
     <AutoHeightWebView
       source={{html: htmlContent}}
       viewportContent={'width=device-width, initial-scale=1, maximum-scale=1'}
+      scrollEnabled={false}
       onSizeUpdated={size => {
         if (size.height !== height) {
           setHeight(size.height);

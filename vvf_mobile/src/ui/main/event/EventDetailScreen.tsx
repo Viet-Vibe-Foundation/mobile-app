@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   ActivityIndicator,
@@ -41,7 +41,7 @@ const EventDetailScreen = () => {
     try {
       setLoading(true);
       const res = await axiosInstance.get<ResponseDTO<Event>>(
-        `/events/${eventId}`,
+        `/events/get?eventId=${eventId}`,
       );
       if (res.data?.data) {
         setEventInfo(res.data.data);
@@ -121,7 +121,7 @@ const EventDetailScreen = () => {
         {'(May change according to instructor)'}
       </Text>
       <View style={styles.eventScheduleList}>
-        {eventInfo.eventSchedules?.map((schedule, index) => (
+        {eventInfo.schedules?.map((schedule, index) => (
           <View key={index}>
             <EventScheduleItem item={schedule} />
             <Divider type="horizontal" />

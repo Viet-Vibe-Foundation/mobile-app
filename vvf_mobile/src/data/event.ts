@@ -18,5 +18,5 @@ export interface Event {
   isPublished: Boolean;
   remainingTicket: number | null; // Capacity - ticketSold
   eventType: string | null;
-  eventSchedules?: EventSchedule[];
+  schedules?: EventSchedule[];
 }

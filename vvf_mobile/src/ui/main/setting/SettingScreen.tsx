@@ -13,12 +13,12 @@ import {useNavigation} from '@react-navigation/native';
 const SettingScreen = () => {
   const {t} = useTranslation();
   const [language, setLanguage] = useState(i18next.language);
-  const [user, setUser] = useMMKVStorage<User>(
+  const [user, setUser] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
-    {},
+    null,
   );
-  const [authToken, setAuthToken] = useMMKVStorage<string>(
+  const [_, setAuthToken] = useMMKVStorage<string>(
     storagePropertiesName.authToken,
     mmkvStorage,
     '',
@@ -30,20 +30,25 @@ const SettingScreen = () => {
   };
 
   const handleLogout = () => {
-    if (!authToken) return;
     if (!user) return;
-    setUser({});
+    setUser(null);
     setAuthToken('');
-    navigate.replace('Auth');
+    navigate.push('Auth');
+  };
+
+  const handleLogin = () => {
+    navigate.push('Auth');
   };
 
   return (
     <View style={styles.container}>
-      <UserInfoComponent
-        name={user.name ?? 'N/a'}
-        email={user.email ?? 'N/a'}
-        image={user.image ?? 'N/a'}
-      />
+      {user != null ? (
+        <UserInfoComponent
+          name={user.name ?? 'N/a'}
+          email={user.email ?? 'N/a'}
+          image={user.image ?? 'N/a'}
+        />
+      ) : null}
 
       <Text style={styles.info}>
         {t('current_language')}: {language}
@@ -61,8 +66,8 @@ const SettingScreen = () => {
       />
       <FilledButtonComponent
         style={styles.button}
-        title="Logout"
-        onPress={handleLogout}
+        title={user ? 'Logout' : 'Login'}
+        onPress={user ? handleLogout : handleLogin}
       />
     </View>
   );

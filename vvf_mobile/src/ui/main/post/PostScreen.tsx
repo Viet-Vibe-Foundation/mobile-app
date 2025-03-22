@@ -1,6 +1,10 @@
-import {View, StyleSheet, ActivityIndicator, Dimensions} from 'react-native';
+import {
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import WebView from 'react-native-webview';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import axiosInstance from 'src/services/apis/axios';
 import {Post} from 'src/data/post';
@@ -25,9 +29,9 @@ const PostScreen = () => {
     try {
       setLoading(true);
       const res = await axiosInstance.get<ResponseDTO<Post>>(
-        `/posts/${postId}`,
+        `/posts/get?postId=${postId}`,
       );
-      if (res.data && res.data.success && res.data.data) {
+      if (res.data && res.data.data) {
         setPostContent(res.data.data);
       }
     } catch (error) {
@@ -38,7 +42,7 @@ const PostScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {isLoading ? (
         <ActivityIndicator size={'large'} style={styles.activityIndicator} />
       ) : (
@@ -48,14 +52,15 @@ const PostScreen = () => {
           ) : null}
         </>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: 20,
+    marginBottom: 25,
   },
   activityIndicator: {
     position: 'absolute',

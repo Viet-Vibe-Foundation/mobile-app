@@ -23,7 +23,7 @@ const SearchScreen = () => {
     try {
       setLoading(true);
       const res = await axiosInstance.get(
-        `/posts/search?searchText=${searchString.trim()}`,
+        `/posts/get?searchText=${searchString.trim()}`,
       );
       if (res.data.data) {
         setPost(res.data.data);

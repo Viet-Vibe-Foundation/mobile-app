@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
+    config.headers.set('secret', appInfo.secretHeader);
     return config;
   },
   function (error) {

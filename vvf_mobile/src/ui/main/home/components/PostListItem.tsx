@@ -45,11 +45,17 @@ const PostListItem = (props: Prop) => {
         </Text>
         <Text>{dateToString(post.createdAt)}</Text>
         <Text style={styles.sumary} numberOfLines={2} ellipsizeMode="tail">
-          {post.sumary ?? 'No content'}
+          {post.summary ?? 'No content'}
         </Text>
         <View style={styles.statisticContainer}>
-          <IconTextComponent icon="thumb-up" text={`${post.totalLikes}`} />
-          <IconTextComponent icon="bar-chart" text={`${post.totalLikes}`} />
+          <IconTextComponent
+            icon="thumb-up"
+            text={`${post._count.postVisits}`}
+          />
+          <IconTextComponent
+            icon="bar-chart"
+            text={`${post._count.postVisits}`}
+          />
         </View>
       </View>
     </TouchableOpacity>
@@ -61,6 +67,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     height: Dimensions.get('window').height * 0.2,
     flexDirection: 'row',
+    paddingRight: 5,
     alignItems: 'center',
     borderRadius: 20,
     backgroundColor: 'white',

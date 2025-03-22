@@ -20,12 +20,12 @@ const HomeScreen = () => {
   const {t} = useTranslation();
   const [posts, setPosts] = useState<ResponseDTO<Post[]>>({
     data: [],
-    pageNum: 1,
+    pageNum: 0,
     total: 0,
   });
   const [events, setEvents] = useState<ResponseDTO<Event[]>>({
     data: [],
-    pageNum: 1,
+    pageNum: 0,
     total: 0,
   });
 
@@ -40,7 +40,7 @@ const HomeScreen = () => {
   const getPosts = async (pageNum: number = 1) => {
     try {
       const res = await axiosInstance.get<ResponseDTO<Post[]>>(
-        `/posts?pageNum=${pageNum}`,
+        `/posts/get?isPublished=true&pageNum=${pageNum}`,
       );
       const newPosts = res.data.data || [];
       if (newPosts.length === 0) return;
@@ -58,11 +58,10 @@ const HomeScreen = () => {
   const getEvents = async (pageNum: number = 1) => {
     try {
       const res = await axiosInstance.get<ResponseDTO<Event[]>>(
-        `/events?pageNum=${pageNum}`,
+        `/events/get?isPublished=true&pageNum=${pageNum}`,
       );
 
       const newEvents = res.data.data || [];
-
       if (newEvents.length === 0) return;
 
       setEvents(prev => ({
@@ -70,7 +69,8 @@ const HomeScreen = () => {
         data: [...(prev.data ?? []), ...newEvents],
         total: res.data.total,
       }));
-      console.log(pageNum);
+      console.log('Post lists');
+      console.log(res.data.data);
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Failed to load events. Please try again.');

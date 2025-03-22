@@ -11,14 +11,14 @@ const Stack = createNativeStackNavigator();
 const MainRoute: React.FC = () => {
   return (
     <Stack.Navigator
-      initialRouteName="index"
+      initialRouteName="Index"
       screenOptions={{
         statusBarTranslucent: true,
         headerTitleAlign: 'center',
         header: () => <HeaderComponent isMainRouter={true} />,
       }}>
       <Stack.Screen
-        name="index"
+        name="Index"
         component={MainScreen}
         options={{headerShown: false}}
       />

@@ -1,6 +1,8 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import MaterialIcon from '@react-native-vector-icons/material-icons';
+import React from 'react';
 import {appColor} from 'src/constants';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   title: string;
@@ -10,8 +12,15 @@ interface Props {
 const AuthHeaderComponent = (prop: Props) => {
   const {title, subTitle} = prop;
 
+  const navigation = useNavigation<any>();
+
   return (
     <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Main', {screen: 'More'})}
+        style={styles.existBtn}>
+        <MaterialIcon name="close" />
+      </TouchableOpacity>
       <View>
         <Text style={styles.title}>{title}</Text>
         <Text>{subTitle}</Text>
@@ -24,6 +33,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingTop: 10,
   },
   title: {
     textAlign: 'left',
@@ -36,6 +46,14 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 20,
     color: appColor.textSecondary,
+  },
+  existBtn: {
+    position: 'absolute',
+    top: 25,
+    right: 0,
+    backgroundColor: 'grey',
+    borderRadius: 40,
+    padding: 10,
   },
 });
 

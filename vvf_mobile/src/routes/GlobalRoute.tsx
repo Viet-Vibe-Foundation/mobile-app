@@ -11,24 +11,16 @@ import {useMMKVStorage} from 'react-native-mmkv-storage';
 const Stack = createNativeStackNavigator();
 
 const GlobalRoute: React.FC = () => {
-  const [shouldWelcome, setShouldWelcome] = useMMKVStorage(
+  const [shouldWelcome, _] = useMMKVStorage(
     storagePropertiesName.isFristTime,
     mmkvStorage,
     true,
   );
-  const [jwtToken, __] = useMMKVStorage(
-    storagePropertiesName.authToken,
-    mmkvStorage,
-  );
-
-  const isAuthenticated = verifyToken(jwtToken);
 
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false, statusBarTranslucent: true}}
-      initialRouteName={
-        shouldWelcome ? 'Welcome' : isAuthenticated ? 'Main' : 'Auth'
-      }>
+      initialRouteName={shouldWelcome ? 'Welcome' : 'Main'}>
       <Stack.Screen name="Auth" component={AuthRoute} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Main" component={MainRoute} />

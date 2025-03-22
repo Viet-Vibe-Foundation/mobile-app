@@ -12,6 +12,7 @@ import AuthHeaderComponent from './components/AuthHeaderComponent';
 import {decodeToken} from 'react-jwt';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
+import {User} from 'src/data/user';
 
 const SignInForm: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -20,10 +21,10 @@ const SignInForm: React.FC = () => {
     mmkvStorage,
     '',
   );
-  const [__, setUser] = useMMKVStorage(
+  const [__, setUser] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
-    '',
+    null,
   );
   const {t} = useTranslation();
   const [email, setEmail] = useState<string>('');
