@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {appInfo} from '../../constants';
+import {createSecretToken} from 'src/utils/cryptoUtil';
 
 const axiosInstance = axios.create({
   baseURL: appInfo.baseUrl,
@@ -11,7 +12,8 @@ const axiosInstance = axios.create({
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
-    config.headers.set('secret', appInfo.secretHeader);
+    const secrectToken = createSecretToken();
+    config.headers.set(appInfo.secretHeader, secrectToken);
     return config;
   },
   function (error) {
