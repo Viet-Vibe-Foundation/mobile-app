@@ -69,8 +69,6 @@ const HomeScreen = () => {
         data: [...(prev.data ?? []), ...newEvents],
         total: res.data.total,
       }));
-      console.log('Post lists');
-      console.log(res.data.data);
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Failed to load events. Please try again.');
@@ -115,6 +113,17 @@ const HomeScreen = () => {
                 size={'large'}
               />
             }
+            showsVerticalScrollIndicator={true}
+            ListFooterComponent={
+              events.data &&
+              events.total &&
+              events.data?.length < events.total ? (
+                <ActivityIndicator
+                  style={styles.rightIndicator}
+                  size={'large'}
+                />
+              ) : null
+            }
           />
 
           <Text style={styles.sectionHeader}>{t('posts')}</Text>
@@ -127,6 +136,11 @@ const HomeScreen = () => {
       onEndReached={handlePostEndReached}
       ListEmptyComponent={
         <ActivityIndicator style={styles.activityIndicator} size={'large'} />
+      }
+      ListFooterComponent={
+        posts.data && posts.total && posts.data?.length < posts.total ? (
+          <ActivityIndicator style={styles.bottomIndicator} size={'large'} />
+        ) : null
       }
     />
   );
@@ -148,6 +162,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 20,
     color: 'gray',
+  },
+  bottomIndicator: {
+    marginVertical: 20,
+    alignSelf: 'center',
+  },
+  rightIndicator: {
+    position: 'absolute',
+    right: 10,
+    alignSelf: 'center',
   },
   activityIndicator: {
     position: 'absolute',

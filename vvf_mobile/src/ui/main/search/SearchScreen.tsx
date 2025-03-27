@@ -48,11 +48,12 @@ const SearchScreen = () => {
       <FlatList
         data={posts}
         renderItem={({item}) => <PostListItem post={item} />}
+        ListHeaderComponent={<Text style={styles.listHeader}>Result</Text>}
         ListEmptyComponent={
           isLoading ? (
             <ActivityIndicator style={styles.indicator} size="large" />
           ) : (
-            <Text style={styles.indicator}>No content</Text>
+            <Text style={styles.indicator}></Text>
           )
         }
         style={styles.resultList}
@@ -67,6 +68,11 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     margin: 20,
+  },
+  listHeader: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
   indicator: {
     position: 'absolute',

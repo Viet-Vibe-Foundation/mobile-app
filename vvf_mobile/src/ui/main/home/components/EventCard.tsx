@@ -72,7 +72,7 @@ const EventCard = ({event}: Prop) => {
       <View style={styles.timeContainer}>
         <IconTextComponent
           icon="calendar-today"
-          text={dateToString(event.startDate)}
+          text={dateToString(event.startDate, 'DD/MM/YY')}
           iconSize={15}
           textSize={15}
         />

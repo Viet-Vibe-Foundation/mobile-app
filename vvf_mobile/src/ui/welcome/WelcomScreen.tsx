@@ -27,7 +27,7 @@ const WelcomeScreen: React.FC = () => {
     try {
       if (currentPage === imageList.length - 1) {
         setShouldWelcome(false);
-        navigation.replace('Auth');
+        navigation.replace('Main');
       } else {
         const nextPage = currentPage + 1;
         setCurrentPage(nextPage);

@@ -64,11 +64,11 @@ const SettingScreen = () => {
         title="English"
         onPress={() => changeLanguage('en')}
       />
-      <FilledButtonComponent
+      {/* <FilledButtonComponent
         style={styles.button}
         title={user ? 'Logout' : 'Login'}
         onPress={user ? handleLogout : handleLogin}
-      />
+      /> */}
     </View>
   );
 };
