@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-export const dateToString = (date: Date | null) =>
-  date != null ? dayjs(date).format('DD/MM/YYYY h:mm a') : '';
+export const dateToString = (date: Date | null, dateFormat: string) =>
+  date != null ? dayjs(date).format(dateFormat) : '';
 
 const timeToDate = (time: string) => {
   const [hour, minute] = time.split(':').map(Number);

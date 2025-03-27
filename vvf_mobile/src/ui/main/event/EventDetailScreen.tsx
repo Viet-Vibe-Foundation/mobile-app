@@ -94,7 +94,9 @@ const EventDetailScreen = () => {
 
         <View style={styles.eventTitleInfoContainer}>
           <Text style={[styles.eventTitleInfoText]}>
-            {`${dateToString(eventInfo.startDate)} | ${eventInfo.location}`}
+            {`${dateToString(eventInfo.startDate, 'DD/MM/YYYY hh:mm')} | ${
+              eventInfo.location
+            }`}
           </Text>
           <Text style={[styles.eventTitleInfoText, styles.title]}>
             {eventInfo.title}
@@ -108,7 +110,7 @@ const EventDetailScreen = () => {
       </View>
       <SectionTitle title="Time and Location" />
       <View style={styles.timeAndLocationContainer}>
-        <Text>Date: {dateToString(eventInfo.startDate)}</Text>
+        <Text>Date: {dateToString(eventInfo.startDate, 'DD/MM/YYYY')}</Text>
         <Text>Time: {eventInfo.startTime}</Text>
         <Text>Location: {eventInfo.location}</Text>
       </View>

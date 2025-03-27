@@ -43,7 +43,7 @@ const PostListItem = (props: Prop) => {
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {post.title}
         </Text>
-        <Text>{dateToString(post.createdAt)}</Text>
+        <Text>{dateToString(post.updatedAt, 'DD/MM/YY hh:mm')}</Text>
         <Text style={styles.sumary} numberOfLines={2} ellipsizeMode="tail">
           {post.summary ?? 'No content'}
         </Text>
