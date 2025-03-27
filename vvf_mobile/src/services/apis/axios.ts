@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   function (config) {
     const secrectToken = createSecretToken();
-    config.headers.set(appInfo.secretHeader, secrectToken);
+    config.headers.set('secret', secrectToken);
     return config;
   },
   function (error) {
