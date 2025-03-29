@@ -1,9 +1,8 @@
 import axios from 'axios';
-import {appInfo} from '../../constants';
 import {createSecretToken} from 'src/utils/cryptoUtil';
 
 const axiosInstance = axios.create({
-  baseURL: appInfo.baseUrl,
+  baseURL: process.env.BASE_URL as string,
   headers: {
     'Content-Type': 'application/json',
   },
