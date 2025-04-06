@@ -65,7 +65,7 @@ const SignUpForm: React.FC = () => {
         password,
         confirmPassword,
       };
-      const res = await axiosInstance.post('/auth/signup', reqData);
+      const res = await axiosInstance.post('/auth/m/signup', reqData);
 
       if (res.status === 201) {
         Alert.alert(

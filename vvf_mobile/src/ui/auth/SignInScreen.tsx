@@ -1,4 +1,13 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableNativeFeedback,
+  Keyboard,
+} from 'react-native';
 import React, {useState} from 'react';
 import Divider from '../components/Divider';
 import TextInputComponent from '../components/TextInputComponent';
@@ -47,12 +56,11 @@ const SignInForm: React.FC = () => {
         password,
       };
 
-      console.log(req);
-      const res = await axiosInstance.post('/auth/signin', req);
+      const res = await axiosInstance.post('/auth/m/signin', req);
       if (res.data) {
         setAuthToken(res.data.token);
-        const decoded = decodeToken<any>(res.data.token);
-        setUser(decoded.data);
+        const decoded = decodeToken<User>(res.data.token);
+        setUser(decoded);
         navigation.replace('Main');
       } else {
         setError(`${t('un_expected_error')}`);
@@ -71,36 +79,42 @@ const SignInForm: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <AuthHeaderComponent
-        subTitle={t('login_to_your_account_to_book_event_tickets_or_lessons')}
-        title={t('login')}
-      />
-      <Divider type="horizontal" />
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Email</Text>
-        <TextInputComponent
-          placeHolder="JohnSmith@gmail.com"
-          type="normal"
-          onChangeText={setEmail}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Text style={styles.inputTitle}>Password</Text>
-        <TextInputComponent
-          placeHolder={t('enter_your_passowrd')}
-          type="password"
-          onChangeText={setPassword}
-        />
-      </View>
-      <Text style={styles.errorText}>{error}</Text>
-      <FilledButtonComponent
-        title="Login"
-        loading={isLoading}
-        style={styles.loginButton}
-        onPress={handelLogin}
-      />
-      {/* <FilledButtonComponent
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1}}>
+      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <AuthHeaderComponent
+            subTitle={t(
+              'login_to_your_account_to_book_event_tickets_or_lessons',
+            )}
+            title={t('login')}
+          />
+          <Divider type="horizontal" />
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>Email</Text>
+            <TextInputComponent
+              placeHolder="JohnSmith@gmail.com"
+              type="normal"
+              onChangeText={setEmail}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputTitle}>Password</Text>
+            <TextInputComponent
+              placeHolder={t('enter_your_passowrd')}
+              type="password"
+              onChangeText={setPassword}
+            />
+          </View>
+          <Text style={styles.errorText}>{error}</Text>
+          <FilledButtonComponent
+            title="Login"
+            loading={isLoading}
+            style={styles.loginButton}
+            onPress={handelLogin}
+          />
+          {/* <FilledButtonComponent
         title="Login"
         style={styles.loginButton}
         onPress={() => {}}
@@ -116,14 +130,16 @@ const SignInForm: React.FC = () => {
         onPress={() => {}}
       /> */}
 
-      <Text style={styles.textOr}>{t('or')}</Text>
-      <View style={styles.textSignUpContainer}>
-        <Text>{t('dont_have_account')}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.textLinkSignUp}>{t('sign_up')}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <Text style={styles.textOr}>{t('or')}</Text>
+          <View style={styles.textSignUpContainer}>
+            <Text>{t('dont_have_account')}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.textLinkSignUp}>{t('sign_up')}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableNativeFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
