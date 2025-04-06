@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
   baseURL: appInfo.baseUrl,
   headers: {
     'Content-Type': 'application/json',
+    'X-App-Client': 'mobile',
   },
 });
 
