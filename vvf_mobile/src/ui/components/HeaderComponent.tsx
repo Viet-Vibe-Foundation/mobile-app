@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {appColor} from '../../constants';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
 import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs';
+import LanguageSelector from './LanguageSelector';
 
 interface Prop {
   bottomTabHeaderProp?: BottomTabHeaderProps;
@@ -40,6 +41,7 @@ const HeaderComponent: React.FC<Prop> = ({
         />
         <Text style={styles.title}>Viet Vibe Foundation</Text>
       </View>
+      <LanguageSelector style={styles.languageMenu} />
     </View>
   );
 };
@@ -77,6 +79,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: appColor.primaryColor,
+  },
+  languageMenu: {
+    position: 'absolute',
+    bottom: 0,
+    top: 50,
+    right: 0,
   },
 });
 
