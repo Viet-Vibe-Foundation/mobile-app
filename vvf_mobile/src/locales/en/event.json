@@ -2,5 +2,8 @@
   "date": "Date",
   "time": "Time",
   "location": "Location",
-  "min": "minutes"
+  "min": "minutes",
+  "time_and_location": "Time and Location",
+  "about_the_event": "About The Event",
+  "schedule": "Schedule"
 }
