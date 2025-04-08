@@ -17,7 +17,7 @@ const AuthHeaderComponent = (prop: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Main', {screen: 'More'})}
+        onPress={() => navigation.popTo('Main')}
         style={styles.existBtn}>
         <MaterialIcon name="close" />
       </TouchableOpacity>

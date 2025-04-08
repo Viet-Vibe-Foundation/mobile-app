@@ -19,6 +19,7 @@ import FilledButtonComponent from 'src/ui/components/FilledButtonComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import EventScheduleItem from './components/EventScheduleItem';
 import Divider from 'src/ui/components/Divider';
+import {useTranslation} from 'react-i18next';
 
 type EventDetailScreenParams = {
   eventId: string;
@@ -28,7 +29,7 @@ const EventDetailScreen = () => {
   const route =
     useRoute<RouteProp<{params: EventDetailScreenParams}, 'params'>>();
   const {eventId} = route.params;
-
+  const {t} = useTranslation();
   const [isLoading, setLoading] = useState<boolean>(true);
   const [eventInfo, setEventInfo] = useState<Event | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -108,17 +109,17 @@ const EventDetailScreen = () => {
           />
         </View>
       </View>
-      <SectionTitle title="Time and Location" />
+      <SectionTitle title={t('time_and_location')} />
       <View style={styles.timeAndLocationContainer}>
         <Text>Date: {dateToString(eventInfo.startDate, 'DD/MM/YYYY')}</Text>
         <Text>Time: {eventInfo.startTime}</Text>
         <Text>Location: {eventInfo.location}</Text>
       </View>
 
-      <SectionTitle title="About The Event" />
+      <SectionTitle title={t('about_the_event')} />
       {eventInfo.description && <HtmlComponent html={eventInfo.description} />}
 
-      <SectionTitle title="Schedule" />
+      <SectionTitle title={t('schedule')} />
       <Text style={styles.subTitle}>
         {'(May change according to instructor)'}
       </Text>
@@ -174,6 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 10,
+    marginBottom: 10,
   },
   subTitle: {
     color: 'grey',

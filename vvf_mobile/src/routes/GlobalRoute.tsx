@@ -4,7 +4,6 @@ import WelcomeScreen from '../ui/welcome/WelcomScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {storagePropertiesName} from '../constants';
 import MainRoute from './MainRoute';
-import {verifyToken} from '../utils/jwtUtil';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 
