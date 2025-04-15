@@ -1,5 +1,12 @@
-import {View, Image, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+import {
+  View,
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+  ImageErrorEventData,
+  NativeSyntheticEvent,
+} from 'react-native';
 import {appColor} from '../../constants';
 
 interface Prop {
@@ -8,17 +15,33 @@ interface Prop {
 }
 
 const CircularAvatar: React.FC<Prop> = ({imageUrl, size = 50}) => {
+  const [loading, setLoading] = useState(true);
+
   return (
     <View
       style={[
         styles.container,
         {width: size, height: size, borderRadius: size / 2},
       ]}>
+      {loading && (
+        <ActivityIndicator
+          size="small"
+          color={appColor.textSecondary}
+          style={StyleSheet.absoluteFill}
+        />
+      )}
       <Image
         source={
-          imageUrl !== 'N/a'
-            ? {uri: imageUrl}
-            : require('../../../assets/images/default_avatar.jpg')
+          imageUrl
+            ? {
+                uri: imageUrl,
+              }
+            : require('@assets/images/main-logo.png')
+        }
+        onLoadStart={() => setLoading(true)}
+        onLoadEnd={() => setLoading(false)}
+        onError={(error: NativeSyntheticEvent<ImageErrorEventData>) =>
+          console.log(error.nativeEvent.error)
         }
         style={styles.image}
       />
@@ -37,7 +60,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
 });
 

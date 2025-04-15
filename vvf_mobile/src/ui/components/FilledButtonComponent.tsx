@@ -19,6 +19,7 @@ interface Props {
   iconColor?: string;
   loading?: boolean;
   style?: ViewStyle | ViewStyle[];
+  enabled?: boolean;
 }
 
 const FilledButtonComponent = (props: Props) => {
@@ -31,30 +32,49 @@ const FilledButtonComponent = (props: Props) => {
     style,
     iconColor,
     loading,
+    enabled = true,
   } = props;
 
   return (
     <TouchableOpacity
       style={[
         styles.container,
-        backgroundColor && {
-          backgroundColor: backgroundColor,
-          borderColor: backgroundColor,
-        },
+        backgroundColor &&
+          enabled && {
+            backgroundColor: backgroundColor,
+            borderColor: backgroundColor,
+          },
+        !enabled && styles.disabledStyle,
+        {opacity: enabled ? 1 : 0.6},
         style,
       ]}
+      disabled={!enabled}
       onPress={onPress}>
       {loading ? (
         <ActivityIndicator size="small" color={'#FFF'} />
       ) : (
         <>
           {title && (
-            <Text style={[styles.title, {color: textColor ?? 'white'}]}>
+            <Text
+              style={[
+                styles.title,
+                {
+                  color: !enabled
+                    ? appColor.disabledTextColor
+                    : textColor ?? 'white',
+                },
+              ]}>
               {title}
             </Text>
           )}
           {iconName && (
-            <Icon name={iconName} size={30} color={iconColor ?? 'black'} />
+            <Icon
+              name={iconName}
+              size={30}
+              color={
+                !enabled ? appColor.disabledTextColor : iconColor ?? 'black'
+              }
+            />
           )}
         </>
       )}
@@ -75,6 +95,10 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     color: 'white',
+  },
+  disabledStyle: {
+    backgroundColor: '#cccccc',
+    borderColor: '#cccccc',
   },
 });
 

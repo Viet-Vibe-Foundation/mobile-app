@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Post} from 'src/data/post';
 import {dateToString} from 'src/utils/dateTimeUtil';
@@ -65,7 +58,7 @@ const PostListItem = (props: Prop) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    height: Dimensions.get('window').height * 0.2,
+    maxHeight: 150,
     flexDirection: 'row',
     paddingRight: 5,
     alignItems: 'center',

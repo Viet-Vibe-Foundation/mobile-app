@@ -22,13 +22,15 @@ import {decodeToken} from 'react-jwt';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 import {User} from 'src/data/user';
+import {useDispatch} from 'react-redux';
+import {AuthState, login} from 'src/libs/redux/authSlice';
 
 const SignInForm: React.FC = () => {
   const navigation = useNavigation<any>();
-  const [_, setAuthToken] = useMMKVStorage(
+  const [_, setAuthToken] = useMMKVStorage<string | null>(
     storagePropertiesName.authToken,
     mmkvStorage,
-    '',
+    null,
   );
   const [__, setUser] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
@@ -36,6 +38,7 @@ const SignInForm: React.FC = () => {
     null,
   );
   const {t} = useTranslation();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -58,6 +61,12 @@ const SignInForm: React.FC = () => {
 
       const res = await axiosInstance.post('/auth/m/signin', req);
       if (res.data) {
+        dispatch(
+          login({
+            authToken: res.data.token,
+            isAuth: true,
+          } as AuthState),
+        );
         setAuthToken(res.data.token);
         const decoded = decodeToken<User>(res.data.token);
         setUser(decoded);
@@ -94,6 +103,7 @@ const SignInForm: React.FC = () => {
           <View style={styles.inputContainer}>
             <Text style={styles.inputTitle}>Email</Text>
             <TextInputComponent
+              value={email}
               placeHolder="JohnSmith@gmail.com"
               type="normal"
               onChangeText={setEmail}
@@ -102,6 +112,7 @@ const SignInForm: React.FC = () => {
           <View style={styles.inputContainer}>
             <Text style={styles.inputTitle}>Password</Text>
             <TextInputComponent
+              value={password}
               placeHolder={t('enter_your_passowrd')}
               type="password"
               onChangeText={setPassword}
@@ -114,21 +125,6 @@ const SignInForm: React.FC = () => {
             style={styles.loginButton}
             onPress={handelLogin}
           />
-          {/* <FilledButtonComponent
-        title="Login"
-        style={styles.loginButton}
-        onPress={() => {}}
-      />
-      <FilledButtonComponent
-        title="Login"
-        style={styles.loginButton}
-        onPress={() => {}}
-      />
-      <FilledButtonComponent
-        title="Login"
-        style={styles.loginButton}
-        onPress={() => {}}
-      /> */}
 
           <Text style={styles.textOr}>{t('or')}</Text>
           <View style={styles.textSignUpContainer}>

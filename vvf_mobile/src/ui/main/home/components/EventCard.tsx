@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Event} from 'src/data/event';
 import IconTextComponent from './IconTextComponent';
@@ -84,7 +77,7 @@ const EventCard = ({event}: Prop) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: Dimensions.get('window').width * 0.65,
+    maxWidth: 250,
     margin: 10,
     backgroundColor: 'white',
     borderRadius: 10,
