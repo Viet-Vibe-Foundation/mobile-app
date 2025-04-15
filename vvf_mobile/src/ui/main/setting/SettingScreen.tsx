@@ -1,8 +1,7 @@
-import {View, Text, StyleSheet, Button} from 'react-native';
-import React, {useState} from 'react';
+import {View, StyleSheet} from 'react-native';
+import React from 'react';
 import {storagePropertiesName} from '../../../constants';
 import {User} from 'src/data/user';
-import i18next from 'i18next';
 import {useTranslation} from 'react-i18next';
 import UserInfoComponent from './components/UserInfoComponent';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
@@ -12,32 +11,27 @@ import {useNavigation} from '@react-navigation/native';
 
 const SettingScreen = () => {
   const {t} = useTranslation();
-  const [language, setLanguage] = useState(i18next.language);
   const [user, setUser] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
     null,
   );
-  const [_, setAuthToken] = useMMKVStorage<string>(
+  const [_, setAuthToken] = useMMKVStorage<string | null>(
     storagePropertiesName.authToken,
     mmkvStorage,
-    '',
+    null,
   );
   const navigate = useNavigation<any>();
-  const changeLanguage = async (lang: string) => {
-    await i18next.changeLanguage(lang);
-    setLanguage(lang);
-  };
 
   const handleLogout = () => {
     if (!user) return;
     setUser(null);
-    setAuthToken('');
-    navigate.push('Auth');
+    setAuthToken(null);
+    navigate.navigate('Auth');
   };
 
   const handleLogin = () => {
-    navigate.push('Auth');
+    navigate.navigate('Auth');
   };
 
   return (
@@ -50,25 +44,18 @@ const SettingScreen = () => {
         />
       ) : null}
 
-      <Text style={styles.info}>
-        {t('current_language')}: {language}
-      </Text>
-
-      <FilledButtonComponent
-        style={styles.button}
-        title="Tiếng Việt"
-        onPress={() => changeLanguage('vi')}
-      />
-      <FilledButtonComponent
-        style={styles.button}
-        title="English"
-        onPress={() => changeLanguage('en')}
-      />
-      {/* <FilledButtonComponent
-        style={styles.button}
-        title={user ? 'Logout' : 'Login'}
-        onPress={user ? handleLogout : handleLogin}
-      /> */}
+      <View style={styles.optionContainer}>
+        {user ? (
+          <FilledButtonComponent
+            title="Your profile"
+            onPress={() => navigate.navigate('UserProfile')}
+          />
+        ) : null}
+        <FilledButtonComponent
+          title={user ? 'Logout' : 'Login'}
+          onPress={user ? handleLogout : handleLogin}
+        />
+      </View>
     </View>
   );
 };
@@ -79,6 +66,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
+  optionContainer: {
+    marginTop: 10,
+    gap: 10,
+    borderRadius: 20,
+    width: '100%',
+    padding: 10,
+    backgroundColor: 'white',
+    elevation: 5,
+    shadowOpacity: 0.1,
+  },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
@@ -87,11 +84,6 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 16,
     marginBottom: 20,
-  },
-  button: {
-    margin: 10,
-    width: 100,
-    height: 50,
   },
 });
 

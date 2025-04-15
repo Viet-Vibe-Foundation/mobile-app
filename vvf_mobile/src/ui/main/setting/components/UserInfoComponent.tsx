@@ -1,4 +1,10 @@
-import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import React from 'react';
 import CircularAvatar from 'src/ui/components/CircularAvatar';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
@@ -7,22 +13,30 @@ interface Props {
   name: string;
   email: string;
   image: string;
+  showAddBtn?: boolean;
+  onChangeImage?: () => void;
+  style?: ViewStyle | ViewStyle[];
 }
 
-const UserInfoComponent = ({name, email, image}: Props) => {
-  const handleAddImage = () => {
-    Alert.alert('Error', 'Sorry, this function is not available for now');
-  };
-
+const UserInfoComponent = ({
+  name,
+  email,
+  image,
+  showAddBtn = false,
+  onChangeImage,
+  style,
+}: Props) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View>
         <CircularAvatar imageUrl={image} />
-        <TouchableOpacity
-          onPress={handleAddImage}
-          style={styles.addImageButton}>
-          <MaterialIcon name="add" size={24} />
-        </TouchableOpacity>
+        {showAddBtn && onChangeImage && (
+          <TouchableOpacity
+            onPress={onChangeImage}
+            style={styles.addImageButton}>
+            <MaterialIcon name="add" size={24} />
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.title}>{name}</Text>
