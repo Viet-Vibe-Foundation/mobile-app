@@ -1,9 +1,8 @@
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  useDerivedValue,
   withDelay,
   withTiming,
   SharedValue,
@@ -23,9 +22,11 @@ const BottomSheet = ({
   children,
 }: Props) => {
   const height = useSharedValue(0);
-  const progress = useDerivedValue(() =>
-    withTiming(isOpen ? 0 : 1, {duration}),
-  );
+  const progress = useSharedValue(1);
+
+  useEffect(() => {
+    progress.value = withTiming(isOpen ? 0 : 1, {duration});
+  }, [isOpen]);
 
   const sheetStyle = useAnimatedStyle(() => ({
     transform: [{translateY: progress.value * 2 * height.value}],
