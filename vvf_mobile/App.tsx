@@ -3,15 +3,25 @@ import GlobalRoute from './src/routes/GlobalRoute';
 import {NavigationContainer} from '@react-navigation/native';
 import {store} from './src/libs/redux/store';
 import {Provider} from 'react-redux';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {StyleSheet} from 'react-native';
 
 const App = (): React.ReactNode => {
   return (
-    <NavigationContainer>
-      <Provider store={store}>
-        <GlobalRoute />
-      </Provider>
-    </NavigationContainer>
+    <GestureHandlerRootView style={styles.container}>
+      <NavigationContainer>
+        <Provider store={store}>
+          <GlobalRoute />
+        </Provider>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 export default App;
