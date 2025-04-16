@@ -9,6 +9,7 @@ export interface Post {
   createdAt: Date;
   updatedAt: Date;
   userId: string | null;
+  liked?: boolean;
   _count: {
     postLikes?: number;
     postVisits?: number;
