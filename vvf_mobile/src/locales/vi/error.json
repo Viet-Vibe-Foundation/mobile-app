@@ -2,6 +2,7 @@
   "email_password_required": "Email và mật khẩu không được trống",
   "email_not_formatted": "Email không đúng định dạng",
   "password_8_character": "Password phải có ít nhất 8 ký tự",
+  "address_6_character": "Địa chỉ phải có ít nhất 6 ký tự",
   "un_expected_error": "Lỗi không xác định. Hãy thử lại sau",
   "no_event_detail_available": "Không có thông tin về sự kiện này",
   "no_content": "Không có nội dung",
