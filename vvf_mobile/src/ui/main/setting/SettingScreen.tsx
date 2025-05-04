@@ -1,4 +1,11 @@
-import {View, StyleSheet} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableNativeFeedback,
+} from 'react-native';
 import React from 'react';
 import {storagePropertiesName} from '../../../constants';
 import {User} from 'src/data/user';
@@ -35,28 +42,34 @@ const SettingScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {user != null ? (
-        <UserInfoComponent
-          name={user.name ?? 'N/a'}
-          email={user.email ?? 'N/a'}
-          image={user.image ?? 'N/a'}
-        />
-      ) : null}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex: 1}}>
+      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {user != null ? (
+            <UserInfoComponent
+              name={user.name ?? 'N/a'}
+              email={user.email ?? 'N/a'}
+              image={user.image ?? 'N/a'}
+            />
+          ) : null}
 
-      <View style={styles.optionContainer}>
-        {user ? (
-          <FilledButtonComponent
-            title="Your profile"
-            onPress={() => navigate.navigate('UserProfile')}
-          />
-        ) : null}
-        <FilledButtonComponent
-          title={user ? 'Logout' : 'Login'}
-          onPress={user ? handleLogout : handleLogin}
-        />
-      </View>
-    </View>
+          <View style={styles.optionContainer}>
+            {user ? (
+              <FilledButtonComponent
+                title="Your profile"
+                onPress={() => navigate.navigate('UserProfile')}
+              />
+            ) : null}
+            <FilledButtonComponent
+              title={user ? 'Logout' : 'Login'}
+              onPress={user ? handleLogout : handleLogin}
+            />
+          </View>
+        </View>
+      </TouchableNativeFeedback>
+    </KeyboardAvoidingView>
   );
 };
 

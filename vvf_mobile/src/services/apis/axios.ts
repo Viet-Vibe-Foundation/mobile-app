@@ -8,8 +8,8 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
     'X-App-Client': 'mobile',
   },
-  timeout: 10000,
-  timeoutErrorMessage: 'Something went wrong, please try again',
+  timeout: 20000,
+  timeoutErrorMessage: 'Something went wrong, please try again (Timeout)',
 });
 
 // Add a request interceptor
@@ -34,6 +34,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.log(error);
     return Promise.reject(error);
   },
 );
