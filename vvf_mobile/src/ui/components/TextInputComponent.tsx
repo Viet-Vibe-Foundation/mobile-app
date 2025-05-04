@@ -38,26 +38,38 @@ const TextInputComponent: React.FC<Props> = ({
   keyboardType = 'default',
   onChangeText,
   style,
-  value = '',
+  value,
   onSubmitEditting,
   enable = true,
   label,
   isError,
-  errorMessage,
 }: Props) => {
   const [focusState, setFocusState] = useState(false);
   const [isHidePassword, setHidePassword] = useState(type === 'password');
+  const [internalValue, setInternalValue] = useState<string>('');
   const animatedIsFocused = useRef(
-    new Animated.Value(value !== '' ? 1 : 0),
+    new Animated.Value(value !== undefined && value !== null ? 1 : 0),
   ).current;
+
+  const currentValue =
+    value !== undefined && value !== null ? value : internalValue;
 
   useEffect(() => {
     Animated.timing(animatedIsFocused, {
-      toValue: focusState || value !== '' ? 1 : 0,
+      toValue: focusState || currentValue !== '' ? 1 : 0,
       duration: 150,
       useNativeDriver: false,
     }).start();
-  }, [focusState, value]);
+  }, [focusState, currentValue]);
+
+  const handleChangeText = (text: string) => {
+    if (onChangeText) {
+      onChangeText(text);
+    }
+    if (value === undefined || value === null) {
+      setInternalValue(text);
+    }
+  };
 
   const labelStyle: Animated.WithAnimatedObject<TextStyle> = {
     position: 'absolute',
@@ -88,10 +100,8 @@ const TextInputComponent: React.FC<Props> = ({
         },
         style,
       ]}>
-      {/* Label Floating */}
       {label && <Animated.Text style={labelStyle}>{label}</Animated.Text>}
 
-      {/* Icon */}
       {type === 'password' ? (
         <TouchableOpacity
           onPress={() => setHidePassword(prev => !prev)}
@@ -116,15 +126,16 @@ const TextInputComponent: React.FC<Props> = ({
       <TextInput
         style={styles.textInput}
         placeholder={focusState ? '' : placeHolder}
-        value={value ?? ''}
+        value={currentValue}
         editable={enable}
         selectTextOnFocus={enable}
         secureTextEntry={isHidePassword}
         onFocus={() => setFocusState(true)}
         onBlur={() => setFocusState(false)}
         onSubmitEditing={onSubmitEditting}
-        onChangeText={onChangeText}
+        onChangeText={handleChangeText}
         keyboardType={keyboardType}
+        placeholderTextColor={'grey'}
       />
     </View>
   );
