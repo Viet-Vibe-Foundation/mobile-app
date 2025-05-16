@@ -1,15 +1,15 @@
 import {View, StyleSheet, Alert, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import UserInfoComponent from '../components/UserInfoComponent';
-import TextInputComponent from 'src/ui/components/TextInputComponent';
+import TextInputComponent from '@components/TextInputComponent';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {appInfo, cardStyles, storagePropertiesName} from 'src/constants';
-import {User} from 'src/data/user';
+import {User} from '@data/user';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 import axiosInstance from 'src/services/apis/axios';
-import ResponseDTO from 'src/data/responseDTO';
-import FilledButtonComponent from 'src/ui/components/FilledButtonComponent';
-import BottomSheet from 'src/ui/components/BottomSheet';
+import ResponseDTO from '@data/responseDTO';
+import FilledButtonComponent from '@components/FilledButtonComponent';
+import BottomSheet from '@components/BottomSheet';
 import ImageSelectOptionBottomSheet from '../components/ImageSelectOptionBottomSheet';
 import {useCamera, useGallery} from 'src/services/imageService';
 

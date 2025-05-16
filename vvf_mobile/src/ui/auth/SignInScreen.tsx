@@ -21,7 +21,7 @@ import AuthHeaderComponent from './components/AuthHeaderComponent';
 import {decodeToken} from 'react-jwt';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
-import {User} from 'src/data/user';
+import {User} from '@data/user';
 import {useDispatch} from 'react-redux';
 import {AuthState, login} from 'src/libs/redux/authSlice';
 

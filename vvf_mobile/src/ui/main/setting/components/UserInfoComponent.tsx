@@ -6,7 +6,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import React from 'react';
-import CircularAvatar from 'src/ui/components/CircularAvatar';
+import CircularAvatar from '@components/CircularAvatar';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
 
 interface Props {

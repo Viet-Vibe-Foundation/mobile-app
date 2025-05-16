@@ -11,14 +11,14 @@ import {
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import axiosInstance from 'src/services/apis/axios';
-import ResponseDTO from 'src/data/responseDTO';
+import ResponseDTO from '@data/responseDTO';
 import ImageInfo from './components/ImageInfo';
 import {Event} from '../../../data/event';
-import HtmlComponent from 'src/ui/components/HtmlComponent';
-import FilledButtonComponent from 'src/ui/components/FilledButtonComponent';
+import HtmlComponent from '@components/HtmlComponent';
+import FilledButtonComponent from '@components/FilledButtonComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import EventScheduleItem from './components/EventScheduleItem';
-import Divider from 'src/ui/components/Divider';
+import Divider from '@components/Divider';
 import {useTranslation} from 'react-i18next';
 
 type EventDetailScreenParams = {

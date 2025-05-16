@@ -8,15 +8,15 @@ import {
 import React, {useEffect, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import axiosInstance from 'src/services/apis/axios';
-import {Post} from 'src/data/post';
-import ResponseDTO from 'src/data/responseDTO';
-import HtmlComponent from 'src/ui/components/HtmlComponent';
-import FloatingButton from 'src/ui/components/FloatingButton';
+import {Post} from '@data/post';
+import ResponseDTO from '@data/responseDTO';
+import HtmlComponent from '@components/HtmlComponent';
+import FloatingButton from '@components/FloatingButton';
 import {useSelector} from 'react-redux';
 import {RootState} from 'src/libs/redux/store';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {storagePropertiesName} from 'src/constants';
-import {User} from 'src/data/user';
+import {User} from '@data/user';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 
 type PostScreenParams = {

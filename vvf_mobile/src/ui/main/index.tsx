@@ -1,15 +1,14 @@
 import {
-  BottomTabHeaderProps,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import {appColor} from '../../constants';
+import {appColor} from '@constants';
 import {Text} from 'react-native';
 import SearchScreen from './search/SearchScreen';
 import SettingScreen from './setting/SettingScreen';
 import HomeScreen from './home/HomeScreen';
-import HeaderComponent from '../components/HeaderComponent';
+import HeaderComponent from '@components/HeaderComponent';
 
 const Tab = createBottomTabNavigator();
 

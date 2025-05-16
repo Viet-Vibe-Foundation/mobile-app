@@ -5,10 +5,11 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "paths": {
-      "@assets": ["assets"],
       "@assets/*": ["assets/*"],
-      "@types": ["src/types"],
-      "@types/*": ["src/types/*"]
+      "@custom-types/*": ["src/types/*"],
+      "@components/*": ["src/ui/components/*"],
+      "@data/*":["src/data/*"],
+      "@constants":["src/constants"],
     }
   }
 }

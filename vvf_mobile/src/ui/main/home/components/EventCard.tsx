@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {Event} from 'src/data/event';
+import {Event} from '@data/event';
 import IconTextComponent from './IconTextComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import {useNavigation} from '@react-navigation/native';

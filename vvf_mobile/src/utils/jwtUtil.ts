@@ -4,7 +4,7 @@ import {storagePropertiesName} from 'src/constants';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 
 const verifyToken = (token?: string | null) => {
-  if (!token) return false;
+  if (!token) {return false;}
   if (isExpired(token)) {
     Alert.alert('Notification', 'Login session is expired');
     mmkvStorage.removeItems([

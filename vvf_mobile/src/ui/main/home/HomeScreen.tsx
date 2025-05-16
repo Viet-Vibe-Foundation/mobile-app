@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useTransition} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -9,9 +9,9 @@ import {
   Dimensions,
 } from 'react-native';
 import axiosInstance from 'src/services/apis/axios';
-import {Post} from 'src/data/post';
-import {Event} from 'src/data/event';
-import ResponseDTO from 'src/data/responseDTO';
+import {Post} from '@data/post';
+import {Event} from '@data/event';
+import ResponseDTO from '@data/responseDTO';
 import EventCard from './components/EventCard';
 import PostListItem from './components/PostListItem';
 import {useTranslation} from 'react-i18next';
@@ -43,7 +43,7 @@ const HomeScreen = () => {
         `/posts/get?isPublished=true&pageNum=${pageNum}`,
       );
       const newPosts = res.data.data || [];
-      if (newPosts.length === 0) return;
+      if (newPosts.length === 0) {return;}
       setPosts(prev => ({
         ...prev,
         data: [...(prev.data ?? []), ...newPosts],
@@ -62,7 +62,7 @@ const HomeScreen = () => {
       );
 
       const newEvents = res.data.data || [];
-      if (newEvents.length === 0) return;
+      if (newEvents.length === 0) {return;}
 
       setEvents(prev => ({
         ...prev,

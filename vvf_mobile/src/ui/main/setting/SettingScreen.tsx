@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import React from 'react';
 import {storagePropertiesName} from '../../../constants';
-import {User} from 'src/data/user';
+import {User} from '@data/user';
 import {useTranslation} from 'react-i18next';
 import UserInfoComponent from './components/UserInfoComponent';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
-import FilledButtonComponent from 'src/ui/components/FilledButtonComponent';
+import FilledButtonComponent from '@components/FilledButtonComponent';
 import {useNavigation} from '@react-navigation/native';
 
 const SettingScreen = () => {

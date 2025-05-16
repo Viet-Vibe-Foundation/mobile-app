@@ -1,8 +1,8 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
-import {EventSchedule} from 'src/data/eventSchedule';
+import {EventSchedule} from '@data/eventSchedule';
 import {calculateMinute} from 'src/utils/dateTimeUtil';
-import Divider from 'src/ui/components/Divider';
+import Divider from '@components/Divider';
 
 interface Prop {
   item: EventSchedule;

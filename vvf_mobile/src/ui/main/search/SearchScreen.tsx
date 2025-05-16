@@ -7,10 +7,10 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import TextInputComponent from 'src/ui/components/TextInputComponent';
+import TextInputComponent from '@components/TextInputComponent';
 import {debouce} from 'src/utils/debouce';
 import axiosInstance from 'src/services/apis/axios';
-import {Post} from 'src/data/post';
+import {Post} from '@data/post';
 import PostListItem from '../home/components/PostListItem';
 import {useTranslation} from 'react-i18next';
 

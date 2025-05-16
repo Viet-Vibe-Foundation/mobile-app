@@ -13,7 +13,7 @@ import {
 import React, {useEffect, useRef, useState} from 'react';
 import {appColor} from '../../constants';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import {MaterialIconName} from '@types/materialType';
+import {MaterialIconName} from '@custom-types/materialType';
 
 interface Props {
   type: 'normal' | 'password';
