@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {storagePropertiesName} from 'src/constants';
+import {storagePropertiesName} from '@constants';
 import {mmkvStorage} from '../mmvkStorage';
 import {verifyToken} from 'src/utils/jwtUtil';
 

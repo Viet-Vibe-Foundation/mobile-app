@@ -7,7 +7,7 @@ import {
   ImageErrorEventData,
   NativeSyntheticEvent,
 } from 'react-native';
-import {appColor} from '../../constants';
+import {appColor} from '@constants';
 
 interface Prop {
   imageUrl?: string;

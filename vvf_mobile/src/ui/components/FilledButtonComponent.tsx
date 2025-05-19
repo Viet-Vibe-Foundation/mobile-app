@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import {appColor} from '../../constants';
 import Icon from '@react-native-vector-icons/material-icons';
-import type {MaterialIconName} from '@types/materialType';
+import type {MaterialIconName} from '@custom-types/materialType';
 
 interface Props {
   onPress: () => void;

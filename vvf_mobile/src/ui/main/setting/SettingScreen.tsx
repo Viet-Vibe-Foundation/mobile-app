@@ -31,7 +31,9 @@ const SettingScreen = () => {
   const navigate = useNavigation<any>();
 
   const handleLogout = () => {
-    if (!user) return;
+    if (!user) {
+      return;
+    }
     setUser(null);
     setAuthToken(null);
     navigate.navigate('Auth');
@@ -44,9 +46,9 @@ const SettingScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}>
+      style={styles.container}>
       <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
+        <View style={styles.userInfoCard}>
           {user != null ? (
             <UserInfoComponent
               name={user.name ?? 'N/a'}
@@ -63,7 +65,7 @@ const SettingScreen = () => {
               />
             ) : null}
             <FilledButtonComponent
-              title={user ? 'Logout' : 'Login'}
+              title={user ? t('logout') : t('login')}
               onPress={user ? handleLogout : handleLogin}
             />
           </View>
@@ -76,6 +78,8 @@ const SettingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  userInfoCard: {
     alignItems: 'center',
     padding: 20,
   },

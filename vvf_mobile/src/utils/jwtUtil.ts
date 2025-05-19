@@ -1,6 +1,6 @@
 import {isExpired} from 'react-jwt';
 import {Alert} from 'react-native';
-import {storagePropertiesName} from 'src/constants';
+import {storagePropertiesName} from '@constants';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 
 const verifyToken = (token?: string | null) => {

@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import {MaterialIconName} from '@types/materialType';
+import {MaterialIconName} from '@custom-types/materialType';
 
 interface Props {
   icon: MaterialIconName;

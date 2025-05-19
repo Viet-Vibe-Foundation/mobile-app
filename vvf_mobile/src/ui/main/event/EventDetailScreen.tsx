@@ -13,7 +13,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import axiosInstance from 'src/services/apis/axios';
 import ResponseDTO from '@data/responseDTO';
 import ImageInfo from './components/ImageInfo';
-import {Event} from '../../../data/event';
+import {Event} from '@data/event';
 import HtmlComponent from '@components/HtmlComponent';
 import FilledButtonComponent from '@components/FilledButtonComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
@@ -35,27 +35,27 @@ const EventDetailScreen = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getEventInfo();
-  }, [eventId]);
-
-  const getEventInfo = async () => {
-    try {
-      setLoading(true);
-      const res = await axiosInstance.get<ResponseDTO<Event>>(
-        `/events/get?eventId=${eventId}`,
-      );
-      if (res.data?.data) {
-        setEventInfo(res.data.data);
-      } else {
-        setError('Event data is unavailable.');
+    const getEventInfo = async (requestEventId: String) => {
+      try {
+        setLoading(true);
+        const res = await axiosInstance.get<ResponseDTO<Event>>(
+          `/events/get?eventId=${requestEventId}`,
+        );
+        if (res.data?.data) {
+          setEventInfo(res.data.data);
+        } else {
+          setError('Event data is unavailable.');
+        }
+      } catch (error: any) {
+        setError('Failed to load event details.');
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error: any) {
-      setError('Failed to load event details.');
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    getEventInfo(eventId);
+  }, [eventId]);
 
   const handleReserve = () => {
     if (eventInfo?.formLink) {

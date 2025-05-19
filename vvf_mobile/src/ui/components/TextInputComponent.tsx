@@ -11,7 +11,7 @@ import {
   TextStyle,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {appColor} from '../../constants';
+import {appColor} from '@constants';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import {MaterialIconName} from '@custom-types/materialType';
 

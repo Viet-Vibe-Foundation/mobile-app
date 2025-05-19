@@ -1,5 +1,4 @@
-import {MaterialIconName} from '@types/materialType';
-import {useState} from 'react';
+import {MaterialIconName} from '@custom-types/materialType';
 import {StyleSheet, Dimensions} from 'react-native';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
 import {
@@ -12,7 +11,7 @@ import Animated, {
   withTiming,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {appColor} from 'src/constants';
+import {appColor} from '@constants';
 
 const {width, height} = Dimensions.get('window'); // Lấy chiều rộng và chiều cao của màn hình
 
@@ -31,7 +30,6 @@ interface Prop {
 const FloatingButton = ({icon, onPress}: Prop) => {
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
-  const [isDrag, setDrag] = useState<boolean>(false);
 
   const panGesture = Gesture.Pan()
     .onUpdate(e => {

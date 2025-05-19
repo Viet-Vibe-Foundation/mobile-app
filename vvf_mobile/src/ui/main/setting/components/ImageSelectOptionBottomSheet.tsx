@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {cardStyles} from 'src/constants';
+import {cardStyles} from '@constants';
 
 interface Prop {
   optionList: string[];

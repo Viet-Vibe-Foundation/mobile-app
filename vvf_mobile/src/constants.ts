@@ -22,12 +22,10 @@ export const languageList = [
   {
     label: 'Việt Nam',
     value: 'vi',
-    image: require('@assets/icons/vietnam-flag-icon.svg'),
   },
   {
     label: 'English',
     value: 'en',
-    image: require('@assets/icons/united-kingdom-flag-icon.svg'),
   },
 ];
 

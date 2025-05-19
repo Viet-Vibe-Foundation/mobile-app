@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
 import React from 'react';
-import {appColor} from 'src/constants';
+import {appColor} from '@constants';
 import {useNavigation} from '@react-navigation/native';
 
 interface Props {

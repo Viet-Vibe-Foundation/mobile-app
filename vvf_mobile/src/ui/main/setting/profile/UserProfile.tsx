@@ -1,9 +1,9 @@
 import {View, StyleSheet, Alert, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import UserInfoComponent from '../components/UserInfoComponent';
 import TextInputComponent from '@components/TextInputComponent';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
-import {appInfo, cardStyles, storagePropertiesName} from 'src/constants';
+import {appInfo, cardStyles, storagePropertiesName} from '@constants';
 import {User} from '@data/user';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 import axiosInstance from 'src/services/apis/axios';
@@ -45,6 +45,8 @@ const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     userStorage?.image || undefined,
   );
+  const camera = useCamera();
+  const gallery = useGallery();
   const [error, setError] = useState<{
     name?: {
       isError: boolean;
@@ -60,17 +62,36 @@ const UserProfile = () => {
     };
   } | null>(null);
 
+  const handleChanged = useCallback(() => {
+    if (!orgiginUser) {
+      return {
+        age: false,
+        name: false,
+        phone: false,
+        image: false,
+        address: false,
+      };
+    }
+    return {
+      name: orgiginUser.name !== name,
+      age: orgiginUser.age !== age,
+      phone: orgiginUser.phone !== phone,
+      address: orgiginUser.address !== address,
+      image: orgiginUser.image !== selectedImage,
+    };
+  }, [name, age, phone, address, selectedImage, orgiginUser]);
+
   useEffect(() => {
     getUserInfo();
   }, []);
 
   useEffect(() => {
     setHasChanged(handleChanged());
-  }, [name, age, phone, address, selectedImage, orgiginUser]);
+  }, [handleChanged]);
 
   const getUserInfo = async () => {
     try {
-      const res = await axiosInstance.get<ResponseDTO<User>>(`/users/get`);
+      const res = await axiosInstance.get<ResponseDTO<User>>('/users/get');
       if (!res.data.data) {
         Alert.alert('Error', 'Something went wrong! Please try again later');
         return;
@@ -128,42 +149,29 @@ const UserProfile = () => {
     switch (option) {
       case 'Camera': {
         setOpenBottomSheet(false);
-        const imageRes = await useCamera();
-        if (!imageRes || !imageRes.assets) return;
+        const imageRes = await camera;
+        if (!imageRes || !imageRes.assets) {
+          return;
+        }
         setSelectedImage(imageRes.assets[0].uri);
         break;
       }
       case 'Gallery':
         setOpenBottomSheet(false);
-        const imageRes = await useGallery();
-        if (!imageRes) return;
+        const imageRes = await gallery;
+        if (!imageRes) {
+          return;
+        }
         setSelectedImage(imageRes);
         break;
     }
   };
 
-  const handleChanged = () => {
-    if (!orgiginUser)
-      return {
-        age: false,
-        name: false,
-        phone: false,
-        image: false,
-        address: false,
-      };
-
-    return {
-      name: orgiginUser.name !== name,
-      age: orgiginUser.age !== age,
-      phone: orgiginUser.phone !== phone,
-      address: orgiginUser.address !== address,
-      image: orgiginUser.image !== selectedImage,
-    };
-  };
-
   const handleUpdate = async () => {
     try {
-      if (!validate()) return;
+      if (!validate()) {
+        return;
+      }
 
       setLoading(true);
 

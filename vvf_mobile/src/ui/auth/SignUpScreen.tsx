@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
-import {appColor, appInfo} from '../../constants';
+import {appColor, appInfo} from '@constants';
 import Divider from '../components/Divider';
 import TextInputComponent from '../components/TextInputComponent';
 import FilledButtonComponent from '../components/FilledButtonComponent';

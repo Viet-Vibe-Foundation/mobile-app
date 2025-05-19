@@ -1,5 +1,12 @@
 import React, {memo} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {appColor} from '../../constants';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: 60,
+    paddingTop: Platform.OS === 'ios' ? 60 : 20,
     paddingBottom: 10,
     paddingHorizontal: 16,
     backgroundColor: 'white',
@@ -83,8 +90,8 @@ const styles = StyleSheet.create({
   languageMenu: {
     position: 'absolute',
     bottom: 0,
-    top: 50,
-    right: 0,
+    top: Platform.OS === 'ios' ? 50 : 8,
+    right: 10,
   },
 });
 

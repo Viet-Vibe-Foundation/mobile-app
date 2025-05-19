@@ -4,6 +4,7 @@ import {Event} from '@data/event';
 import IconTextComponent from './IconTextComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import {useNavigation} from '@react-navigation/native';
+import {appColor} from '@constants';
 
 interface Prop {
   event: Event;
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 10,
-    backgroundColor: 'red',
+    backgroundColor: appColor.primaryColor,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,

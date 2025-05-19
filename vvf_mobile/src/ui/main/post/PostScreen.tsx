@@ -12,12 +12,13 @@ import {Post} from '@data/post';
 import ResponseDTO from '@data/responseDTO';
 import HtmlComponent from '@components/HtmlComponent';
 import FloatingButton from '@components/FloatingButton';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from 'src/libs/redux/store';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
-import {storagePropertiesName} from 'src/constants';
+import {storagePropertiesName} from '@constants';
 import {User} from '@data/user';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
+import {likePost} from 'src/libs/redux/postSlice';
 
 type PostScreenParams = {
   postId: string;
@@ -30,6 +31,7 @@ const PostScreen = () => {
   const [postContent, setPostContent] = useState<Post | null>(null);
   const [isLiked, setLiked] = useState<boolean>(postContent?.liked || false);
   const auth = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [user, _] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
@@ -37,33 +39,35 @@ const PostScreen = () => {
   );
 
   useEffect(() => {
-    fetchPostContent();
-  }, []);
-
-  const fetchPostContent = async () => {
-    try {
-      setLoading(true);
-      const res = await axiosInstance.get<ResponseDTO<Post>>(
-        `/posts/get?postId=${postId}`,
-      );
-      if (res.data && res.data.data) {
-        setPostContent(res.data.data);
-        setLiked(res.data.data.liked || false);
+    const fetchPostContent = async (requestPostId: String) => {
+      try {
+        setLoading(true);
+        const res = await axiosInstance.get<ResponseDTO<Post>>(
+          `/posts/get?postId=${requestPostId}`,
+        );
+        if (res.data && res.data.data) {
+          setPostContent(res.data.data);
+          setLiked(res.data.data.liked || false);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+    fetchPostContent(postId);
+  }, [postId]);
 
   const handleLikePost = async () => {
     try {
       const res = await axiosInstance.patch(`/posts/likes/${postId}`, {
         userId: user?.id,
-        action: `${isLiked ? 'dis-like' : 'like'}`,
+        action: `${isLiked === false ? 'like' : 'dis-like'}`,
       });
       if (res.status === 200) {
+        dispatch(
+          likePost({postId, action: isLiked === false ? 'like' : 'dislike'}),
+        );
         setLiked(prev => !prev);
       }
     } catch (error) {
