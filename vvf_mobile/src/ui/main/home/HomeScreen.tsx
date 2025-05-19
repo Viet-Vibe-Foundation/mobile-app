@@ -5,92 +5,63 @@ import {
   StyleSheet,
   Text,
   View,
-  Alert,
   Dimensions,
 } from 'react-native';
-import axiosInstance from 'src/services/apis/axios';
-import {Post} from '@data/post';
-import {Event} from '@data/event';
-import ResponseDTO from '@data/responseDTO';
+
 import EventCard from './components/EventCard';
 import PostListItem from './components/PostListItem';
 import {useTranslation} from 'react-i18next';
+import {getPosts} from 'src/services/postService';
+import {getEvents} from 'src/services/eventService';
+import ResponseDTO from '@data/responseDTO';
+import {Event} from '@data/event';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from 'src/libs/redux/store';
+import {updatePost} from 'src/libs/redux/postSlice';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
-  const [posts, setPosts] = useState<ResponseDTO<Post[]>>({
-    data: [],
-    pageNum: 0,
-    total: 0,
-  });
+  const posts = useSelector((state: RootState) => state.post);
+  const [postPageNum, setPostPageNum] = useState<number>(0);
   const [events, setEvents] = useState<ResponseDTO<Event[]>>({
     data: [],
     pageNum: 0,
     total: 0,
   });
+  const dispatch = useDispatch();
 
+  // Event doesn't need to update anything
   useEffect(() => {
-    getPosts(posts.pageNum);
-  }, [posts.pageNum]);
-
-  useEffect(() => {
-    getEvents(events.pageNum);
+    getEventByPageNum(events.pageNum ?? 0);
   }, [events.pageNum]);
 
-  const getPosts = async (pageNum: number = 1) => {
-    try {
-      const res = await axiosInstance.get<ResponseDTO<Post[]>>(
-        `/posts/get?isPublished=true&pageNum=${pageNum}`,
-      );
-      const newPosts = res.data.data || [];
-      if (newPosts.length === 0) {return;}
-      setPosts(prev => ({
-        ...prev,
-        data: [...(prev.data ?? []), ...newPosts],
-        total: res.data.total,
-      }));
-    } catch (error: any) {
-      console.error(error);
-      Alert.alert('Error', 'Failed to load posts. Please try again.');
-    }
-  };
-
-  const getEvents = async (pageNum: number = 1) => {
-    try {
-      const res = await axiosInstance.get<ResponseDTO<Event[]>>(
-        `/events/get?isPublished=true&pageNum=${pageNum}`,
-      );
-
-      const newEvents = res.data.data || [];
-      if (newEvents.length === 0) {return;}
-
-      setEvents(prev => ({
-        ...prev,
-        data: [...(prev.data ?? []), ...newEvents],
-        total: res.data.total,
-      }));
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Failed to load events. Please try again.');
-    }
-  };
+  useEffect(() => {
+    const getPostsByPageNum = async (pageNum: number) => {
+      const postResponse = await getPosts(pageNum);
+      dispatch(updatePost(postResponse));
+    };
+    getPostsByPageNum(postPageNum);
+  }, [postPageNum, dispatch]);
 
   const handlePostEndReached = () => {
     if ((posts.data?.length ?? 0) < (posts.total ?? 0)) {
-      setPosts(prev => ({
-        ...prev,
-        pageNum: (prev.pageNum ?? 1) + 1,
-      }));
+      setPostPageNum(prev => prev + 1);
     }
   };
 
   const handleEventEndReached = () => {
     if ((events.data?.length ?? 0) < (events.total ?? 0)) {
-      setEvents(prev => ({
-        ...prev,
-        pageNum: (prev.pageNum ?? 1) + 1,
-      }));
+      setEvents(prev => ({...prev, pageNum: (prev.pageNum ?? 0) + 1}));
     }
+  };
+
+  const getEventByPageNum = async (pageNum: number) => {
+    const eventResponse = await getEvents(pageNum);
+    setEvents(prev => ({
+      ...prev,
+      data: [...(prev.data ?? []), ...(eventResponse?.data ?? [])],
+      total: eventResponse?.total ?? 0,
+    }));
   };
 
   return (
