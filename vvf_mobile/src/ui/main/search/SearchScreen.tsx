@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,11 +13,16 @@ import axiosInstance from 'src/services/apis/axios';
 import {Post} from '@data/post';
 import PostListItem from '../home/components/PostListItem';
 import {useTranslation} from 'react-i18next';
+import {getPosts} from 'src/services/postService';
 
 const SearchScreen = () => {
-  const [posts, setPost] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
   const {t} = useTranslation();
+
+  useEffect(() => {
+    getPostsByPageNum(0);
+  }, []);
 
   const handleSearch = async (searchString: string) => {
     try {
@@ -26,13 +31,18 @@ const SearchScreen = () => {
         `/posts/get?searchText=${searchString.trim()}`,
       );
       if (res.data.data) {
-        setPost(res.data.data);
+        setPosts(res.data.data);
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const getPostsByPageNum = async (pageNum: number) => {
+    const postResponse = await getPosts(pageNum);
+    setPosts(prev => [...(prev ?? []), ...(postResponse?.data ?? [])]);
   };
 
   return (
@@ -52,9 +62,7 @@ const SearchScreen = () => {
         ListEmptyComponent={
           isLoading ? (
             <ActivityIndicator style={styles.indicator} size="large" />
-          ) : (
-            <Text style={styles.indicator}></Text>
-          )
+          ) : null
         }
         style={styles.resultList}
       />
