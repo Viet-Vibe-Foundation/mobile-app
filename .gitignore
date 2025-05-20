@@ -78,3 +78,6 @@ yarn-error.log
 .env
 
 .vscode/
+
+#Key store android
+key-store-vvf-android.jks
