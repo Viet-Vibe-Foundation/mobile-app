@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
 } from 'react-native';
 
 import EventCard from './components/EventCard';
@@ -34,19 +33,18 @@ const HomeScreen = () => {
 
   // Event doesn't need to update anything
   useEffect(() => {
-    setEventLoading(true);
     getEventByPageNum(events.pageNum ?? 0);
-    setEventLoading(false);
   }, [events.pageNum]);
 
   useEffect(() => {
-    setPostsLoading(true);
     const getPostsByPageNum = async (pageNum: number) => {
+      setPostsLoading(true);
+
       const postResponse = await getPosts(pageNum);
       dispatch(updatePost(postResponse));
+      setPostsLoading(false);
     };
     getPostsByPageNum(postPageNum);
-    setPostsLoading(false);
   }, [postPageNum, dispatch]);
 
   const handlePostEndReached = () => {
@@ -62,12 +60,14 @@ const HomeScreen = () => {
   };
 
   const getEventByPageNum = async (pageNum: number) => {
+    setEventLoading(true);
     const eventResponse = await getEvents(pageNum);
     setEvents(prev => ({
       ...prev,
       data: [...(prev.data ?? []), ...(eventResponse?.data ?? [])],
       total: eventResponse?.total ?? 0,
     }));
+    setEventLoading(false);
   };
 
   return (
@@ -162,9 +162,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   activityIndicator: {
-    position: 'absolute',
-    bottom: (Dimensions.get('window').height - 40) / 2,
-    left: Dimensions.get('window').width / 2,
+    marginVertical: 20,
+    alignSelf: 'center',
   },
 });
 
