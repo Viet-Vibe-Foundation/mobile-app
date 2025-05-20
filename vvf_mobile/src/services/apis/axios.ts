@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
     'X-App-Client': 'mobile',
   },
-  timeout: 20000,
+  timeout: 30000,
   timeoutErrorMessage: 'Something went wrong, please try again (Timeout)',
 });
 
