@@ -28,29 +28,35 @@ const HomeScreen = () => {
     pageNum: 0,
     total: 0,
   });
+  const [isEventsLoading, setEventLoading] = useState<boolean>(false);
+  const [isPostsLoading, setPostsLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   // Event doesn't need to update anything
   useEffect(() => {
+    setEventLoading(true);
     getEventByPageNum(events.pageNum ?? 0);
+    setEventLoading(false);
   }, [events.pageNum]);
 
   useEffect(() => {
+    setPostsLoading(true);
     const getPostsByPageNum = async (pageNum: number) => {
       const postResponse = await getPosts(pageNum);
       dispatch(updatePost(postResponse));
     };
     getPostsByPageNum(postPageNum);
+    setPostsLoading(false);
   }, [postPageNum, dispatch]);
 
   const handlePostEndReached = () => {
-    if ((posts.data?.length ?? 0) < (posts.total ?? 0)) {
+    if (!isPostsLoading && (posts.data?.length ?? 0) < (posts.total ?? 0)) {
       setPostPageNum(prev => prev + 1);
     }
   };
 
   const handleEventEndReached = () => {
-    if ((events.data?.length ?? 0) < (events.total ?? 0)) {
+    if (!isEventsLoading && (events.data?.length ?? 0) < (events.total ?? 0)) {
       setEvents(prev => ({...prev, pageNum: (prev.pageNum ?? 0) + 1}));
     }
   };
@@ -70,7 +76,6 @@ const HomeScreen = () => {
       ListHeaderComponent={
         <View>
           <Text style={styles.sectionHeader}>{t('events')}</Text>
-
           <FlatList
             data={events?.data}
             renderItem={({item}) => <EventCard event={item} />}
@@ -78,6 +83,7 @@ const HomeScreen = () => {
             keyExtractor={(item, index) => `event-${item.id}-${index}`}
             showsHorizontalScrollIndicator={false}
             onEndReached={handleEventEndReached}
+            onEndReachedThreshold={0.1}
             ListEmptyComponent={
               <ActivityIndicator
                 style={styles.activityIndicator}
@@ -86,6 +92,7 @@ const HomeScreen = () => {
             }
             showsVerticalScrollIndicator={true}
             ListFooterComponent={
+              isEventsLoading &&
               events.data &&
               events.total &&
               events.data?.length < events.total ? (
@@ -109,7 +116,10 @@ const HomeScreen = () => {
         <ActivityIndicator style={styles.activityIndicator} size={'large'} />
       }
       ListFooterComponent={
-        posts.data && posts.total && posts.data?.length < posts.total ? (
+        isPostsLoading &&
+        posts.data &&
+        posts.total &&
+        posts.data?.length < posts.total ? (
           <ActivityIndicator style={styles.bottomIndicator} size={'large'} />
         ) : null
       }
