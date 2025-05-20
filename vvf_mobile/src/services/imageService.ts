@@ -7,7 +7,9 @@ import {
   CameraOptions,
 } from 'react-native-image-picker';
 
-export const useCamera = async (): Promise<ImagePickerResponse | undefined> => {
+export const performCamera = async (): Promise<
+  ImagePickerResponse | undefined
+> => {
   try {
     const cameraOption: CameraOptions = {
       mediaType: 'photo',
@@ -34,8 +36,6 @@ export const useCamera = async (): Promise<ImagePickerResponse | undefined> => {
 
     const result = await launchCamera(cameraOption);
 
-    console.log(result);
-
     if (result.didCancel) {
       console.log('User cancelled camera');
       return;
@@ -53,7 +53,7 @@ export const useCamera = async (): Promise<ImagePickerResponse | undefined> => {
   }
 };
 
-export const useGallery = async (): Promise<string | undefined> => {
+export const performGallery = async (): Promise<string | undefined> => {
   try {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',

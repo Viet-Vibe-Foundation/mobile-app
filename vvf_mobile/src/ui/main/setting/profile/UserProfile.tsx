@@ -11,7 +11,7 @@ import ResponseDTO from '@data/responseDTO';
 import FilledButtonComponent from '@components/FilledButtonComponent';
 import BottomSheet from '@components/BottomSheet';
 import ImageSelectOptionBottomSheet from '../components/ImageSelectOptionBottomSheet';
-import {useCamera, useGallery} from 'src/services/imageService';
+import {performCamera, performGallery} from 'src/services/imageService';
 
 const UserProfile = () => {
   const [userStorage, setUserStorage] = useMMKVStorage<User | null>(
@@ -45,8 +45,7 @@ const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
     userStorage?.image || undefined,
   );
-  const camera = useCamera();
-  const gallery = useGallery();
+
   const [error, setError] = useState<{
     name?: {
       isError: boolean;
@@ -82,30 +81,29 @@ const UserProfile = () => {
   }, [name, age, phone, address, selectedImage, orgiginUser]);
 
   useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const res = await axiosInstance.get<ResponseDTO<User>>('/users/get');
+        if (!res.data.data) {
+          Alert.alert('Error', 'Something went wrong! Please try again later');
+          return;
+        }
+        setOriginuser(res.data.data);
+        setEmail(res.data.data.email ?? null);
+        setName(res.data.data.name ?? null);
+        setPhone(res.data.data.phone ?? null);
+        setAddress(res.data.data.address ?? null);
+        setAge(res.data.data.age ?? null);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     getUserInfo();
   }, []);
 
   useEffect(() => {
     setHasChanged(handleChanged());
   }, [handleChanged]);
-
-  const getUserInfo = async () => {
-    try {
-      const res = await axiosInstance.get<ResponseDTO<User>>('/users/get');
-      if (!res.data.data) {
-        Alert.alert('Error', 'Something went wrong! Please try again later');
-        return;
-      }
-      setOriginuser(res.data.data);
-      setEmail(res.data.data.email ?? null);
-      setName(res.data.data.name ?? null);
-      setPhone(res.data.data.phone ?? null);
-      setAddress(res.data.data.address ?? null);
-      setAge(res.data.data.age ?? null);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const validate = () => {
     setError(null);
@@ -146,24 +144,20 @@ const UserProfile = () => {
   };
 
   const handleSelectImage = async (option: string) => {
-    switch (option) {
-      case 'Camera': {
-        setOpenBottomSheet(false);
-        const imageRes = await camera;
-        if (!imageRes || !imageRes.assets) {
-          return;
-        }
-        setSelectedImage(imageRes.assets[0].uri);
-        break;
+    if (option === 'Camera') {
+      setOpenBottomSheet(false);
+      const imageRes = await performCamera();
+      if (!imageRes || !imageRes.assets) {
+        return;
       }
-      case 'Gallery':
-        setOpenBottomSheet(false);
-        const imageRes = await gallery;
-        if (!imageRes) {
-          return;
-        }
-        setSelectedImage(imageRes);
-        break;
+      setSelectedImage(imageRes.assets[0].uri);
+    } else {
+      setOpenBottomSheet(false);
+      const imageRes = await performGallery();
+      if (!imageRes) {
+        return;
+      }
+      setSelectedImage(imageRes);
     }
   };
 
@@ -220,9 +214,6 @@ const UserProfile = () => {
           ? responseImageUrl?.url ?? orgiginUser?.image
           : orgiginUser?.image,
       };
-
-      console.log(userEdited);
-
       const response = await axiosInstance.put<ResponseDTO<User>>(
         'users/edit',
         userEdited,
@@ -236,8 +227,8 @@ const UserProfile = () => {
         }));
         Alert.alert('Notification', 'Update successfully');
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       Alert.alert('Error', 'Something went wrong while updating profile');
     } finally {
       setLoading(false);
