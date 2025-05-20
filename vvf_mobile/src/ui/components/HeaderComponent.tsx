@@ -1,33 +1,21 @@
 import React, {memo} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {appColor} from '../../constants';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
-import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs';
 import LanguageSelector from './LanguageSelector';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Prop {
-  bottomTabHeaderProp?: BottomTabHeaderProps;
   isMainRouter?: boolean;
 }
 
-const HeaderComponent: React.FC<Prop> = ({
-  bottomTabHeaderProp,
-  isMainRouter = false,
-}) => {
+const HeaderComponent: React.FC<Prop> = ({isMainRouter = false}) => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View
-      style={[styles.container, {height: bottomTabHeaderProp?.layout.height}]}>
-      {/* Back Button - Only Shown if isMainRouter is True */}
+    <View style={[styles.container, {paddingTop: insets.top}]}>
       {isMainRouter && (
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -40,15 +28,16 @@ const HeaderComponent: React.FC<Prop> = ({
         </TouchableOpacity>
       )}
 
-      {/* Logo & Title */}
-      <View style={styles.logoContainer}>
+      <View style={styles.centerContainer}>
         <Image
           source={require('@assets/images/main-logo.png')}
           style={styles.logo}
         />
         <Text style={styles.title}>Viet Vibe Foundation</Text>
       </View>
-      <LanguageSelector style={styles.languageMenu} />
+
+      {/* ✅ LanguageSelector ở cuối dòng */}
+      <LanguageSelector />
     </View>
   );
 };
@@ -57,7 +46,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: Platform.OS === 'ios' ? 60 : 20,
     paddingBottom: 10,
     paddingHorizontal: 16,
     backgroundColor: 'white',
@@ -70,28 +58,22 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 
-  logoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
   logo: {
     width: 50,
     height: 50,
     resizeMode: 'cover',
     marginRight: 8,
   },
+  centerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     color: appColor.primaryColor,
-  },
-  languageMenu: {
-    position: 'absolute',
-    bottom: 0,
-    top: Platform.OS === 'ios' ? 50 : 8,
-    right: 10,
   },
 });
 

@@ -1,54 +1,56 @@
-import i18next from 'i18next';
+import {languageList} from '@constants';
 import React, {useState} from 'react';
 import {
   View,
   TouchableOpacity,
-  ViewStyle,
-  StyleSheet,
   Text,
+  StyleSheet,
+  LayoutRectangle,
 } from 'react-native';
-import {languageList} from 'src/constants';
 import LanguageItem from './LanguageItem';
-import VectorImage from 'react-native-vector-image';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from 'src/libs/redux/store';
 import {changeLanguage} from 'src/libs/redux/languageSlice';
+import i18next from 'i18next';
+import {RootState} from 'src/libs/redux/store';
 
-interface LanguageSelectorProp {
-  style?: ViewStyle | ViewStyle[];
-}
-
-const LanguageSelector = ({style}: LanguageSelectorProp) => {
-  const language = useSelector((state: RootState) => state.language.value);
-  const dispatch = useDispatch();
+const LanguageSelector = () => {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-
-  const toggleDropdown = () => setDropdownVisible(!isDropdownVisible);
-
+  const [buttonLayout, setButtonLayout] = useState<LayoutRectangle | null>(
+    null,
+  );
+  const language = useSelector((state: RootState) => state.language);
+  const dispatch = useDispatch();
   const handleSelect = async (item: string) => {
     dispatch(changeLanguage(item));
     setDropdownVisible(false);
     await i18next.changeLanguage(item);
   };
 
+  const toggleDropdown = () => setDropdownVisible(!isDropdownVisible);
+
   return (
-    <View style={[styles.container, style]}>
-      <TouchableOpacity style={styles.button} onPress={toggleDropdown}>
-        <VectorImage
-          source={languageList.find(item => item.value === language)?.image}
-          style={styles.icon}
-        />
-        <Text>
-          {isDropdownVisible &&
-            languageList.find(item => item.value === language)?.label}
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={toggleDropdown}
+        onLayout={event => setButtonLayout(event.nativeEvent.layout)}>
+        <Text style={styles.buttonText}>
+          {languageList.find(item => item.value === language.value)?.label}
         </Text>
       </TouchableOpacity>
-      {isDropdownVisible && (
-        <View style={styles.dropdownContainer}>
-          {languageList.map((item, index) => (
+
+      {isDropdownVisible && buttonLayout && (
+        <View
+          style={[
+            styles.dropdown,
+            {
+              top: buttonLayout.y + buttonLayout.height,
+              left: buttonLayout.x,
+              width: buttonLayout.width,
+            },
+          ]}>
+          {languageList.map(item => (
             <LanguageItem
-              key={`${index}_${item.value}`}
-              image={item.image}
               label={item.label}
               onClick={handleSelect}
               value={item.value}
@@ -59,40 +61,42 @@ const LanguageSelector = ({style}: LanguageSelectorProp) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    resizeMode: 'cover',
-    borderRadius: 20,
+    // Đảm bảo container có position: 'relative' để dropdown định vị đúng
+    position: 'relative',
   },
   button: {
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 5,
+    padding: 15,
+    backgroundColor: 'whitesmoke',
+    borderRadius: 5,
+    borderWidth: 0.2,
+    borderColor: 'gray',
   },
-  dropdownContainer: {
-    marginTop: 5,
+  buttonText: {
+    fontWeight: '600',
+    minWidth: 70,
+    textAlign: 'center',
+  },
+  dropdown: {
     backgroundColor: 'white',
     borderRadius: 5,
     elevation: 3,
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 5,
+    borderWidth: 0.2,
+    borderColor: 'grey',
     shadowOffset: {width: 0, height: 2},
+    position: 'absolute',
+    zIndex: 1000,
   },
+
   option: {
     padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
-  },
-  optionText: {
-    fontSize: 15,
   },
 });
 

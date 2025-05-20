@@ -11,7 +11,6 @@ import {MaterialIconName} from '@custom-types/materialType';
 import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/module/src/types';
 
 const Tab = createBottomTabNavigator();
-
 const renderHeader = () => <HeaderComponent />;
 
 const renderTabBarIcon = (focused: boolean, name: MaterialIconName) => (
@@ -83,7 +82,6 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   tabbarItem: {
-    paddingTop: 10,
     alignItems: 'center',
   },
   tabbarLabel: {color: appColor.primaryColor, marginTop: -5},
