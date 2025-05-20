@@ -85,10 +85,14 @@ const HomeScreen = () => {
             onEndReached={handleEventEndReached}
             onEndReachedThreshold={0.1}
             ListEmptyComponent={
-              <ActivityIndicator
-                style={styles.activityIndicator}
-                size={'large'}
-              />
+              isEventsLoading ? (
+                <ActivityIndicator
+                  style={styles.activityIndicator}
+                  size={'large'}
+                />
+              ) : (
+                <Text style={styles.emptyText}>No Data</Text>
+              )
             }
             showsVerticalScrollIndicator={true}
             ListFooterComponent={
@@ -113,7 +117,11 @@ const HomeScreen = () => {
       renderItem={({item}) => <PostListItem post={item} />}
       onEndReached={handlePostEndReached}
       ListEmptyComponent={
-        <ActivityIndicator style={styles.activityIndicator} size={'large'} />
+        isPostsLoading ? (
+          <ActivityIndicator style={styles.activityIndicator} size={'large'} />
+        ) : (
+          <Text style={styles.emptyText}>No Data</Text>
+        )
       }
       ListFooterComponent={
         isPostsLoading &&
