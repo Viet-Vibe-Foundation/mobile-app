@@ -32,7 +32,6 @@
     "react-native-reanimated": "^3.17.3",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.9.1",
-    "react-native-vector-image": "^0.4.5",
     "react-native-webview": "^13.13.4",
     "react-redux": "^9.2.0"
   },
