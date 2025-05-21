@@ -100,7 +100,7 @@ const SignInForm: React.FC = () => {
             title={t('login')}
           />
           <Divider type="horizontal" />
-          <View style={styles.inputContainer}>
+         <View style={styles.inputContainer}>
             <Text style={styles.inputTitle}>Email</Text>
             <TextInputComponent
               value={email}
@@ -125,7 +125,7 @@ const SignInForm: React.FC = () => {
             style={styles.loginButton}
             onPress={handelLogin}
           />
-
+          
           <Text style={styles.textOr}>{t('or')}</Text>
           <View style={styles.textSignUpContainer}>
             <Text>{t('dont_have_account')}</Text>
