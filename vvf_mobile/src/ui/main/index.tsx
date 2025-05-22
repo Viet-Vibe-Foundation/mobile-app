@@ -8,7 +8,7 @@ import SettingScreen from './setting/SettingScreen';
 import HomeScreen from './home/HomeScreen';
 import HeaderComponent from '@components/HeaderComponent';
 import {MaterialIconName} from '@custom-types/materialType';
-import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/module/src/types';
+import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/src/types';
 
 const Tab = createBottomTabNavigator();
 const renderHeader = () => <HeaderComponent />;
