@@ -7,11 +7,8 @@ import {
   TextInputSubmitEditingEventData,
   ViewStyle,
   KeyboardTypeOptions,
-  Animated,
-  TextStyle,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {appColor} from '@constants';
+import React, {useState} from 'react';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import {MaterialIconName} from '@custom-types/materialType';
 
@@ -27,8 +24,6 @@ interface Props {
   ) => void;
   style?: ViewStyle | ViewStyle[];
   enable?: boolean;
-  label?: string;
-  isError?: boolean;
   errorMessage?: string;
 }
 const TextInputComponent: React.FC<Props> = ({
@@ -41,26 +36,13 @@ const TextInputComponent: React.FC<Props> = ({
   value,
   onSubmitEditting,
   enable = true,
-  label,
-  isError,
 }: Props) => {
   const [focusState, setFocusState] = useState(false);
   const [isHidePassword, setHidePassword] = useState(type === 'password');
   const [internalValue, setInternalValue] = useState<string>('');
-  const animatedIsFocused = useRef(
-    new Animated.Value(value !== undefined && value !== null ? 1 : 0),
-  ).current;
 
   const currentValue =
     value !== undefined && value !== null ? value : internalValue;
-
-  useEffect(() => {
-    Animated.timing(animatedIsFocused, {
-      toValue: focusState || currentValue !== '' ? 1 : 0,
-      duration: 150,
-      useNativeDriver: false,
-    }).start();
-  }, [focusState, currentValue]);
 
   const handleChangeText = (text: string) => {
     if (onChangeText) {
@@ -71,37 +53,8 @@ const TextInputComponent: React.FC<Props> = ({
     }
   };
 
-  const labelStyle: Animated.WithAnimatedObject<TextStyle> = {
-    position: 'absolute',
-    left: 10,
-    top: animatedIsFocused.interpolate({
-      inputRange: [0, 1],
-      outputRange: [12, -10],
-    }),
-    fontSize: animatedIsFocused.interpolate({
-      inputRange: [0, 1],
-      outputRange: [16, 12],
-    }),
-    color: isError ? 'red' : focusState ? appColor.primaryColor : '#aaa',
-    backgroundColor: '#fff',
-    paddingHorizontal: 4,
-  };
-
   return (
-    <View
-      style={[
-        styles.inputContainer,
-        {
-          borderColor: isError
-            ? 'red'
-            : focusState
-            ? appColor.primaryColor
-            : '#aaa',
-        },
-        style,
-      ]}>
-      {label && <Animated.Text style={labelStyle}>{label}</Animated.Text>}
-
+    <View style={[styles.inputContainer, style]}>
       {type === 'password' ? (
         <TouchableOpacity
           onPress={() => setHidePassword(prev => !prev)}
