@@ -1,4 +1,13 @@
-import {View, StyleSheet, Alert, Text} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Alert,
+  Text,
+  KeyboardAvoidingView,
+  TouchableNativeFeedback,
+  Platform,
+  Keyboard,
+} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import UserInfoComponent from '../components/UserInfoComponent';
 import TextInputComponent from '@components/TextInputComponent';
@@ -237,81 +246,82 @@ const UserProfile = () => {
 
   return (
     <>
-      <View style={styles.container}>
-        <UserInfoComponent
-          email={email || 'N/a'}
-          image={selectedImage || 'N/a'}
-          name={name || 'N/a'}
-          showAddBtn
-          onChangeImage={() => setOpenBottomSheet(!isOpenBottomSheet)}
-          style={styles.userInfoContainer}
-        />
-        <View style={styles.userInfoForm}>
-          <TextInputComponent
-            label="Email"
-            enable={false}
-            placeHolder="Email"
-            keyboardType="default"
-            type="normal"
-            value={email}
-          />
-          <TextInputComponent
-            label="Name"
-            onChangeText={setName}
-            keyboardType="default"
-            type="normal"
-            value={name}
-          />
-          <TextInputComponent
-            onChangeText={setAge}
-            placeHolder="Age"
-            label="Age"
-            keyboardType="default"
-            type="normal"
-            value={age}
-          />
-          <TextInputComponent
-            onChangeText={setPhone}
-            placeHolder="Phone"
-            label="Phone"
-            keyboardType="default"
-            type="normal"
-            value={phone}
-          />
-          <TextInputComponent
-            onChangeText={setAddress}
-            label="Address"
-            placeHolder="Address"
-            keyboardType="default"
-            type="normal"
-            value={address}
-          />
-          <>
-            {error?.age?.message && (
-              <Text style={styles.errorText}>{error.age.message}</Text>
-            )}
-            {error?.name?.message && (
-              <Text style={styles.errorText}>{error.name.message}</Text>
-            )}
-            {error?.phone?.message && (
-              <Text style={styles.errorText}>{error.phone.message}</Text>
-            )}
-          </>
-        </View>
-        <FilledButtonComponent
-          style={styles.saveBtn}
-          onPress={handleUpdate}
-          title="Save"
-          loading={isLoading}
-          enabled={
-            hasChanged?.address ||
-            hasChanged?.age ||
-            hasChanged?.image ||
-            hasChanged?.name ||
-            hasChanged?.phone
-          }
-        />
-      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <TouchableNativeFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <UserInfoComponent
+              email={email || 'N/a'}
+              image={selectedImage || 'N/a'}
+              name={name || 'N/a'}
+              showAddBtn
+              onChangeImage={() => setOpenBottomSheet(!isOpenBottomSheet)}
+              style={styles.userInfoContainer}
+            />
+            <View style={styles.userInfoForm}>
+              <TextInputComponent
+                enable={false}
+                placeHolder="Email"
+                keyboardType="default"
+                type="normal"
+                value={email}
+              />
+              <TextInputComponent
+                onChangeText={setName}
+                keyboardType="default"
+                type="normal"
+                value={name}
+              />
+              <TextInputComponent
+                onChangeText={setAge}
+                placeHolder="Age"
+                keyboardType="default"
+                type="normal"
+                value={age}
+              />
+              <TextInputComponent
+                onChangeText={setPhone}
+                placeHolder="Phone"
+                keyboardType="default"
+                type="normal"
+                value={phone}
+              />
+              <TextInputComponent
+                onChangeText={setAddress}
+                placeHolder="Address"
+                keyboardType="default"
+                type="normal"
+                value={address}
+              />
+              <>
+                {error?.age?.message && (
+                  <Text style={styles.errorText}>{error.age.message}</Text>
+                )}
+                {error?.name?.message && (
+                  <Text style={styles.errorText}>{error.name.message}</Text>
+                )}
+                {error?.phone?.message && (
+                  <Text style={styles.errorText}>{error.phone.message}</Text>
+                )}
+              </>
+            </View>
+            <FilledButtonComponent
+              style={styles.saveBtn}
+              onPress={handleUpdate}
+              title="Save"
+              loading={isLoading}
+              enabled={
+                hasChanged?.address ||
+                hasChanged?.age ||
+                hasChanged?.image ||
+                hasChanged?.name ||
+                hasChanged?.phone
+              }
+            />
+          </View>
+        </TouchableNativeFeedback>
+      </KeyboardAvoidingView>
       <BottomSheet
         isOpen={isOpenBottomSheet}
         toggleSheet={() => setOpenBottomSheet(!isOpenBottomSheet)}>
@@ -327,7 +337,6 @@ const UserProfile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 10,
   },
   userInfoContainer: {
     marginVertical: 10,
