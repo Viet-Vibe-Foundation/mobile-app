@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
-import {appColor, appInfo} from '../../constants';
+import {appColor, appInfo} from '@constants';
 import Divider from '../components/Divider';
 import TextInputComponent from '../components/TextInputComponent';
 import FilledButtonComponent from '../components/FilledButtonComponent';
@@ -53,8 +53,9 @@ const SignUpForm: React.FC = () => {
         throw new Error(t('password_8_character'));
       } else if (password !== confirmPassword) {
         throw new Error(t('password_not_matched'));
+      } else if (address.length < 6) {
+        throw new Error(t('address_6_character'));
       }
-
       const reqData = {
         firstName,
         lastName,

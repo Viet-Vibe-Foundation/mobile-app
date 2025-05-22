@@ -9,22 +9,23 @@ import {
   KeyboardTypeOptions,
 } from 'react-native';
 import React, {useState} from 'react';
-import {appColor} from '../../constants';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import {MaterialIconName} from '@types/materialType';
+import {MaterialIconName} from '@custom-types/materialType';
 
 interface Props {
   type: 'normal' | 'password';
-  placeHolder: string;
+  placeHolder?: string;
   iconName?: MaterialIconName;
   keyboardType?: KeyboardTypeOptions;
-  onChangeText: (val: string) => void;
+  value?: string | null;
+  onChangeText?: (val: string) => void;
   onSubmitEditting?: (
     val: NativeSyntheticEvent<TextInputSubmitEditingEventData>,
   ) => void;
   style?: ViewStyle | ViewStyle[];
+  enable?: boolean;
+  errorMessage?: string;
 }
-
 const TextInputComponent: React.FC<Props> = ({
   type,
   placeHolder,
@@ -32,40 +33,62 @@ const TextInputComponent: React.FC<Props> = ({
   keyboardType = 'default',
   onChangeText,
   style,
+  value,
   onSubmitEditting,
+  enable = true,
 }: Props) => {
-  const [focusState, setFocusState] = useState<boolean>(false);
-  const [isHidePassword, setHidePassword] = useState<boolean>(
-    type === 'password',
-  );
+  const [focusState, setFocusState] = useState(false);
+  const [isHidePassword, setHidePassword] = useState(type === 'password');
+  const [internalValue, setInternalValue] = useState<string>('');
+
+  const currentValue =
+    value !== undefined && value !== null ? value : internalValue;
+
+  const handleChangeText = (text: string) => {
+    if (onChangeText) {
+      onChangeText(text);
+    }
+    if (value === undefined || value === null) {
+      setInternalValue(text);
+    }
+  };
 
   return (
-    <View
-      style={[
-        styles.inputContainer,
-        {borderColor: focusState ? appColor.primaryColor : 'black'},
-        style,
-      ]}>
+    <View style={[styles.inputContainer, style]}>
       {type === 'password' ? (
-        <TouchableOpacity onPress={() => setHidePassword(prev => !prev)}>
-          {isHidePassword ? (
-            <MaterialIcons name="visibility" size={30} />
-          ) : (
-            <MaterialIcons name="visibility-off" size={30} />
-          )}
+        <TouchableOpacity
+          onPress={() => setHidePassword(prev => !prev)}
+          style={styles.icon}>
+          <MaterialIcons
+            name={isHidePassword ? 'visibility' : 'visibility-off'}
+            size={24}
+            color="#555"
+          />
         </TouchableOpacity>
       ) : (
-        iconName && <MaterialIcons name={iconName} size={30} />
+        iconName && (
+          <MaterialIcons
+            name={iconName}
+            size={24}
+            color="#555"
+            style={styles.icon}
+          />
+        )
       )}
+
       <TextInput
         style={styles.textInput}
-        placeholder={placeHolder}
+        placeholder={focusState ? '' : placeHolder}
+        value={currentValue}
+        editable={enable}
+        selectTextOnFocus={enable}
         secureTextEntry={isHidePassword}
         onFocus={() => setFocusState(true)}
         onBlur={() => setFocusState(false)}
         onSubmitEditing={onSubmitEditting}
-        onChangeText={onChangeText}
+        onChangeText={handleChangeText}
         keyboardType={keyboardType}
+        placeholderTextColor={'grey'}
       />
     </View>
   );
@@ -73,18 +96,22 @@ const TextInputComponent: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   inputContainer: {
+    position: 'relative',
     flexDirection: 'row-reverse',
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
-    height: 50,
+    height: 60,
+    backgroundColor: '#fff',
   },
   icon: {
     marginRight: 10,
   },
   textInput: {
     flex: 1,
+    fontSize: 16,
+    paddingVertical: 10,
   },
 });
 

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 
 interface Props {
@@ -8,7 +9,9 @@ interface Props {
 const HtmlComponent = ({html}: Props) => {
   const [height, setHeight] = useState<number>(300);
 
-  if (!html) return null;
+  if (!html) {
+    return null;
+  }
 
   const htmlContent = `
     <html>
@@ -34,10 +37,17 @@ const HtmlComponent = ({html}: Props) => {
           setHeight(size.height);
         }
       }}
-      style={{width: '100%', height, backgroundColor: 'transparent'}}
+      style={[styles.webView, {height}]}
       setSupportMultipleWindows={false}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  webView: {
+    width: '100%',
+    backgroundColor: 'transparent',
+  },
+});
 
 export default HtmlComponent;

@@ -1,13 +1,6 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {Post} from 'src/data/post';
+import {Post} from '@data/post';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import IconTextComponent from '../../home/components/IconTextComponent';
 import {useNavigation} from '@react-navigation/native';
@@ -21,7 +14,9 @@ const PostListItem = (props: Prop) => {
   const navigation = useNavigation<any>();
 
   const handleOnPress = (id: string | null) => {
-    if (!id) return;
+    if (!id) {
+      return;
+    }
     navigation.push('Post', {postId: post.id});
   };
 
@@ -32,11 +27,7 @@ const PostListItem = (props: Prop) => {
       {post.imgUrl ? (
         <Image source={{uri: post.imgUrl}} style={styles.image} />
       ) : (
-        <View
-          style={[
-            styles.image,
-            {backgroundColor: 'black', borderRadius: 20},
-          ]}></View>
+        <View style={[styles.image, styles.blankView]} />
       )}
 
       <View style={styles.infoContainer}>
@@ -50,7 +41,7 @@ const PostListItem = (props: Prop) => {
         <View style={styles.statisticContainer}>
           <IconTextComponent
             icon="thumb-up"
-            text={`${post._count.postVisits}`}
+            text={`${post._count.postLikes}`}
           />
           <IconTextComponent
             icon="bar-chart"
@@ -65,7 +56,7 @@ const PostListItem = (props: Prop) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 10,
-    height: Dimensions.get('window').height * 0.2,
+    maxHeight: 150,
     flexDirection: 'row',
     paddingRight: 5,
     alignItems: 'center',
@@ -99,6 +90,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
+  },
+  blankView: {
+    backgroundColor: 'black',
+    borderRadius: 20,
   },
 });
 

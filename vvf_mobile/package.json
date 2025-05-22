@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "react-native run-android --extra-params=\"--no-problems-report\"",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
@@ -15,6 +15,7 @@
     "@react-navigation/bottom-tabs": "^7.3.3",
     "@react-navigation/native": "^7.0.19",
     "@react-navigation/native-stack": "^7.3.3",
+    "@reduxjs/toolkit": "^2.6.1",
     "axios": "^1.8.1",
     "crypto-js": "^3.3.0",
     "dayjs": "^1.11.13",
@@ -25,11 +26,14 @@
     "react-native": "0.78.0",
     "react-native-autoheight-webview": "^1.6.5",
     "react-native-gesture-handler": "^2.24.0",
+    "react-native-image-picker": "^8.2.0",
     "react-native-mmkv-storage": "^0.11.2",
     "react-native-pager-view": "^6.7.0",
-    "react-native-safe-area-context": "^5.3.0",
+    "react-native-reanimated": "^3.17.3",
+    "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.9.1",
-    "react-native-webview": "^13.13.4"
+    "react-native-webview": "^13.13.4",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -57,5 +61,6 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

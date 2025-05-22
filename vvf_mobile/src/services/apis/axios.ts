@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {store} from 'src/libs/redux/store';
 import {createSecretToken} from 'src/utils/cryptoUtil';
 
 const axiosInstance = axios.create({
@@ -7,13 +8,18 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
     'X-App-Client': 'mobile',
   },
+  timeout: 30000,
+  timeoutErrorMessage: 'Something went wrong, please try again (Timeout)',
 });
 
 // Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
+    const authObject = store.getState().auth;
     const secrectToken = createSecretToken();
     config.headers.set('secret', secrectToken);
+    authObject.isAuth &&
+      config.headers.setAuthorization(`Bearer ${authObject.authToken}`);
     return config;
   },
   function (error) {
@@ -28,6 +34,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.log(error);
     return Promise.reject(error);
   },
 );

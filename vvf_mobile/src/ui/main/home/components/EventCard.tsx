@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {Event} from 'src/data/event';
+import {Event} from '@data/event';
 import IconTextComponent from './IconTextComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import {useNavigation} from '@react-navigation/native';
+import {appColor} from '@constants';
 
 interface Prop {
   event: Event;
@@ -84,7 +78,7 @@ const EventCard = ({event}: Prop) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: Dimensions.get('window').width * 0.65,
+    maxWidth: 250,
     margin: 10,
     backgroundColor: 'white',
     borderRadius: 10,
@@ -105,7 +99,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 10,
-    backgroundColor: 'red',
+    backgroundColor: appColor.primaryColor,
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,

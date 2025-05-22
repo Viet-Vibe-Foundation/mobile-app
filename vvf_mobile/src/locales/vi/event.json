@@ -2,5 +2,8 @@
   "date": "Ngày",
   "time": "Giờ",
   "location": "Địa điểm",
-  "min": "phút"
+  "min": "phút",
+  "time_and_location": "Thời gian và địa điểm",
+  "about_the_event": "Về sự kiện",
+  "schedule": "Lịch"
 }

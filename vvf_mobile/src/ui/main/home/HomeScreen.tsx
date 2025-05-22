@@ -1,96 +1,73 @@
-import React, {useEffect, useState, useTransition} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
   View,
-  Alert,
-  Dimensions,
 } from 'react-native';
-import axiosInstance from 'src/services/apis/axios';
-import {Post} from 'src/data/post';
-import {Event} from 'src/data/event';
-import ResponseDTO from 'src/data/responseDTO';
+
 import EventCard from './components/EventCard';
 import PostListItem from './components/PostListItem';
 import {useTranslation} from 'react-i18next';
+import {getPosts} from 'src/services/postService';
+import {getEvents} from 'src/services/eventService';
+import ResponseDTO from '@data/responseDTO';
+import {Event} from '@data/event';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from 'src/libs/redux/store';
+import {updatePost} from 'src/libs/redux/postSlice';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
-  const [posts, setPosts] = useState<ResponseDTO<Post[]>>({
-    data: [],
-    pageNum: 0,
-    total: 0,
-  });
+  const posts = useSelector((state: RootState) => state.post);
+  const [postPageNum, setPostPageNum] = useState<number>(0);
   const [events, setEvents] = useState<ResponseDTO<Event[]>>({
     data: [],
     pageNum: 0,
     total: 0,
   });
+  const [isEventsLoading, setEventLoading] = useState<boolean>(false);
+  const [isPostsLoading, setPostsLoading] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
+  // Event doesn't need to update anything
   useEffect(() => {
-    getPosts(posts.pageNum);
-  }, [posts.pageNum]);
-
-  useEffect(() => {
-    getEvents(events.pageNum);
+    getEventByPageNum(events.pageNum ?? 0);
   }, [events.pageNum]);
 
-  const getPosts = async (pageNum: number = 1) => {
-    try {
-      const res = await axiosInstance.get<ResponseDTO<Post[]>>(
-        `/posts/get?isPublished=true&pageNum=${pageNum}`,
-      );
-      const newPosts = res.data.data || [];
-      if (newPosts.length === 0) return;
-      setPosts(prev => ({
-        ...prev,
-        data: [...(prev.data ?? []), ...newPosts],
-        total: res.data.total,
-      }));
-    } catch (error: any) {
-      console.error(error);
-      Alert.alert('Error', 'Failed to load posts. Please try again.');
-    }
-  };
+  useEffect(() => {
+    const getPostsByPageNum = async (pageNum: number) => {
+      setPostsLoading(true);
 
-  const getEvents = async (pageNum: number = 1) => {
-    try {
-      const res = await axiosInstance.get<ResponseDTO<Event[]>>(
-        `/events/get?isPublished=true&pageNum=${pageNum}`,
-      );
-
-      const newEvents = res.data.data || [];
-      if (newEvents.length === 0) return;
-
-      setEvents(prev => ({
-        ...prev,
-        data: [...(prev.data ?? []), ...newEvents],
-        total: res.data.total,
-      }));
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Failed to load events. Please try again.');
-    }
-  };
+      const postResponse = await getPosts(pageNum);
+      dispatch(updatePost(postResponse));
+      setPostsLoading(false);
+    };
+    getPostsByPageNum(postPageNum);
+  }, [postPageNum, dispatch]);
 
   const handlePostEndReached = () => {
-    if ((posts.data?.length ?? 0) < (posts.total ?? 0)) {
-      setPosts(prev => ({
-        ...prev,
-        pageNum: (prev.pageNum ?? 1) + 1,
-      }));
+    if (!isPostsLoading && (posts.data?.length ?? 0) < (posts.total ?? 0)) {
+      setPostPageNum(prev => prev + 1);
     }
   };
 
   const handleEventEndReached = () => {
-    if ((events.data?.length ?? 0) < (events.total ?? 0)) {
-      setEvents(prev => ({
-        ...prev,
-        pageNum: (prev.pageNum ?? 1) + 1,
-      }));
+    if (!isEventsLoading && (events.data?.length ?? 0) < (events.total ?? 0)) {
+      setEvents(prev => ({...prev, pageNum: (prev.pageNum ?? 0) + 1}));
     }
+  };
+
+  const getEventByPageNum = async (pageNum: number) => {
+    setEventLoading(true);
+    const eventResponse = await getEvents(pageNum);
+    setEvents(prev => ({
+      ...prev,
+      data: [...(prev.data ?? []), ...(eventResponse?.data ?? [])],
+      total: eventResponse?.total ?? 0,
+    }));
+    setEventLoading(false);
   };
 
   return (
@@ -99,7 +76,6 @@ const HomeScreen = () => {
       ListHeaderComponent={
         <View>
           <Text style={styles.sectionHeader}>{t('events')}</Text>
-
           <FlatList
             data={events?.data}
             renderItem={({item}) => <EventCard event={item} />}
@@ -107,14 +83,20 @@ const HomeScreen = () => {
             keyExtractor={(item, index) => `event-${item.id}-${index}`}
             showsHorizontalScrollIndicator={false}
             onEndReached={handleEventEndReached}
+            onEndReachedThreshold={0.1}
             ListEmptyComponent={
-              <ActivityIndicator
-                style={styles.activityIndicator}
-                size={'large'}
-              />
+              isEventsLoading ? (
+                <ActivityIndicator
+                  style={styles.activityIndicator}
+                  size={'large'}
+                />
+              ) : (
+                <Text style={styles.emptyText}>No Data</Text>
+              )
             }
             showsVerticalScrollIndicator={true}
             ListFooterComponent={
+              isEventsLoading &&
               events.data &&
               events.total &&
               events.data?.length < events.total ? (
@@ -135,10 +117,17 @@ const HomeScreen = () => {
       renderItem={({item}) => <PostListItem post={item} />}
       onEndReached={handlePostEndReached}
       ListEmptyComponent={
-        <ActivityIndicator style={styles.activityIndicator} size={'large'} />
+        isPostsLoading ? (
+          <ActivityIndicator style={styles.activityIndicator} size={'large'} />
+        ) : (
+          <Text style={styles.emptyText}>No Data</Text>
+        )
       }
       ListFooterComponent={
-        posts.data && posts.total && posts.data?.length < posts.total ? (
+        isPostsLoading &&
+        posts.data &&
+        posts.total &&
+        posts.data?.length < posts.total ? (
           <ActivityIndicator style={styles.bottomIndicator} size={'large'} />
         ) : null
       }
@@ -173,9 +162,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   activityIndicator: {
-    position: 'absolute',
-    bottom: (Dimensions.get('window').height - 40) / 2,
-    left: Dimensions.get('window').width / 2,
+    marginVertical: 20,
+    alignSelf: 'center',
   },
 });
 

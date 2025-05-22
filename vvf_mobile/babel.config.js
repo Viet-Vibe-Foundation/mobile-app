@@ -7,7 +7,10 @@ module.exports = {
         root: ['./'],
         alias: {
           '@assets': './assets',
-          '@types': './src/types',
+          '@custom-types': './src/types',
+          '@components': './src/ui/components',
+          '@data': './src/data',
+          '@constants': './src/constants',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.d.ts'],
       },
@@ -20,5 +23,6 @@ module.exports = {
         path: '.env',
       },
     ],
+    ['react-native-reanimated/plugin'],
   ],
 };

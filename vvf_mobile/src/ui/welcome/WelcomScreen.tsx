@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
 import {Image, StyleSheet, View, Dimensions} from 'react-native';
 import PagerView from 'react-native-pager-view';
-import {storagePropertiesName} from '../../constants';
+import {storagePropertiesName} from '@constants';
 import {useNavigation} from '@react-navigation/native';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
-import FilledButtonComponent from '../components/FilledButtonComponent';
+import FilledButtonComponent from '@components/FilledButtonComponent';
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -18,9 +18,9 @@ const WelcomeScreen: React.FC = () => {
   const pagerViewRef = useRef<PagerView>(null);
 
   const imageList = [
-    require('../../../assets/images/guitar-background.jpg'),
-    require('../../../assets/images/pianoInstruction-home.jpg'),
-    require('../../../assets/images/tennis-team-bg.jpg'),
+    require('@assets/images/guitar-background.jpg'),
+    require('@assets/images/pianoInstruction-home.jpg'),
+    require('@assets/images/tennis-team-bg.jpg'),
   ];
 
   const handleNextPage = () => {
