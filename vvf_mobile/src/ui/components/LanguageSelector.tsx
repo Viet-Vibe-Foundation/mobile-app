@@ -64,7 +64,6 @@ const LanguageSelector = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // Đảm bảo container có position: 'relative' để dropdown định vị đúng
     position: 'relative',
   },
   button: {

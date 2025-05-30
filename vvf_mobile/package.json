@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --extra-params=\"--no-problems-report\"",
+    "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest"
+    "start": "react-native start --reset-cache",
+    "test": "jest",
+    "build-android": "react-native build-android --mode=\"release\""
   },
   "dependencies": {
-    "@react-native-vector-icons/common": "^11.0.0",
-    "@react-native-vector-icons/material-icons": "^0.0.1",
+    "@react-native-vector-icons/material-icons": "^12.0.0",
     "@react-navigation/bottom-tabs": "^7.3.3",
     "@react-navigation/native": "^7.0.19",
     "@react-navigation/native-stack": "^7.3.3",
