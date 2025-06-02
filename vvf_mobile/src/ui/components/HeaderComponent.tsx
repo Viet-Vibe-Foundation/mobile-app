@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {appColor} from '../../constants';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
-import LanguageSelector from './LanguageSelector';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Prop {
@@ -35,9 +34,6 @@ const HeaderComponent: React.FC<Prop> = ({isMainRouter = false}) => {
         />
         <Text style={styles.title}>Viet Vibe Foundation</Text>
       </View>
-
-      {/* ✅ LanguageSelector ở cuối dòng */}
-      <LanguageSelector />
     </View>
   );
 };
@@ -51,7 +47,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
-    elevation: 4, // Adds shadow effect
+    elevation: 4,
   },
 
   backButton: {

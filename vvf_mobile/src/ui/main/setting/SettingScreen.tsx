@@ -15,6 +15,8 @@ import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
 import FilledButtonComponent from '@components/FilledButtonComponent';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {toggleLanguageModal} from 'src/libs/redux/languageModalSlice';
 
 const SettingScreen = () => {
   const {t} = useTranslation();
@@ -29,6 +31,7 @@ const SettingScreen = () => {
     null,
   );
   const navigate = useNavigation<any>();
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     if (!user) {
@@ -64,6 +67,10 @@ const SettingScreen = () => {
                 onPress={() => navigate.navigate('UserProfile')}
               />
             ) : null}
+            <FilledButtonComponent
+              onPress={() => dispatch(toggleLanguageModal())}
+              title={t('language')}
+            />
             <FilledButtonComponent
               title={user ? t('logout') : t('login')}
               onPress={user ? handleLogout : handleLogin}

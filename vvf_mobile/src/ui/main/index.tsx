@@ -9,6 +9,7 @@ import HomeScreen from './home/HomeScreen';
 import HeaderComponent from '@components/HeaderComponent';
 import {MaterialIconName} from '@custom-types/materialType';
 import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/src/types';
+import LanguageBottoSheet from '@components/LanguageBottoSheet';
 
 const Tab = createBottomTabNavigator();
 const renderHeader = () => <HeaderComponent />;
@@ -30,42 +31,45 @@ const renderTabBarLabel = (props: {
 
 const MainScreen = () => {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          borderRadius: 15,
-          backgroundColor: appColor.toolBarColor,
-        },
-        tabBarLabel: props => renderTabBarLabel(props),
-        header: renderHeader,
-        tabBarItemStyle: styles.tabbarItem,
-        animation: 'fade',
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerShown: true,
-          tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'home'),
-        }}
-      />
-
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'search'),
-        }}
-      />
-      <Tab.Screen
-        name="More"
-        component={SettingScreen}
-        options={{
+    <>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: {
+            borderRadius: 15,
+            backgroundColor: appColor.toolBarColor,
+          },
+          tabBarLabel: props => renderTabBarLabel(props),
           header: renderHeader,
-          tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'list'),
-        }}
-      />
-    </Tab.Navigator>
+          tabBarItemStyle: styles.tabbarItem,
+          animation: 'fade',
+        }}>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerShown: true,
+            tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'home'),
+          }}
+        />
+
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'search'),
+          }}
+        />
+        <Tab.Screen
+          name="More"
+          component={SettingScreen}
+          options={{
+            header: renderHeader,
+            tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'list'),
+          }}
+        />
+      </Tab.Navigator>
+      <LanguageBottoSheet />
+    </>
   );
 };
 
