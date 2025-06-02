@@ -5,5 +5,7 @@
   "min": "minutes",
   "time_and_location": "Time and Location",
   "about_the_event": "About The Event",
-  "schedule": "Schedule"
+  "schedule": "Schedule",
+  "may_change_according_to_instructor": "(May change according to instructor)",
+  "reserve": "Reserve"
 }
