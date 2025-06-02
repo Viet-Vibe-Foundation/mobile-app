@@ -58,7 +58,9 @@ const SearchScreen = () => {
       <FlatList
         data={posts}
         renderItem={({item}) => <PostListItem post={item} />}
-        ListHeaderComponent={<Text style={styles.listHeader}>Result</Text>}
+        ListHeaderComponent={
+          <Text style={styles.listHeader}>{t('result')}</Text>
+        }
         ListEmptyComponent={
           isLoading ? (
             <ActivityIndicator style={styles.indicator} size="large" />

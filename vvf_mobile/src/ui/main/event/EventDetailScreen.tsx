@@ -105,7 +105,8 @@ const EventDetailScreen = () => {
           <FilledButtonComponent
             style={styles.reserveBtn}
             onPress={handleReserve}
-            title="Reserve"
+            title={t('reserve')}
+            textStyle={styles.reserveBtnLabel}
           />
         </View>
       </View>
@@ -121,7 +122,7 @@ const EventDetailScreen = () => {
 
       <SectionTitle title={t('schedule')} />
       <Text style={styles.subTitle}>
-        {'(May change according to instructor)'}
+        {t('may_change_according_to_instructor')}
       </Text>
       <View style={styles.eventScheduleList}>
         {eventInfo.schedules?.map((schedule, index) => (
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     padding: 15,
-    backgroundColor: 'black',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -170,6 +171,10 @@ const styles = StyleSheet.create({
   },
   reserveBtn: {
     marginTop: 10,
+  },
+  reserveBtnLabel: {
+    fontSize: 15,
+    fontWeight: '600',
   },
   title: {
     fontSize: 20,
@@ -187,7 +192,7 @@ const styles = StyleSheet.create({
   },
   eventScheduleList: {
     marginTop: 10,
-    marginHorizontal: 20,
+    marginRight: 20,
   },
   errorContainer: {
     flex: 1,

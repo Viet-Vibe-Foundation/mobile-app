@@ -4,6 +4,7 @@ import {
   Dimensions,
   ScrollView,
   View,
+  Text,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -89,7 +90,10 @@ const PostScreen = () => {
         ) : (
           <>
             {postContent?.content ? (
-              <HtmlComponent html={postContent.content} />
+              <>
+                <Text style={styles.postTitle}>{postContent.title}</Text>
+                <HtmlComponent html={postContent.content} />
+              </>
             ) : null}
           </>
         )}
@@ -112,6 +116,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: (Dimensions.get('window').height - 40) / 2,
     left: Dimensions.get('window').width / 2,
+  },
+  postTitle: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 
