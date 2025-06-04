@@ -19,4 +19,10 @@ export interface Event {
   remainingTicket: number | null; // Capacity - ticketSold
   eventType: string | null;
   schedules?: EventSchedule[];
+  socialLinks?: SocialLink[];
+}
+
+interface SocialLink {
+  url: string;
+  platform: string;
 }
