@@ -9,6 +9,7 @@ module.exports = {
           '@assets': './assets',
           '@custom-types': './src/types',
           '@components': './src/ui/components',
+          '@locales': './src/locales',
           '@data': './src/data',
           '@constants': './src/constants',
         },
