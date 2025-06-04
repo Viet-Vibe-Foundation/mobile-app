@@ -9,7 +9,8 @@ import HomeScreen from './home/HomeScreen';
 import HeaderComponent from '@components/HeaderComponent';
 import {MaterialIconName} from '@custom-types/materialType';
 import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/src/types';
-import LanguageBottoSheet from '@components/LanguageBottoSheet';
+import LanguageBottomSheet from '@components/LanguageBottomSheet';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 const renderHeader = () => <HeaderComponent />;
@@ -30,6 +31,8 @@ const renderTabBarLabel = (props: {
 }) => props.focused && <Text style={styles.tabbarLabel}>{props.children}</Text>;
 
 const MainScreen = () => {
+  const {t} = useTranslation();
+
   return (
     <>
       <Tab.Navigator
@@ -44,7 +47,7 @@ const MainScreen = () => {
           animation: 'fade',
         }}>
         <Tab.Screen
-          name="Home"
+          name={t('Home')}
           component={HomeScreen}
           options={{
             headerShown: true,
@@ -53,14 +56,14 @@ const MainScreen = () => {
         />
 
         <Tab.Screen
-          name="Search"
+          name={t('Search')}
           component={SearchScreen}
           options={{
             tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'search'),
           }}
         />
         <Tab.Screen
-          name="More"
+          name={t('More')}
           component={SettingScreen}
           options={{
             header: renderHeader,
@@ -68,7 +71,7 @@ const MainScreen = () => {
           }}
         />
       </Tab.Navigator>
-      <LanguageBottoSheet />
+      <LanguageBottomSheet />
     </>
   );
 };

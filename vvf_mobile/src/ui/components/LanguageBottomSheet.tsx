@@ -10,7 +10,7 @@ import {appColor, languageList} from '@constants';
 import {changeLanguage} from 'src/libs/redux/languageSlice';
 import i18next, {t} from 'i18next';
 
-const LanguageBottoSheet = () => {
+const LanguageBottomSheet = () => {
   const languageModalState = useSelector(
     (state: RootState) => state.languageModal,
   );
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
   icon: {alignSelf: 'center', marginBottom: 10},
 });
 
-export default LanguageBottoSheet;
+export default LanguageBottomSheet;

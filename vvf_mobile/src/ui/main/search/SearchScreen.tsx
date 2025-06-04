@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import TextInputComponent from '@components/TextInputComponent';
 import {debouce} from 'src/utils/debouce';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from 'src/libs/apis/axios';
 import {Post} from '@data/post';
 import PostListItem from '../home/components/PostListItem';
 import {useTranslation} from 'react-i18next';

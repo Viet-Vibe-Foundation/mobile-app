@@ -8,13 +8,12 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from 'src/libs/apis/axios';
 import {Post} from '@data/post';
 import ResponseDTO from '@data/responseDTO';
 import HtmlComponent from '@components/HtmlComponent';
 import FloatingButton from '@components/FloatingButton';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from 'src/libs/redux/store';
+import {useDispatch} from 'react-redux';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {storagePropertiesName} from '@constants';
 import {User} from '@data/user';
@@ -31,7 +30,6 @@ const PostScreen = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [postContent, setPostContent] = useState<Post | null>(null);
   const [isLiked, setLiked] = useState<boolean>(postContent?.liked || false);
-  const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [user, _] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
@@ -78,12 +76,10 @@ const PostScreen = () => {
 
   return (
     <View style={styles.wrapper}>
-      {auth.isAuth ? (
-        <FloatingButton
-          icon={isLiked ? 'thumb-down' : 'thumb-up'}
-          onPress={handleLikePost}
-        />
-      ) : null}
+      <FloatingButton
+        iconName={isLiked ? 'thumb-down' : 'thumb-up'}
+        onPress={handleLikePost}
+      />
       <ScrollView style={styles.container}>
         {isLoading ? (
           <ActivityIndicator size={'large'} style={styles.activityIndicator} />

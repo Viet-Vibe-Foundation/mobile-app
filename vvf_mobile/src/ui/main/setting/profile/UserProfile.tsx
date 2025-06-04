@@ -15,7 +15,7 @@ import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {appInfo, cardStyles, storagePropertiesName} from '@constants';
 import {User} from '@data/user';
 import {mmkvStorage} from 'src/libs/mmvkStorage';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from 'src/libs/apis/axios';
 import ResponseDTO from '@data/responseDTO';
 import FilledButtonComponent from '@components/FilledButtonComponent';
 import BottomSheet from '@components/BottomSheet';

@@ -63,7 +63,7 @@ const SettingScreen = () => {
           <View style={styles.optionContainer}>
             {user ? (
               <FilledButtonComponent
-                title="Your profile"
+                title={t('your_profile')}
                 onPress={() => navigate.navigate('UserProfile')}
               />
             ) : null}

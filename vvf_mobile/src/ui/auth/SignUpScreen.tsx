@@ -19,7 +19,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import AuthHeaderComponent from './components/AuthHeaderComponent';
 import axios from 'axios';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from 'src/libs/apis/axios';
 
 const SignUpForm: React.FC = () => {
   const navigation = useNavigation<any>();

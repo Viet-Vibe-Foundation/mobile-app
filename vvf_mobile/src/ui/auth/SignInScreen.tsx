@@ -14,7 +14,7 @@ import TextInputComponent from '../components/TextInputComponent';
 import FilledButtonComponent from '../components/FilledButtonComponent';
 import {appColor, appInfo, storagePropertiesName} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from 'src/libs/apis/axios';
 import axios from 'axios';
 import {useTranslation} from 'react-i18next';
 import AuthHeaderComponent from './components/AuthHeaderComponent';
@@ -100,7 +100,7 @@ const SignInForm: React.FC = () => {
             title={t('login')}
           />
           <Divider type="horizontal" />
-         <View style={styles.inputContainer}>
+          <View style={styles.inputContainer}>
             <Text style={styles.inputTitle}>Email</Text>
             <TextInputComponent
               value={email}
@@ -125,7 +125,7 @@ const SignInForm: React.FC = () => {
             style={styles.loginButton}
             onPress={handelLogin}
           />
-          
+
           <Text style={styles.textOr}>{t('or')}</Text>
           <View style={styles.textSignUpContainer}>
             <Text>{t('dont_have_account')}</Text>
