@@ -8,19 +8,22 @@ import {toggleLanguageModal} from '@libs/redux/languageModalSlice';
 import {RootState} from '@libs/redux/store';
 import {languageList} from '@constants';
 import {changeLanguage} from '@libs/redux/languageSlice';
-import i18next, {t} from 'i18next';
+import i18next from 'i18next';
 import {appColor} from '@styles/appColor';
+import {useTranslation} from 'react-i18next';
 
 const LanguageBottomSheet = () => {
+  const {t} = useTranslation();
   const languageModalState = useSelector(
     (state: RootState) => state.languageModal,
   );
   const appLanguageState = useSelector((state: RootState) => state.language);
   const dispatch = useDispatch();
-  const handleChangeLanguage = (languageValue: string) => {
-    dispatch(changeLanguage(languageValue));
-    i18next.changeLanguage(languageValue);
+
+  const handleChangeLanguage = async (languageValue: string) => {
     dispatch(toggleLanguageModal());
+    dispatch(changeLanguage(languageValue));
+    await i18next.changeLanguage(languageValue);
   };
 
   return (
