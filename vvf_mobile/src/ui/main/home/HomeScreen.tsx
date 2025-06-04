@@ -31,7 +31,6 @@ const HomeScreen = () => {
   const [isPostsLoading, setPostsLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  // Event doesn't need to update anything
   useEffect(() => {
     getEventByPageNum(events.pageNum ?? 0);
   }, [events.pageNum]);
@@ -39,7 +38,6 @@ const HomeScreen = () => {
   useEffect(() => {
     const getPostsByPageNum = async (pageNum: number) => {
       setPostsLoading(true);
-
       const postResponse = await getPosts(pageNum);
       dispatch(updatePost(postResponse));
       setPostsLoading(false);

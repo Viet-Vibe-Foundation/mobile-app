@@ -3,9 +3,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MainScreen from 'src/ui/main';
 import PostScreen from 'src/ui/main/post/PostScreen';
 import HeaderComponent from '@components/HeaderComponent';
-import {appColor} from '@constants';
 import EventDetailScreen from 'src/ui/main/event/EventDetailScreen';
 import UserProfile from 'src/ui/main/setting/profile/UserProfile';
+import {appColor} from '@styles/appColor';
 
 const Stack = createNativeStackNavigator();
 

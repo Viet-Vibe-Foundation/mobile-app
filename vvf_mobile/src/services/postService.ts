@@ -3,7 +3,7 @@ import axiosInstance from '../libs/apis/axios';
 import {Post} from '@data/post';
 import {Alert} from 'react-native';
 
-export const getPosts = async (pageNum: number = 1) => {
+export const getPosts = async (pageNum: number = 0) => {
   try {
     const res = await axiosInstance.get<ResponseDTO<Post[]>>(
       `/posts/get?isPublished=true&pageNum=${pageNum}`,

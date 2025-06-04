@@ -36,7 +36,7 @@ const BottomSheet = ({
 
   useEffect(() => {
     translateY.value = withTiming(isOpen ? 0 : SCREEN_HEIGHT, {duration});
-  }, [isOpen]);
+  }, [isOpen, duration, translateY]);
 
   const gesture = Gesture.Pan()
     .onStart(() => {
@@ -73,14 +73,12 @@ const BottomSheet = ({
 
   return (
     <>
-      {/* Backdrop */}
       <Animated.View style={[styles.backdrop, rBackdropStyle]}>
         <TouchableWithoutFeedback onPress={toggleSheet}>
           <View style={styles.flex} />
         </TouchableWithoutFeedback>
       </Animated.View>
 
-      {/* Sheet content */}
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.sheetContainer, rSheetStyle]}>
           <View style={styles.indicator} />
