@@ -27,6 +27,10 @@ export const languageList = [
     label: 'English',
     value: 'en',
   },
+  {
+    label: 'Français',
+    value: 'fr',
+  },
 ];
 
 export const cardStyles: ViewStyle = {
@@ -39,3 +43,16 @@ export const cardStyles: ViewStyle = {
   elevation: 5,
   shadowOpacity: 0.1,
 };
+
+export const socialButtonData = [
+  {
+    platform: 'facebook',
+    label: 'Facebook',
+    icon: require('@assets/icons/fb_icon.svg'),
+  },
+  {
+    platform: 'instagram',
+    label: 'Instagram',
+    icon: require('@assets/icons/insta_icon.svg'),
+  },
+];

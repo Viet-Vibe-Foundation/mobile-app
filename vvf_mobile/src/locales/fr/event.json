@@ -1,6 +1,11 @@
 {
   "date": "Date",
-  "time": "Time",
-  "location": "Location",
-  "min": "minutes"
+  "time": "Temps",
+  "location": "Emplacement",
+  "min": "minutes",
+  "time_and_location": "Heure et lieu",
+  "about_the_event": "À propos de l'événement",
+  "schedule": "Calendrier",
+  "may_change_according_to_instructor": "(Peut changer selon l'instructeur)",
+  "reserve": "Réserver"
 }

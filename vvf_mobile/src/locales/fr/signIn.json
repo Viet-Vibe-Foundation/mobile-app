@@ -1,7 +1,8 @@
 {
-  "login": "Login",
-  "enter_your_passowrd": "Enter Your Password",
-  "or": "Or",
-  "dont_have_account": "Don't have an account?",
-  "sign_up": "Sign Up"
+  "login": "Se connecter",
+  "login_to_your_account_to_book_event_tickets_or_lessons": "Connectez-vous à votre compte pour réserver des billets d'événements ou des cours",
+  "enter_your_passowrd": "Entrez votre mot de passe",
+  "or": "Ou",
+  "dont_have_account": "Vous n'avez pas de compte? ",
+  "sign_up": "S'inscrire"
 }

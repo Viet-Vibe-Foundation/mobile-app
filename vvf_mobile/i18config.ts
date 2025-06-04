@@ -1,19 +1,26 @@
 import i18next from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import enError from './src/locales/en/error.json';
-import enEvent from './src/locales/en/event.json';
-import enSearch from './src/locales/en/search.json';
-import enSignIn from './src/locales/en/signIn.json';
-import enSignUp from './src/locales/en/signUp.json';
-import enSetting from './src/locales/en/setting.json';
-import enHome from './src/locales/en/home.json';
-import viError from './src/locales/vi/error.json';
-import viEvent from './src/locales/vi/event.json';
-import viSearch from './src/locales/vi/search.json';
-import viSignIn from './src/locales/vi/signIn.json';
-import viSignUp from './src/locales/vi/signUp.json';
-import viHome from './src/locales/vi/home.json';
-import viSetting from './src/locales/vi/setting.json';
+import enError from '@locales/en/error.json';
+import enEvent from '@locales/en/event.json';
+import enSearch from '@locales/en/search.json';
+import enSignIn from '@locales/en/signIn.json';
+import enSignUp from '@locales/en/signUp.json';
+import enMore from '@locales/en/more.json';
+import enHome from '@locales/en/home.json';
+import viError from '@locales/vi/error.json';
+import viEvent from '@locales/vi/event.json';
+import viSearch from '@locales/vi/search.json';
+import viSignIn from '@locales/vi/signIn.json';
+import viSignUp from '@locales/vi/signUp.json';
+import viHome from '@locales/vi/home.json';
+import viMore from '@locales/vi/more.json';
+import frError from '@locales/fr/error.json';
+import frEvent from '@locales/fr/event.json';
+import frSearch from '@locales/fr/search.json';
+import frSignIn from '@locales/fr/signIn.json';
+import frSignUp from '@locales/fr/signUp.json';
+import frHome from '@locales/fr/home.json';
+import frMore from '@locales/fr/more.json';
 
 export const i18Instance = i18next.use(initReactI18next).init({
   lng: 'vi',
@@ -27,7 +34,7 @@ export const i18Instance = i18next.use(initReactI18next).init({
         ...enSignIn,
         ...enSignUp,
         ...enHome,
-        ...enSetting,
+        ...enMore,
       },
     },
     vi: {
@@ -38,7 +45,18 @@ export const i18Instance = i18next.use(initReactI18next).init({
         ...viSignIn,
         ...viSignUp,
         ...viHome,
-        ...viSetting,
+        ...viMore,
+      },
+    },
+    fr: {
+      translation: {
+        ...frError,
+        ...frEvent,
+        ...frSearch,
+        ...frSignIn,
+        ...frSignUp,
+        ...frHome,
+        ...frMore,
       },
     },
   },
