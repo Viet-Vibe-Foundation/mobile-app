@@ -11,6 +11,8 @@ module.exports = {
           '@components': './src/ui/components',
           '@locales': './src/locales',
           '@data': './src/data',
+          '@libs': './src/libs',
+          '@styles': './src/ui/styles',
           '@constants': './src/constants',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.d.ts'],
