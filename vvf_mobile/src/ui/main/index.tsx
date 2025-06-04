@@ -8,9 +8,8 @@ import HomeScreen from './home/HomeScreen';
 import HeaderComponent from '@components/HeaderComponent';
 import {MaterialIconName} from '@custom-types/materialType';
 import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/src/types';
-import LanguageBottomSheet from '@components/LanguageBottomSheet';
-import {useTranslation} from 'react-i18next';
 import {appColor} from '@styles/appColor';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 const renderHeader = () => <HeaderComponent />;
@@ -23,56 +22,56 @@ const renderTabBarIcon = (focused: boolean, name: MaterialIconName) => (
   />
 );
 
-const renderTabBarLabel = (props: {
+const CustomTabarLabel = (props: {
   focused: boolean;
   color: string;
   position: LabelPosition;
   children: string;
-}) => props.focused && <Text style={styles.tabbarLabel}>{props.children}</Text>;
+}) => {
+  const {t} = useTranslation();
+  return (
+    props.focused && <Text style={styles.tabbarLabel}>{t(props.children)}</Text>
+  );
+};
 
 const MainScreen = () => {
-  const {t} = useTranslation();
-
   return (
-    <>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {
-            borderRadius: 15,
-            backgroundColor: appColor.toolBarColor,
-          },
-          tabBarLabel: props => renderTabBarLabel(props),
-          header: renderHeader,
-          tabBarItemStyle: styles.tabbarItem,
-          animation: 'fade',
-        }}>
-        <Tab.Screen
-          name={t('Home')}
-          component={HomeScreen}
-          options={{
-            headerShown: true,
-            tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'home'),
-          }}
-        />
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          borderRadius: 15,
+          backgroundColor: appColor.toolBarColor,
+        },
+        tabBarLabel: props => CustomTabarLabel(props),
+        header: renderHeader,
+        tabBarItemStyle: styles.tabbarItem,
+        animation: 'fade',
+      }}>
+      <Tab.Screen
+        name={'Home'}
+        component={HomeScreen}
+        options={{
+          headerShown: true,
+          tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'home'),
+        }}
+      />
 
-        <Tab.Screen
-          name={t('Search')}
-          component={SearchScreen}
-          options={{
-            tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'search'),
-          }}
-        />
-        <Tab.Screen
-          name={t('More')}
-          component={SettingScreen}
-          options={{
-            header: renderHeader,
-            tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'list'),
-          }}
-        />
-      </Tab.Navigator>
-      <LanguageBottomSheet />
-    </>
+      <Tab.Screen
+        name={'Search'}
+        component={SearchScreen}
+        options={{
+          tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'search'),
+        }}
+      />
+      <Tab.Screen
+        name={'More'}
+        component={SettingScreen}
+        options={{
+          header: renderHeader,
+          tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'list'),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 
