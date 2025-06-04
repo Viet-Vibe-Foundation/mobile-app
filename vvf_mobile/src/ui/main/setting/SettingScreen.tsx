@@ -1,22 +1,17 @@
-import {
-  View,
-  StyleSheet,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableNativeFeedback,
-} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React from 'react';
-import {storagePropertiesName} from '../../../constants';
+import {storagePropertiesName} from '@constants';
 import {User} from '@data/user';
 import {useTranslation} from 'react-i18next';
 import UserInfoComponent from './components/UserInfoComponent';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
-import {mmkvStorage} from 'src/libs/mmvkStorage';
+import {mmkvStorage} from '@libs/mmvkStorage';
 import FilledButtonComponent from '@components/FilledButtonComponent';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import {toggleLanguageModal} from 'src/libs/redux/languageModalSlice';
+import {toggleLanguageModal} from '@libs/redux/languageModalSlice';
+import SocialContactComponent from './components/SocialContactComponent';
+import {cardStyles} from '@styles/cardStyles';
 
 const SettingScreen = () => {
   const {t} = useTranslation();
@@ -47,58 +42,50 @@ const SettingScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.userInfoCard}>
-          {user != null ? (
-            <UserInfoComponent
-              name={user.name ?? 'N/a'}
-              email={user.email ?? 'N/a'}
-              image={user.image ?? 'N/a'}
+    <View style={styles.wrapper}>
+      <View style={styles.userInfoCard}>
+        {user != null ? (
+          <UserInfoComponent
+            name={user.name ?? 'N/a'}
+            email={user.email ?? 'N/a'}
+            image={user.image ?? 'N/a'}
+          />
+        ) : null}
+
+        <View style={[cardStyles, styles.optionContainer]}>
+          {user ? (
+            <FilledButtonComponent
+              title={t('your_profile')}
+              onPress={() => navigate.navigate('UserProfile')}
             />
           ) : null}
-
-          <View style={styles.optionContainer}>
-            {user ? (
-              <FilledButtonComponent
-                title={t('your_profile')}
-                onPress={() => navigate.navigate('UserProfile')}
-              />
-            ) : null}
-            <FilledButtonComponent
-              onPress={() => dispatch(toggleLanguageModal())}
-              title={t('language')}
-            />
-            <FilledButtonComponent
-              title={user ? t('logout') : t('login')}
-              onPress={user ? handleLogout : handleLogin}
-            />
-          </View>
+          <FilledButtonComponent
+            onPress={() => dispatch(toggleLanguageModal())}
+            title={t('language')}
+          />
+          <FilledButtonComponent
+            title={user ? t('logout') : t('login')}
+            onPress={user ? handleLogout : handleLogin}
+          />
         </View>
-      </TouchableNativeFeedback>
-    </KeyboardAvoidingView>
+      </View>
+      <SocialContactComponent />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
+    justifyContent: 'space-between',
+    padding: 20,
   },
   userInfoCard: {
     alignItems: 'center',
-    padding: 20,
+    gap: 10,
   },
   optionContainer: {
-    marginTop: 10,
-    gap: 10,
-    borderRadius: 20,
     width: '100%',
-    padding: 10,
-    backgroundColor: 'white',
-    elevation: 5,
-    shadowOpacity: 0.1,
   },
   title: {
     fontSize: 22,

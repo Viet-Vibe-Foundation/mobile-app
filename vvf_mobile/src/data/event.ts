@@ -22,7 +22,7 @@ export interface Event {
   socialLinks?: SocialLink[];
 }
 
-interface SocialLink {
+export interface SocialLink {
   url: string;
   platform: string;
 }

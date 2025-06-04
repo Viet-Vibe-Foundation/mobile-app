@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import CircularAvatar from '@components/CircularAvatar';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
+import {cardStyles} from '@styles/cardStyles';
 
 interface Props {
   name: string;
@@ -27,7 +28,7 @@ const UserInfoComponent = ({
   style,
 }: Props) => {
   return (
-    <View style={[styles.container, style]}>
+    <View style={[cardStyles, styles.container, style]}>
       <View>
         <CircularAvatar imageUrl={image} />
         {showAddBtn && onChangeImage && (
@@ -50,13 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    borderRadius: 20,
     width: '100%',
-    padding: 10,
-    backgroundColor: 'white',
-    elevation: 5,
-    shadowOpacity: 0.1,
   },
   infoContainer: {
     marginLeft: 10,

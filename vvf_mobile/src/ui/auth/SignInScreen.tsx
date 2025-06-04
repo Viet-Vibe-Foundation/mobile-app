@@ -9,21 +9,22 @@ import {
   Keyboard,
 } from 'react-native';
 import React, {useState} from 'react';
-import Divider from '../components/Divider';
-import TextInputComponent from '../components/TextInputComponent';
-import FilledButtonComponent from '../components/FilledButtonComponent';
-import {appColor, appInfo, storagePropertiesName} from '../../constants';
+import Divider from '@components/Divider';
+import TextInputComponent from '@components/TextInputComponent';
+import FilledButtonComponent from '@components/FilledButtonComponent';
+import {regex, storagePropertiesName} from '@constants';
 import {useNavigation} from '@react-navigation/native';
-import axiosInstance from 'src/libs/apis/axios';
+import axiosInstance from '@libs/apis/axios';
 import axios from 'axios';
 import {useTranslation} from 'react-i18next';
 import AuthHeaderComponent from './components/AuthHeaderComponent';
 import {decodeToken} from 'react-jwt';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
-import {mmkvStorage} from 'src/libs/mmvkStorage';
+import {mmkvStorage} from '@libs/mmvkStorage';
 import {User} from '@data/user';
 import {useDispatch} from 'react-redux';
-import {AuthState, login} from 'src/libs/redux/authSlice';
+import {AuthState, login} from '@libs/redux/authSlice';
+import {appColor} from '@styles/appColor';
 
 const SignInForm: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -49,7 +50,7 @@ const SignInForm: React.FC = () => {
       setLoading(true);
       if (!email || !password) {
         throw new Error(`${t('email_password_required')}`);
-      } else if (!email.match(appInfo.emailRegex)) {
+      } else if (!email.match(regex.emailRegex)) {
         throw new Error(`${t('email_not_formatted')}`);
       } else if (password.length < 8) {
         throw new Error(`${t('password_8_character')}`);
@@ -74,11 +75,11 @@ const SignInForm: React.FC = () => {
       } else {
         setError(`${t('un_expected_error')}`);
       }
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        setError(error.response?.data.message);
-      } else if (error instanceof Error) {
-        setError(error.message);
+    } catch (er: unknown) {
+      if (axios.isAxiosError(er)) {
+        setError(er.response?.data.message);
+      } else if (er instanceof Error) {
+        setError(er.message);
       } else {
         setError(`${t('un_expected_error')}`);
       }
@@ -90,7 +91,7 @@ const SignInForm: React.FC = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}>
+      style={styles.wrapper}>
       <TouchableNativeFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <AuthHeaderComponent
@@ -140,6 +141,7 @@ const SignInForm: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {flex: 1},
   container: {
     flex: 1,
     paddingHorizontal: 30,

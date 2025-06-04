@@ -4,11 +4,12 @@ import {StyleSheet, Text, TextStyle, View, ViewStyle} from 'react-native';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import FilledButtonComponent from './FilledButtonComponent';
 import {useDispatch, useSelector} from 'react-redux';
-import {toggleLanguageModal} from 'src/libs/redux/languageModalSlice';
-import {RootState} from 'src/libs/redux/store';
-import {appColor, languageList} from '@constants';
-import {changeLanguage} from 'src/libs/redux/languageSlice';
+import {toggleLanguageModal} from '@libs/redux/languageModalSlice';
+import {RootState} from '@libs/redux/store';
+import {languageList} from '@constants';
+import {changeLanguage} from '@libs/redux/languageSlice';
 import i18next, {t} from 'i18next';
+import {appColor} from '@styles/appColor';
 
 const LanguageBottomSheet = () => {
   const languageModalState = useSelector(

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {store} from 'src/libs/redux/store';
+import {store} from '@libs/redux/store';
 import {createSecretToken} from 'src/utils/cryptoUtil';
 
 const axiosInstance = axios.create({

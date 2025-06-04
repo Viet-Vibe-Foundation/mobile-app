@@ -1,7 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import {appColor} from '@constants';
 import {StyleSheet, Text} from 'react-native';
 import SearchScreen from './search/SearchScreen';
 import SettingScreen from './setting/SettingScreen';
@@ -11,6 +10,7 @@ import {MaterialIconName} from '@custom-types/materialType';
 import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/src/types';
 import LanguageBottomSheet from '@components/LanguageBottomSheet';
 import {useTranslation} from 'react-i18next';
+import {appColor} from '@styles/appColor';
 
 const Tab = createBottomTabNavigator();
 const renderHeader = () => <HeaderComponent />;

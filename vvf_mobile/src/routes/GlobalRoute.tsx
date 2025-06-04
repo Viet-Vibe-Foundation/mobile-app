@@ -4,7 +4,7 @@ import WelcomeScreen from '../ui/welcome/WelcomScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {storagePropertiesName} from '@constants';
 import MainRoute from './MainRoute';
-import {mmkvStorage} from 'src/libs/mmvkStorage';
+import {mmkvStorage} from '@libs/mmvkStorage';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 
 const Stack = createNativeStackNavigator();

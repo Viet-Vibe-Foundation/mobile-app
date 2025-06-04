@@ -1,9 +1,9 @@
 import React, {memo} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {appColor} from '../../constants';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {appColor} from '@styles/appColor';
 
 interface Prop {
   isMainRouter?: boolean;

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import axiosInstance from 'src/libs/apis/axios';
+import axiosInstance from '@libs/apis/axios';
 import {Post} from '@data/post';
 import ResponseDTO from '@data/responseDTO';
 import HtmlComponent from '@components/HtmlComponent';
@@ -17,8 +17,8 @@ import {useDispatch} from 'react-redux';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {storagePropertiesName} from '@constants';
 import {User} from '@data/user';
-import {mmkvStorage} from 'src/libs/mmvkStorage';
-import {likePost} from 'src/libs/redux/postSlice';
+import {mmkvStorage} from '@libs/mmvkStorage';
+import {likePost} from '@libs/redux/postSlice';
 
 type PostScreenParams = {
   postId: string;

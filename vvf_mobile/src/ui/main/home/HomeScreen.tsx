@@ -15,8 +15,8 @@ import {getEvents} from 'src/services/eventService';
 import ResponseDTO from '@data/responseDTO';
 import {Event} from '@data/event';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from 'src/libs/redux/store';
-import {updatePost} from 'src/libs/redux/postSlice';
+import {RootState} from '@libs/redux/store';
+import {updatePost} from '@libs/redux/postSlice';
 
 const HomeScreen = () => {
   const {t} = useTranslation();

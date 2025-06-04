@@ -4,7 +4,7 @@ import {Event} from '@data/event';
 import IconTextComponent from './IconTextComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import {useNavigation} from '@react-navigation/native';
-import {appColor} from '@constants';
+import {appColor} from '@styles/appColor';
 
 interface Prop {
   event: Event;

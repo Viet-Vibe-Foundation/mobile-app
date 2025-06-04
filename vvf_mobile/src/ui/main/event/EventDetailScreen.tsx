@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import axiosInstance from 'src/libs/apis/axios';
+import axiosInstance from '@libs/apis/axios';
 import ResponseDTO from '@data/responseDTO';
 import ImageInfo from './components/ImageInfo';
 import {Event} from '@data/event';
@@ -20,7 +20,6 @@ import {dateToString} from 'src/utils/dateTimeUtil';
 import EventScheduleItem from './components/EventScheduleItem';
 import Divider from '@components/Divider';
 import {useTranslation} from 'react-i18next';
-import FloattingContainer from './components/FloattingContainer';
 
 type EventDetailScreenParams = {
   eventId: string;
@@ -48,9 +47,9 @@ const EventDetailScreen = () => {
         } else {
           setError('Event data is unavailable.');
         }
-      } catch (error: any) {
+      } catch (er: any) {
         setError('Failed to load event details.');
-        console.error(error);
+        console.error(er);
       } finally {
         setLoading(false);
       }
@@ -138,7 +137,6 @@ const EventDetailScreen = () => {
           ))}
         </View>
       </ScrollView>
-      <FloattingContainer />
     </View>
   );
 };
