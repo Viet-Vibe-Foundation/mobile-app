@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import TextInputComponent from '@components/TextInputComponent';
 import {debouce} from 'src/utils/debouce';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from '@libs/apis/axios';
 import {Post} from '@data/post';
 import PostListItem from '../home/components/PostListItem';
 import {useTranslation} from 'react-i18next';
@@ -58,7 +58,9 @@ const SearchScreen = () => {
       <FlatList
         data={posts}
         renderItem={({item}) => <PostListItem post={item} />}
-        ListHeaderComponent={<Text style={styles.listHeader}>Result</Text>}
+        ListHeaderComponent={
+          <Text style={styles.listHeader}>{t('result')}</Text>
+        }
         ListEmptyComponent={
           isLoading ? (
             <ActivityIndicator style={styles.indicator} size="large" />

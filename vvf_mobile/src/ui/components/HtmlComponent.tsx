@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import AutoHeightWebView from 'react-native-autoheight-webview';
+import {htmlContent, normalizeHTML} from 'src/utils/htmlUtil';
 
 interface Props {
   html: string | null;
@@ -8,45 +9,50 @@ interface Props {
 
 const HtmlComponent = ({html}: Props) => {
   const [height, setHeight] = useState<number>(300);
+  const [loading, setLoading] = useState<boolean>(true);
 
   if (!html) {
     return null;
   }
 
-  const htmlContent = `
-    <html>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <style>
-          body { margin: 0; padding: 10px; font-size: 16px; }
-        </style>
-      </head>
-      <body>
-        ${html}
-      </body>
-    </html>
-  `;
+  const rawContent = htmlContent(html);
+  const normalizedContent = normalizeHTML(rawContent);
 
   return (
-    <AutoHeightWebView
-      source={{html: htmlContent}}
-      viewportContent={'width=device-width, initial-scale=1, maximum-scale=1'}
-      scrollEnabled={false}
-      onSizeUpdated={size => {
-        if (size.height !== height) {
-          setHeight(size.height);
-        }
-      }}
-      style={[styles.webView, {height}]}
-      setSupportMultipleWindows={false}
-    />
+    <View style={styles.container}>
+      {loading && <ActivityIndicator style={styles.loading} size="large" />}
+
+      <AutoHeightWebView
+        source={{html: normalizedContent}}
+        viewportContent={'width=device-width, initial-scale=1, maximum-scale=1'}
+        scrollEnabled={false}
+        onSizeUpdated={size => {
+          if (size.height !== height) {
+            setHeight(size.height);
+          }
+        }}
+        onLoadEnd={() => setLoading(false)}
+        style={[styles.webView, {height}]}
+        setSupportMultipleWindows={false}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    width: '100%',
+  },
   webView: {
     width: '100%',
     backgroundColor: 'transparent',
+  },
+  loading: {
+    position: 'absolute',
+    top: 16,
+    left: '50%',
+    marginLeft: -10,
   },
 });
 

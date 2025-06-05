@@ -1,6 +1,5 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {cardStyles} from '@constants';
 
 interface Prop {
   optionList: string[];
@@ -24,7 +23,8 @@ const ImageSelectOptionBottomSheet = ({optionList, onOptionSelected}: Prop) => {
 
 const styles = StyleSheet.create({
   container: {
-    ...cardStyles,
+    gap: 10,
+    padding: 10,
   },
   item: {
     width: '100%',

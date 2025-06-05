@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Post} from '@data/post';
 import {dateToString} from 'src/utils/dateTimeUtil';
-import IconTextComponent from '../../home/components/IconTextComponent';
+import IconTextComponent from './IconTextComponent';
 import {useNavigation} from '@react-navigation/native';
 
 interface Prop {

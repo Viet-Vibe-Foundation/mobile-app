@@ -12,15 +12,16 @@ import React, {useCallback, useEffect, useState} from 'react';
 import UserInfoComponent from '../components/UserInfoComponent';
 import TextInputComponent from '@components/TextInputComponent';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
-import {appInfo, cardStyles, storagePropertiesName} from '@constants';
+import {regex, storagePropertiesName} from '@constants';
 import {User} from '@data/user';
-import {mmkvStorage} from 'src/libs/mmvkStorage';
-import axiosInstance from 'src/services/apis/axios';
+import {mmkvStorage} from '@libs/mmvkStorage';
+import axiosInstance from '@libs/apis/axios';
 import ResponseDTO from '@data/responseDTO';
 import FilledButtonComponent from '@components/FilledButtonComponent';
 import BottomSheet from '@components/BottomSheet';
 import ImageSelectOptionBottomSheet from '../components/ImageSelectOptionBottomSheet';
 import {performCamera, performGallery} from 'src/services/imageService';
+import {cardStyles} from '@styles/cardStyles';
 
 const UserProfile = () => {
   const [userStorage, setUserStorage] = useMMKVStorage<User | null>(
@@ -138,7 +139,7 @@ const UserProfile = () => {
       }));
       hasError = true;
     }
-    if (!phone || phone.length !== 10 || !appInfo.phoneRegex.test(phone)) {
+    if (!phone || phone.length !== 10 || !regex.phoneRegex.test(phone)) {
       setError(prev => ({
         ...prev,
         phone: {
@@ -259,7 +260,7 @@ const UserProfile = () => {
               onChangeImage={() => setOpenBottomSheet(!isOpenBottomSheet)}
               style={styles.userInfoContainer}
             />
-            <View style={styles.userInfoForm}>
+            <View style={cardStyles}>
               <TextInputComponent
                 enable={false}
                 placeHolder="Email"
@@ -337,6 +338,7 @@ const UserProfile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginHorizontal: 10,
   },
   userInfoContainer: {
     marginVertical: 10,
@@ -344,9 +346,6 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 16,
     color: 'red',
-  },
-  userInfoForm: {
-    ...cardStyles,
   },
   saveBtn: {
     marginTop: 15,

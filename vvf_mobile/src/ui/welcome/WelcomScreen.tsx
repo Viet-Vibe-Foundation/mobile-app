@@ -3,7 +3,7 @@ import {Image, StyleSheet, View, Dimensions} from 'react-native';
 import PagerView from 'react-native-pager-view';
 import {storagePropertiesName} from '@constants';
 import {useNavigation} from '@react-navigation/native';
-import {mmkvStorage} from 'src/libs/mmvkStorage';
+import {mmkvStorage} from '@libs/mmvkStorage';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import FilledButtonComponent from '@components/FilledButtonComponent';
 

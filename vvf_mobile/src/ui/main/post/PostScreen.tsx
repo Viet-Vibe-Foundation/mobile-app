@@ -1,37 +1,51 @@
-import {
-  StyleSheet,
-  ActivityIndicator,
-  Dimensions,
-  ScrollView,
-  View,
-} from 'react-native';
+import {StyleSheet, ActivityIndicator, ScrollView, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {RouteProp, useRoute} from '@react-navigation/native';
-import axiosInstance from 'src/services/apis/axios';
+import {
+  CompositeNavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import axiosInstance from '@libs/apis/axios';
 import {Post} from '@data/post';
 import ResponseDTO from '@data/responseDTO';
 import HtmlComponent from '@components/HtmlComponent';
-import FloatingButton from '@components/FloatingButton';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from 'src/libs/redux/store';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {storagePropertiesName} from '@constants';
 import {User} from '@data/user';
-import {mmkvStorage} from 'src/libs/mmvkStorage';
-import {likePost} from 'src/libs/redux/postSlice';
+import {mmkvStorage} from '@libs/mmvkStorage';
+import {likePost} from '@libs/redux/postSlice';
+import DraggableFloattingButton from '@components/DraggableFloattingButton';
+import {RootState} from '@libs/redux/store';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  GlobalStackParamList,
+  MainStackParamList,
+} from '@custom-types/navigationType';
 
 type PostScreenParams = {
   postId: string;
 };
 
+type MainNavigationProp = NativeStackNavigationProp<MainStackParamList, 'Post'>;
+
+type GlobalNaviagtionProp = NativeStackNavigationProp<GlobalStackParamList>;
+
+type NavigationProp = CompositeNavigationProp<
+  MainNavigationProp,
+  GlobalNaviagtionProp
+>;
+
 const PostScreen = () => {
   const route = useRoute<RouteProp<{params: PostScreenParams}, 'params'>>();
   const {postId} = route.params;
+  const authToken = useSelector((state: RootState) => state.auth);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [postContent, setPostContent] = useState<Post | null>(null);
   const [isLiked, setLiked] = useState<boolean>(postContent?.liked || false);
-  const auth = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigation<NavigationProp>();
   const [user, _] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
@@ -59,59 +73,59 @@ const PostScreen = () => {
   }, [postId]);
 
   const handleLikePost = async () => {
+    if (!authToken.isAuth) {
+      navigate.navigate('Auth');
+      return;
+    }
     try {
-      const res = await axiosInstance.patch(`/posts/likes/${postId}`, {
+      setLiked(prev => !prev);
+      dispatch(
+        likePost({postId, action: isLiked === false ? 'like' : 'dislike'}),
+      );
+      await axiosInstance.patch(`/posts/likes/${postId}`, {
         userId: user?.id,
         action: `${isLiked === false ? 'like' : 'dis-like'}`,
       });
-      if (res.status === 200) {
-        dispatch(
-          likePost({postId, action: isLiked === false ? 'like' : 'dislike'}),
-        );
-        setLiked(prev => !prev);
-      }
     } catch (error) {
       console.log(error);
     }
+    console.log('Press');
   };
 
   return (
-    <View style={styles.wrapper}>
-      {auth.isAuth ? (
-        <FloatingButton
-          icon={isLiked ? 'thumb-down' : 'thumb-up'}
-          onPress={handleLikePost}
-        />
-      ) : null}
+    <>
+      <DraggableFloattingButton
+        icon={isLiked ? 'thumb-down' : 'thumb-up'}
+        onPress={handleLikePost}
+      />
       <ScrollView style={styles.container}>
         {isLoading ? (
           <ActivityIndicator size={'large'} style={styles.activityIndicator} />
-        ) : (
+        ) : postContent?.content ? (
           <>
-            {postContent?.content ? (
-              <HtmlComponent html={postContent.content} />
-            ) : null}
+            <Text style={styles.postTitle}>{postContent.title}</Text>
+            <HtmlComponent html={postContent.content} />
           </>
-        )}
+        ) : null}
       </ScrollView>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    position: 'relative',
-  },
   container: {
     flex: 1,
     padding: 20,
     marginBottom: 25,
   },
   activityIndicator: {
-    position: 'absolute',
-    bottom: (Dimensions.get('window').height - 40) / 2,
-    left: Dimensions.get('window').width / 2,
+    alignSelf: 'center',
+  },
+  postTitle: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
 

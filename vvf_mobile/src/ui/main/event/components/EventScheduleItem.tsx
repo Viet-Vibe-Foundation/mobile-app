@@ -10,16 +10,16 @@ interface Prop {
 
 const EventScheduleItem = (prop: Prop) => {
   const {item} = prop;
-
   return (
     <View style={styles.container}>
       <View style={styles.timeContainer}>
         <Text>
-          {item.starTime} - {item.endTime}
+          {item.startTime} - {item.endTime}
         </Text>
-        {item.starTime && item.endTime && (
+
+        {item.startTime && item.endTime && (
           <Text style={styles.timeText}>
-            {calculateMinute(item.starTime, item.endTime)} minutes
+            {calculateMinute(item.startTime, item.endTime)}
           </Text>
         )}
       </View>
@@ -38,10 +38,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   timeContainer: {
-    width: '25%',
+    width: '30%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
   },
   descriptionContainer: {
-    width: '75%',
+    width: '70%',
   },
   timeText: {
     color: 'grey',
