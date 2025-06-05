@@ -4,6 +4,7 @@ import {MaterialIconName} from '@custom-types/materialType';
 import MaterialIcon from '@react-native-vector-icons/material-icons';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -35,17 +36,24 @@ const DraggableFloattingButton = ({icon, onPress}: Prop) => {
   const startX = useSharedValue(0);
   const startY = useSharedValue(0);
 
-  const tap = Gesture.Tap().onStart(onPress);
+  const tap = Gesture.Tap().onStart(() => {
+    runOnJS(onPress)();
+  });
+
   const panGesture = Gesture.Pan()
+    .runOnJS(true)
     .onBegin(() => {
+      'worklet';
       startX.value = positionX.value;
       startY.value = positionY.value;
     })
     .onUpdate(e => {
+      'worklet';
       positionX.value = startX.value + e.translationX;
       positionY.value = startY.value + e.translationY;
     })
     .onEnd(_ => {
+      'worklet';
       if (positionX.value < MIN_X) {
         positionX.value = withTiming(MIN_X, {duration: 300});
       } else if (positionX.value > MAX_X) {
