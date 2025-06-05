@@ -71,7 +71,7 @@ const SignInForm: React.FC = () => {
         setAuthToken(res.data.token);
         const decoded = decodeToken<User>(res.data.token);
         setUser(decoded);
-        navigation.replace('Main');
+        navigation.goBack();
       } else {
         setError(`${t('un_expected_error')}`);
       }
