@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     top: 16,
     left: '50%',
     marginLeft: -10,
-    zIndex: 1,
   },
 });
 

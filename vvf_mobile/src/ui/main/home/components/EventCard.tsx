@@ -16,7 +16,7 @@ const EventCard = ({event}: Prop) => {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.push('EventDetail', {eventId: event.id})}>
+      onPress={() => navigation.push('EventDetail', {eventId: event.id!})}>
       <View style={styles.imageWrapper}>
         <Image
           style={styles.image}
