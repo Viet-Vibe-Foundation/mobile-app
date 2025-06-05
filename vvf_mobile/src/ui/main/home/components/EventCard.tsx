@@ -5,13 +5,20 @@ import IconTextComponent from './IconTextComponent';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import {useNavigation} from '@react-navigation/native';
 import {appColor} from '@styles/appColor';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {MainStackParamList} from '@custom-types/navigationType';
 
 interface Prop {
   event: Event;
 }
 
+type MainNavigationProp = NativeStackNavigationProp<
+  MainStackParamList,
+  'Index'
+>;
+
 const EventCard = ({event}: Prop) => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<MainNavigationProp>();
 
   return (
     <TouchableOpacity

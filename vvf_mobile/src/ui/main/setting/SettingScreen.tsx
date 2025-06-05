@@ -7,11 +7,29 @@ import UserInfoComponent from './components/UserInfoComponent';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {mmkvStorage} from '@libs/mmvkStorage';
 import FilledButtonComponent from '@components/FilledButtonComponent';
-import {useNavigation} from '@react-navigation/native';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {toggleLanguageModal} from '@libs/redux/languageModalSlice';
 import SocialContactComponent from './components/SocialContactComponent';
 import {cardStyles} from '@styles/cardStyles';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  GlobalStackParamList,
+  MainStackParamList,
+} from '@custom-types/navigationType';
+import {logout} from '@libs/redux/authSlice';
+
+type MainNavigationProp = NativeStackNavigationProp<
+  MainStackParamList,
+  'Index'
+>;
+
+type GlobalNavigationProp = NativeStackNavigationProp<GlobalStackParamList>;
+
+type NavigationProp = CompositeNavigationProp<
+  MainNavigationProp,
+  GlobalNavigationProp
+>;
 
 const SettingScreen = () => {
   const {t} = useTranslation();
@@ -25,7 +43,7 @@ const SettingScreen = () => {
     mmkvStorage,
     null,
   );
-  const navigate = useNavigation<any>();
+  const navigate = useNavigation<NavigationProp>();
   const dispatch = useDispatch();
 
   const handleLogout = () => {
@@ -34,11 +52,12 @@ const SettingScreen = () => {
     }
     setUser(null);
     setAuthToken(null);
-    navigate.navigate('Auth');
+    dispatch(logout());
+    navigate.push('Auth');
   };
 
   const handleLogin = () => {
-    navigate.navigate('Auth');
+    navigate.push('Auth');
   };
 
   return (

@@ -6,8 +6,9 @@ import {storagePropertiesName} from '@constants';
 import MainRoute from './MainRoute';
 import {mmkvStorage} from '@libs/mmvkStorage';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
+import {GlobalStackParamList} from '@custom-types/navigationType';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<GlobalStackParamList>();
 
 const GlobalRoute: React.FC = () => {
   const [shouldWelcome, _] = useMMKVStorage(

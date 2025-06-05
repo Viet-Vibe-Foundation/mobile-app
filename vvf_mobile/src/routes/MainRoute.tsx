@@ -6,8 +6,9 @@ import HeaderComponent from '@components/HeaderComponent';
 import EventDetailScreen from 'src/ui/main/event/EventDetailScreen';
 import UserProfile from 'src/ui/main/setting/profile/UserProfile';
 import {appColor} from '@styles/appColor';
+import {MainStackParamList} from '@custom-types/navigationType';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const renderHeader = () => <HeaderComponent isMainRouter={true} />;
 

@@ -1,6 +1,11 @@
 import {StyleSheet, ActivityIndicator, ScrollView, Text} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {
+  CompositeNavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import axiosInstance from '@libs/apis/axios';
 import {Post} from '@data/post';
 import ResponseDTO from '@data/responseDTO';
@@ -13,10 +18,24 @@ import {mmkvStorage} from '@libs/mmvkStorage';
 import {likePost} from '@libs/redux/postSlice';
 import DraggableFloattingButton from '@components/DraggableFloattingButton';
 import {RootState} from '@libs/redux/store';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  GlobalStackParamList,
+  MainStackParamList,
+} from '@custom-types/navigationType';
 
 type PostScreenParams = {
   postId: string;
 };
+
+type MainNavigationProp = NativeStackNavigationProp<MainStackParamList, 'Post'>;
+
+type GlobalNaviagtionProp = NativeStackNavigationProp<GlobalStackParamList>;
+
+type NavigationProp = CompositeNavigationProp<
+  MainNavigationProp,
+  GlobalNaviagtionProp
+>;
 
 const PostScreen = () => {
   const route = useRoute<RouteProp<{params: PostScreenParams}, 'params'>>();
@@ -26,7 +45,7 @@ const PostScreen = () => {
   const [postContent, setPostContent] = useState<Post | null>(null);
   const [isLiked, setLiked] = useState<boolean>(postContent?.liked || false);
   const dispatch = useDispatch();
-  const navigate = useNavigation<any>();
+  const navigate = useNavigation<NavigationProp>();
   const [user, _] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
