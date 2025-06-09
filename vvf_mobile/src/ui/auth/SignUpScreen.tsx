@@ -56,6 +56,8 @@ const SignUpForm: React.FC = () => {
         throw new Error(t('password_not_matched'));
       } else if (address.length < 6) {
         throw new Error(t('address_6_character'));
+      } else if (phoneNumber.length < 10) {
+        throw new Error(t('phone_number_must_be_10_characters'));
       }
       const reqData = {
         firstName,

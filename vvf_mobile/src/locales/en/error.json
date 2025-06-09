@@ -7,5 +7,6 @@
   "no_event_detail_available": "No event details available.",
   "no_content": "No content",
   "failed_to_load_events": "Failed to load events. Please try again.",
-  "failed_to_load_posts": "Failed to load posts. Please try again."
+  "failed_to_load_posts": "Failed to load posts. Please try again.",
+  "phone_number_must_be_10_characters": "Phone number must be 10 characters"
 }

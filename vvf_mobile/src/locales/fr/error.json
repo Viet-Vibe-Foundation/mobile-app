@@ -8,5 +8,6 @@
   "failed_to_load_events": "Échec du chargement des événements.",
   "failed_to_load_posts": "Échec du chargement des messages.",
   "events": "Événements",
-  "posts": "Articles"
+  "posts": "Articles",
+  "phone_number_must_be_10_characters": "Le numéro de téléphone doit comporter 10 caractères"
 }

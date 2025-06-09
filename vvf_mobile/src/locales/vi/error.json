@@ -9,5 +9,6 @@
   "failed_to_load_events": "Tải sự kiện thất bại. Vui lòng thử lại sau",
   "failed_to_load_posts": "Tải bài viết thất bại. Vui lòng thử lại sau",
   "events": "Sự kiện",
-  "posts": "Bài viết"
+  "posts": "Bài viết",
+  "phone_number_must_be_10_characters": "Độ dài số điện thoại phải đạt 10 ký tự"
 }
