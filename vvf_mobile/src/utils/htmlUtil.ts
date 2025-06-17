@@ -1,4 +1,4 @@
-const htmlContent = (remoteBody: string) => `
+const htmlContent = (remoteBody: string, fontColor: string) => `
     <html>
       <head>
         <meta charset="UTF-8" />
@@ -9,29 +9,35 @@ const htmlContent = (remoteBody: string) => `
                 padding: 10px;
                 margin: 0;
                 line-height: 1.5;
-                color: #222;
+                color: ${fontColor};
             }
 
             h1 {
                 font-weight: bold;
                 font-size: 22px;
                 margin: 16px 0 8px;
+                color:${fontColor}
             }
 
             h2 {
               font-weight: semi-bold;
               font-size: 18px;
+              color:${fontColor}
             }
 
             p {
                 margin: 12px;
                 font-size: 16px;
+                color:${fontColor}
             }
 
             ol, li {
               margin: 0
             }
 
+            ol li span {
+              color:${fontColor}
+            }
 
             img {
                 max-width: 100%;
@@ -71,6 +77,8 @@ const normalizeHTML = (content: string) => {
       .replace(/\sclass=""/g, '')
       // Normalize empty paragraphs
       .replace(/<p><br\s?\/?><\/p>/g, '<br/>')
+      // Remove inline color styles
+      .replace(/\sstyle="[^"]*color\s*:\s*[^;"]+;?[^"]*"/gi, '')
   );
 };
 

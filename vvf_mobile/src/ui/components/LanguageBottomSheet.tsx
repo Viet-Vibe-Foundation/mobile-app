@@ -9,8 +9,8 @@ import {RootState} from '@libs/redux/store';
 import {languageList} from '@constants';
 import {changeLanguage} from '@libs/redux/languageSlice';
 import i18next from 'i18next';
-import {appColor} from '@styles/appColor';
 import {useTranslation} from 'react-i18next';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const LanguageBottomSheet = () => {
   const {t} = useTranslation();
@@ -19,7 +19,7 @@ const LanguageBottomSheet = () => {
   );
   const appLanguageState = useSelector((state: RootState) => state.language);
   const dispatch = useDispatch();
-
+  const theme = useAppColor();
   const handleChangeLanguage = async (languageValue: string) => {
     dispatch(toggleLanguageModal());
     dispatch(changeLanguage(languageValue));
@@ -31,24 +31,31 @@ const LanguageBottomSheet = () => {
       isOpen={languageModalState.isOpen}
       toggleSheet={() => dispatch(toggleLanguageModal())}>
       <View style={styles.container}>
-        <Text style={styles.title}>{t('current_language')}</Text>
-        <MaterialIcons name="language" size={50} style={styles.icon} />
+        <Text style={[styles.title, {color: theme.onPrimary}]}>
+          {t('current_language')}
+        </Text>
+        <MaterialIcons
+          name="language"
+          size={50}
+          style={[styles.icon, {color: theme.onPrimary}]}
+        />
         {languageList.map(item => {
           const buttonStyle: ViewStyle = {
             backgroundColor:
               appLanguageState.value === item.value
-                ? appColor.primaryColor
-                : 'whitemoke',
+                ? theme.buttonPrimary
+                : theme.buttonDisabled,
             borderColor:
               appLanguageState.value === item.value
-                ? 'black'
-                : appColor.disabledColor,
+                ? theme.buttonPrimary
+                : theme.buttonDisabled,
             borderWidth: appLanguageState.value === item.value ? 1 : 0.5,
           };
           const lableStyle: TextStyle = {
             fontSize: 18,
             fontWeight: 'semibold',
-            color: appLanguageState.value === item.value ? 'white' : 'black',
+            color:
+              appLanguageState.value === item.value ? 'white' : theme.onPrimary,
           };
           return (
             <FilledButtonComponent

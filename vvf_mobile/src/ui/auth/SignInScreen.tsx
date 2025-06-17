@@ -25,8 +25,10 @@ import {User} from '@data/user';
 import {useDispatch} from 'react-redux';
 import {AuthState, login} from '@libs/redux/authSlice';
 import {appColor} from '@styles/appColor';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const SignInForm: React.FC = () => {
+  const theme = useAppColor();
   const navigation = useNavigation<any>();
   const [_, setAuthToken] = useMMKVStorage<string | null>(
     storagePropertiesName.authToken,
@@ -93,7 +95,8 @@ const SignInForm: React.FC = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.wrapper}>
       <TouchableNativeFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
+        <View
+          style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
           <AuthHeaderComponent
             subTitle={t(
               'login_to_your_account_to_book_event_tickets_or_lessons',
@@ -102,7 +105,7 @@ const SignInForm: React.FC = () => {
           />
           <Divider type="horizontal" />
           <View style={styles.inputContainer}>
-            <Text style={styles.inputTitle}>Email</Text>
+            <Text style={[styles.inputTitle]}>Email</Text>
             <TextInputComponent
               value={email}
               placeHolder="JohnSmith@gmail.com"
@@ -119,7 +122,9 @@ const SignInForm: React.FC = () => {
               onChangeText={setPassword}
             />
           </View>
-          <Text style={styles.errorText}>{error}</Text>
+          <Text style={[styles.errorText, {color: theme.textError}]}>
+            {error}
+          </Text>
           <FilledButtonComponent
             title="Login"
             loading={isLoading}
@@ -127,9 +132,13 @@ const SignInForm: React.FC = () => {
             onPress={handelLogin}
           />
 
-          <Text style={styles.textOr}>{t('or')}</Text>
+          <Text style={[styles.textOr, {color: theme.onPrimary}]}>
+            {t('or')}
+          </Text>
           <View style={styles.textSignUpContainer}>
-            <Text>{t('dont_have_account')}</Text>
+            <Text style={{color: theme.onPrimary}}>
+              {t('dont_have_account')}
+            </Text>
             <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
               <Text style={styles.textLinkSignUp}>{t('sign_up')}</Text>
             </TouchableOpacity>
@@ -155,6 +164,7 @@ const styles = StyleSheet.create({
   },
   inputTitle: {
     color: appColor.primaryColor,
+    fontSize: 18,
   },
   loginButton: {
     marginTop: 10,
@@ -174,7 +184,6 @@ const styles = StyleSheet.create({
   textLinkSignUp: {color: appColor.primaryColor, fontWeight: 'bold'},
   errorText: {
     fontSize: 15,
-    color: 'red',
   },
 });
 

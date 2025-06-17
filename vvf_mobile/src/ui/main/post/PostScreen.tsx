@@ -23,6 +23,7 @@ import {
   GlobalStackParamList,
   MainStackParamList,
 } from '@custom-types/navigationType';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 type PostScreenParams = {
   postId: string;
@@ -38,6 +39,7 @@ type NavigationProp = CompositeNavigationProp<
 >;
 
 const PostScreen = () => {
+  const theme = useAppColor();
   const route = useRoute<RouteProp<{params: PostScreenParams}, 'params'>>();
   const {postId} = route.params;
   const authToken = useSelector((state: RootState) => state.auth);
@@ -98,12 +100,15 @@ const PostScreen = () => {
         icon={isLiked ? 'thumb-down' : 'thumb-up'}
         onPress={handleLikePost}
       />
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
         {isLoading ? (
           <ActivityIndicator size={'large'} style={styles.activityIndicator} />
         ) : postContent?.content ? (
           <>
-            <Text style={styles.postTitle}>{postContent.title}</Text>
+            <Text style={[styles.postTitle, {color: theme.onPrimary}]}>
+              {postContent.title}
+            </Text>
             <HtmlComponent html={postContent.content} />
           </>
         ) : null}

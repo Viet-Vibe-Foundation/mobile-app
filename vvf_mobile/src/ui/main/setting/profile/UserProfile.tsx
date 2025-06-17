@@ -21,9 +21,10 @@ import FilledButtonComponent from '@components/FilledButtonComponent';
 import BottomSheet from '@components/BottomSheet';
 import ImageSelectOptionBottomSheet from '../components/ImageSelectOptionBottomSheet';
 import {performCamera, performGallery} from 'src/services/imageService';
-import {cardStyles} from '@styles/cardStyles';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const UserProfile = () => {
+  const theme = useAppColor();
   const [userStorage, setUserStorage] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
@@ -260,53 +261,51 @@ const UserProfile = () => {
               onChangeImage={() => setOpenBottomSheet(!isOpenBottomSheet)}
               style={styles.userInfoContainer}
             />
-            <View style={cardStyles}>
-              <TextInputComponent
-                enable={false}
-                placeHolder="Email"
-                keyboardType="default"
-                type="normal"
-                value={email}
-              />
-              <TextInputComponent
-                onChangeText={setName}
-                keyboardType="default"
-                type="normal"
-                value={name}
-              />
-              <TextInputComponent
-                onChangeText={setAge}
-                placeHolder="Age"
-                keyboardType="default"
-                type="normal"
-                value={age}
-              />
-              <TextInputComponent
-                onChangeText={setPhone}
-                placeHolder="Phone"
-                keyboardType="default"
-                type="normal"
-                value={phone}
-              />
-              <TextInputComponent
-                onChangeText={setAddress}
-                placeHolder="Address"
-                keyboardType="default"
-                type="normal"
-                value={address}
-              />
-              <>
-                {error?.age?.message && (
-                  <Text style={styles.errorText}>{error.age.message}</Text>
-                )}
-                {error?.name?.message && (
-                  <Text style={styles.errorText}>{error.name.message}</Text>
-                )}
-                {error?.phone?.message && (
-                  <Text style={styles.errorText}>{error.phone.message}</Text>
-                )}
-              </>
-            </View>
+            <TextInputComponent
+              enable={false}
+              placeHolder="Email"
+              keyboardType="default"
+              type="normal"
+              value={email}
+            />
+            <TextInputComponent
+              onChangeText={setName}
+              keyboardType="default"
+              type="normal"
+              value={name}
+            />
+            <TextInputComponent
+              onChangeText={setAge}
+              placeHolder="Age"
+              keyboardType="default"
+              type="normal"
+              value={age}
+            />
+            <TextInputComponent
+              onChangeText={setPhone}
+              placeHolder="Phone"
+              keyboardType="default"
+              type="normal"
+              value={phone}
+            />
+            <TextInputComponent
+              onChangeText={setAddress}
+              placeHolder="Address"
+              keyboardType="default"
+              type="normal"
+              value={address}
+            />
+            <>
+              {error?.age?.message && (
+                <Text style={styles.errorText}>{error.age.message}</Text>
+              )}
+              {error?.name?.message && (
+                <Text style={styles.errorText}>{error.name.message}</Text>
+              )}
+              {error?.phone?.message && (
+                <Text style={styles.errorText}>{error.phone.message}</Text>
+              )}
+            </>
             <FilledButtonComponent
               style={styles.saveBtn}
               onPress={handleUpdate}
@@ -319,6 +318,7 @@ const UserProfile = () => {
                 hasChanged?.name ||
                 hasChanged?.phone
               }
+              textStyle={{color: theme.onPrimary}}
             />
           </View>
         </TouchableNativeFeedback>
@@ -339,6 +339,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 10,
+    gap: 10,
   },
   userInfoContainer: {
     marginVertical: 10,
