@@ -22,6 +22,7 @@ import BottomSheet from '@components/BottomSheet';
 import ImageSelectOptionBottomSheet from '../components/ImageSelectOptionBottomSheet';
 import {performCamera, performGallery} from 'src/services/imageService';
 import {useAppColor} from 'src/hooks/useAppColor';
+import {cardStyles} from '@styles/cardStyles';
 
 const UserProfile = () => {
   const theme = useAppColor();
@@ -261,65 +262,72 @@ const UserProfile = () => {
               onChangeImage={() => setOpenBottomSheet(!isOpenBottomSheet)}
               style={styles.userInfoContainer}
             />
-            <TextInputComponent
-              enable={false}
-              placeHolder="Email"
-              keyboardType="default"
-              type="normal"
-              value={email}
-            />
-            <TextInputComponent
-              onChangeText={setName}
-              keyboardType="default"
-              type="normal"
-              value={name}
-            />
-            <TextInputComponent
-              onChangeText={setAge}
-              placeHolder="Age"
-              keyboardType="default"
-              type="normal"
-              value={age}
-            />
-            <TextInputComponent
-              onChangeText={setPhone}
-              placeHolder="Phone"
-              keyboardType="default"
-              type="normal"
-              value={phone}
-            />
-            <TextInputComponent
-              onChangeText={setAddress}
-              placeHolder="Address"
-              keyboardType="default"
-              type="normal"
-              value={address}
-            />
-            <>
-              {error?.age?.message && (
-                <Text style={styles.errorText}>{error.age.message}</Text>
-              )}
-              {error?.name?.message && (
-                <Text style={styles.errorText}>{error.name.message}</Text>
-              )}
-              {error?.phone?.message && (
-                <Text style={styles.errorText}>{error.phone.message}</Text>
-              )}
-            </>
-            <FilledButtonComponent
-              style={styles.saveBtn}
-              onPress={handleUpdate}
-              title="Save"
-              loading={isLoading}
-              enabled={
-                hasChanged?.address ||
-                hasChanged?.age ||
-                hasChanged?.image ||
-                hasChanged?.name ||
-                hasChanged?.phone
-              }
-              textStyle={{color: theme.onPrimary}}
-            />
+            <View
+              style={[
+                styles.userInfoContainer,
+                cardStyles,
+                {backgroundColor: theme.cardColor},
+              ]}>
+              <TextInputComponent
+                enable={false}
+                placeHolder="Email"
+                keyboardType="default"
+                type="normal"
+                value={email}
+              />
+              <TextInputComponent
+                onChangeText={setName}
+                keyboardType="default"
+                type="normal"
+                value={name}
+              />
+              <TextInputComponent
+                onChangeText={setAge}
+                placeHolder="Age"
+                keyboardType="default"
+                type="normal"
+                value={age}
+              />
+              <TextInputComponent
+                onChangeText={setPhone}
+                placeHolder="Phone"
+                keyboardType="default"
+                type="normal"
+                value={phone}
+              />
+              <TextInputComponent
+                onChangeText={setAddress}
+                placeHolder="Address"
+                keyboardType="default"
+                type="normal"
+                value={address}
+              />
+              <>
+                {error?.age?.message && (
+                  <Text style={styles.errorText}>{error.age.message}</Text>
+                )}
+                {error?.name?.message && (
+                  <Text style={styles.errorText}>{error.name.message}</Text>
+                )}
+                {error?.phone?.message && (
+                  <Text style={styles.errorText}>{error.phone.message}</Text>
+                )}
+              </>
+              <FilledButtonComponent
+                style={styles.saveBtn}
+                onPress={handleUpdate}
+                title="Save"
+                loading={isLoading}
+                enabled={
+                  hasChanged?.address ||
+                  hasChanged?.age ||
+                  hasChanged?.image ||
+                  hasChanged?.name ||
+                  hasChanged?.phone
+                }
+                textStyle={{color: theme.onPrimary}}
+              />
+            </View>
           </View>
         </TouchableNativeFeedback>
       </KeyboardAvoidingView>
@@ -343,6 +351,8 @@ const styles = StyleSheet.create({
   },
   userInfoContainer: {
     marginVertical: 10,
+    gap: 10,
+    padding: 10,
   },
   errorText: {
     fontSize: 16,
