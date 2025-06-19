@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from '@libs/apis/axios';
 import ResponseDTO from '@data/responseDTO';
 import ImageInfo from './components/ImageInfo';
 import {Event} from '@data/event';
@@ -42,13 +42,14 @@ const EventDetailScreen = () => {
           `/events/get?eventId=${requestEventId}`,
         );
         if (res.data?.data) {
+          console.log(res.data.data);
           setEventInfo(res.data.data);
         } else {
           setError('Event data is unavailable.');
         }
-      } catch (error: any) {
+      } catch (er: any) {
         setError('Failed to load event details.');
-        console.error(error);
+        console.error(er);
       } finally {
         setLoading(false);
       }
@@ -87,51 +88,56 @@ const EventDetailScreen = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View>
-        {eventInfo.imgUrl && (
-          <ImageInfo imageUrl={eventInfo.imgUrl} style={styles.imageInfo} />
+    <View style={styles.wrapper}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View>
+          {eventInfo.imgUrl && (
+            <ImageInfo imageUrl={eventInfo.imgUrl} style={styles.imageInfo} />
+          )}
+
+          <View style={styles.eventTitleInfoContainer}>
+            <Text style={[styles.eventTitleInfoText]}>
+              {`${dateToString(eventInfo.startDate, 'DD/MM/YYYY hh:mm')} | ${
+                eventInfo.location
+              }`}
+            </Text>
+            <Text style={[styles.eventTitleInfoText, styles.title]}>
+              {eventInfo.title}
+            </Text>
+            <FilledButtonComponent
+              style={styles.reserveBtn}
+              onPress={handleReserve}
+              title={t('reserve')}
+              textStyle={styles.reserveBtnLabel}
+            />
+          </View>
+        </View>
+        <SectionTitle title={t('time_and_location')} />
+        <View style={styles.timeAndLocationContainer}>
+          <Text>Date: {dateToString(eventInfo.startDate, 'DD/MM/YYYY')}</Text>
+          <Text>Time: {eventInfo.startTime}</Text>
+          <Text>Location: {eventInfo.location}</Text>
+        </View>
+
+        <SectionTitle title={t('about_the_event')} />
+        {eventInfo.description && (
+          <HtmlComponent html={eventInfo.description} />
         )}
 
-        <View style={styles.eventTitleInfoContainer}>
-          <Text style={[styles.eventTitleInfoText]}>
-            {`${dateToString(eventInfo.startDate, 'DD/MM/YYYY hh:mm')} | ${
-              eventInfo.location
-            }`}
-          </Text>
-          <Text style={[styles.eventTitleInfoText, styles.title]}>
-            {eventInfo.title}
-          </Text>
-          <FilledButtonComponent
-            style={styles.reserveBtn}
-            onPress={handleReserve}
-            title="Reserve"
-          />
+        <SectionTitle title={t('schedule')} />
+        <Text style={styles.subTitle}>
+          {t('may_change_according_to_instructor')}
+        </Text>
+        <View style={styles.eventScheduleList}>
+          {eventInfo.schedules?.map((schedule, index) => (
+            <View key={index}>
+              <EventScheduleItem item={schedule} />
+              <Divider type="horizontal" />
+            </View>
+          ))}
         </View>
-      </View>
-      <SectionTitle title={t('time_and_location')} />
-      <View style={styles.timeAndLocationContainer}>
-        <Text>Date: {dateToString(eventInfo.startDate, 'DD/MM/YYYY')}</Text>
-        <Text>Time: {eventInfo.startTime}</Text>
-        <Text>Location: {eventInfo.location}</Text>
-      </View>
-
-      <SectionTitle title={t('about_the_event')} />
-      {eventInfo.description && <HtmlComponent html={eventInfo.description} />}
-
-      <SectionTitle title={t('schedule')} />
-      <Text style={styles.subTitle}>
-        {'(May change according to instructor)'}
-      </Text>
-      <View style={styles.eventScheduleList}>
-        {eventInfo.schedules?.map((schedule, index) => (
-          <View key={index}>
-            <EventScheduleItem item={schedule} />
-            <Divider type="horizontal" />
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -140,6 +146,10 @@ const SectionTitle = ({title}: {title: string}) => (
 );
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    position: 'relative',
+  },
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 10,
@@ -160,7 +170,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     padding: 15,
-    backgroundColor: 'black',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -170,6 +180,10 @@ const styles = StyleSheet.create({
   },
   reserveBtn: {
     marginTop: 10,
+  },
+  reserveBtnLabel: {
+    fontSize: 15,
+    fontWeight: '600',
   },
   title: {
     fontSize: 20,
@@ -187,7 +201,7 @@ const styles = StyleSheet.create({
   },
   eventScheduleList: {
     marginTop: 10,
-    marginHorizontal: 20,
+    marginRight: 20,
   },
   errorContainer: {
     flex: 1,

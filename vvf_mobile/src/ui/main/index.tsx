@@ -1,7 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
-import {appColor} from '@constants';
 import {StyleSheet, Text} from 'react-native';
 import SearchScreen from './search/SearchScreen';
 import SettingScreen from './setting/SettingScreen';
@@ -9,6 +8,8 @@ import HomeScreen from './home/HomeScreen';
 import HeaderComponent from '@components/HeaderComponent';
 import {MaterialIconName} from '@custom-types/materialType';
 import {LabelPosition} from 'node_modules/@react-navigation/bottom-tabs/lib/typescript/src/types';
+import {appColor} from '@styles/appColor';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 const renderHeader = () => <HeaderComponent />;
@@ -21,12 +22,17 @@ const renderTabBarIcon = (focused: boolean, name: MaterialIconName) => (
   />
 );
 
-const renderTabBarLabel = (props: {
+const CustomTabarLabel = (props: {
   focused: boolean;
   color: string;
   position: LabelPosition;
   children: string;
-}) => props.focused && <Text style={styles.tabbarLabel}>{props.children}</Text>;
+}) => {
+  const {t} = useTranslation();
+  return (
+    props.focused && <Text style={styles.tabbarLabel}>{t(props.children)}</Text>
+  );
+};
 
 const MainScreen = () => {
   return (
@@ -36,13 +42,13 @@ const MainScreen = () => {
           borderRadius: 15,
           backgroundColor: appColor.toolBarColor,
         },
-        tabBarLabel: props => renderTabBarLabel(props),
+        tabBarLabel: props => CustomTabarLabel(props),
         header: renderHeader,
         tabBarItemStyle: styles.tabbarItem,
         animation: 'fade',
       }}>
       <Tab.Screen
-        name="Home"
+        name={'Home'}
         component={HomeScreen}
         options={{
           headerShown: true,
@@ -51,14 +57,14 @@ const MainScreen = () => {
       />
 
       <Tab.Screen
-        name="Search"
+        name={'Search'}
         component={SearchScreen}
         options={{
           tabBarIcon: ({focused}) => renderTabBarIcon(focused, 'search'),
         }}
       />
       <Tab.Screen
-        name="More"
+        name={'More'}
         component={SettingScreen}
         options={{
           header: renderHeader,

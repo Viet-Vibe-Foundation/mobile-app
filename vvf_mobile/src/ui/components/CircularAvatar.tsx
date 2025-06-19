@@ -1,3 +1,4 @@
+import {appColor} from '@styles/appColor';
 import React, {useState} from 'react';
 import {
   View,
@@ -7,7 +8,6 @@ import {
   ImageErrorEventData,
   NativeSyntheticEvent,
 } from 'react-native';
-import {appColor} from '@constants';
 
 interface Prop {
   imageUrl?: string;

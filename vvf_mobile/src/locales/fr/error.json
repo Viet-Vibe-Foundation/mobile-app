@@ -1,12 +1,13 @@
 {
-  "email_password_required": "Email and password is required",
-  "email_not_formatted": "Email is not formatted",
-  "password_8_character": "Password must be at lease 8 characters",
-  "un_expected_error": "Un-expected error. Please try again",
-  "no_event_detail_available": "No event details available.",
-  "no_content": "No content",
-  "failed_to_load_events": "Failed to load events. Please try again.",
-  "failed_to_load_posts": "Failed to load posts. Please try again.",
-  "events": "Events",
-  "posts": "Posts"
+  "email_password_required": "Le courriel et le mot de passe sont requis",
+  "email_not_formatted": "Le courriel n'est pas formaté",
+  "password_8_character": "le mot de passe doit comporter au moins 8 caractères",
+  "un_expected_error": "Erreur inattendue. Essayez de nouveau",
+  "no_event_detail_available": "Aucun détail d'événements disponible.",
+  "no_content": "Aucun contenu",
+  "failed_to_load_events": "Échec du chargement des événements.",
+  "failed_to_load_posts": "Échec du chargement des messages.",
+  "events": "Événements",
+  "posts": "Articles",
+  "phone_number_must_be_10_characters": "Le numéro de téléphone doit comporter 10 caractères"
 }

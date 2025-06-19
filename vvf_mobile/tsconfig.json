@@ -8,8 +8,11 @@
       "@assets/*": ["assets/*"],
       "@custom-types/*": ["src/types/*"],
       "@components/*": ["src/ui/components/*"],
-      "@data/*":["src/data/*"],
-      "@constants":["src/constants"],
+      "@data/*": ["src/data/*"],
+      "@locales/*": ["src/locales/*"],
+      "@libs/*": ["src/libs/*"],
+      "@styles/*": ["src/ui/styles/*"],
+      "@constants": ["src/constants"]
     }
   }
 }

@@ -3,15 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android --extra-params=\"--no-problems-report\"",
-    "ios": "react-native run-ios",
+    "android": "react-native-vector-image generate && react-native run-android",
+    "ios": "react-native-vector-image generate && react-native run-ios",
+    "start": "react-native-vector-image generate && react-native start --reset-cache",
+    "build-android": "react-native-vector-image generate && react-native build-android --mode=\"release\"",
     "lint": "eslint .",
-    "start": "react-native start",
     "test": "jest"
   },
   "dependencies": {
-    "@react-native-vector-icons/common": "^11.0.0",
-    "@react-native-vector-icons/material-icons": "^0.0.1",
+    "@klarna/react-native-vector-drawable": "^0.5.1",
+    "@react-native-vector-icons/material-icons": "^12.0.0",
     "@react-navigation/bottom-tabs": "^7.3.3",
     "@react-navigation/native": "^7.0.19",
     "@react-navigation/native-stack": "^7.3.3",
@@ -32,6 +33,7 @@
     "react-native-reanimated": "^3.17.3",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.9.1",
+    "react-native-vector-image": "^0.4.5",
     "react-native-webview": "^13.13.4",
     "react-redux": "^9.2.0"
   },

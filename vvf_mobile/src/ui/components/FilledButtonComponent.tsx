@@ -4,22 +4,23 @@ import {
   StyleSheet,
   ViewStyle,
   ActivityIndicator,
+  TextStyle,
 } from 'react-native';
 import React from 'react';
-import {appColor} from '../../constants';
 import Icon from '@react-native-vector-icons/material-icons';
 import type {MaterialIconName} from '@custom-types/materialType';
+import {appColor} from '@styles/appColor';
 
 interface Props {
   onPress: () => void;
   title?: string;
   iconName?: MaterialIconName;
   backgroundColor?: string;
-  textColor?: string;
   iconColor?: string;
   loading?: boolean;
   style?: ViewStyle | ViewStyle[];
   enabled?: boolean;
+  textStyle?: TextStyle | TextStyle[];
 }
 
 const FilledButtonComponent = (props: Props) => {
@@ -28,12 +29,18 @@ const FilledButtonComponent = (props: Props) => {
     title,
     iconName,
     backgroundColor,
-    textColor,
+    textStyle,
     style,
     iconColor,
     loading,
     enabled = true,
   } = props;
+
+  const opacityValue = enabled ? 1 : 0.6;
+  const textColorWithoutIcon = !enabled ? appColor.disabledTextColor : 'white';
+  const textColorWithIcon = !enabled
+    ? appColor.disabledTextColor
+    : iconColor ?? 'black';
 
   return (
     <TouchableOpacity
@@ -45,7 +52,7 @@ const FilledButtonComponent = (props: Props) => {
             borderColor: backgroundColor,
           },
         !enabled && styles.disabledStyle,
-        {opacity: enabled ? 1 : 0.6},
+        {opacity: opacityValue},
         style,
       ]}
       disabled={!enabled}
@@ -59,22 +66,15 @@ const FilledButtonComponent = (props: Props) => {
               style={[
                 styles.title,
                 {
-                  color: !enabled
-                    ? appColor.disabledTextColor
-                    : textColor ?? 'white',
+                  color: textColorWithoutIcon,
                 },
+                textStyle,
               ]}>
               {title}
             </Text>
           )}
           {iconName && (
-            <Icon
-              name={iconName}
-              size={30}
-              color={
-                !enabled ? appColor.disabledTextColor : iconColor ?? 'black'
-              }
-            />
+            <Icon name={iconName} size={30} color={textColorWithIcon} />
           )}
         </>
       )}

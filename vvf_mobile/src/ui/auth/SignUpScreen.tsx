@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
-import {appColor, appInfo} from '@constants';
+import {regex} from '@constants';
 import Divider from '../components/Divider';
 import TextInputComponent from '../components/TextInputComponent';
 import FilledButtonComponent from '../components/FilledButtonComponent';
@@ -19,7 +19,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import AuthHeaderComponent from './components/AuthHeaderComponent';
 import axios from 'axios';
-import axiosInstance from 'src/services/apis/axios';
+import axiosInstance from '@libs/apis/axios';
+import {appColor} from '@styles/appColor';
 
 const SignUpForm: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -47,7 +48,7 @@ const SignUpForm: React.FC = () => {
         !confirmPassword
       ) {
         throw new Error(t('email_password_required'));
-      } else if (!email.match(appInfo.emailRegex)) {
+      } else if (!email.match(regex.emailRegex)) {
         throw new Error(t('email_not_formatted'));
       } else if (password.length < 8) {
         throw new Error(t('password_8_character'));
@@ -55,6 +56,8 @@ const SignUpForm: React.FC = () => {
         throw new Error(t('password_not_matched'));
       } else if (address.length < 6) {
         throw new Error(t('address_6_character'));
+      } else if (phoneNumber.length < 10) {
+        throw new Error(t('phone_number_must_be_10_characters'));
       }
       const reqData = {
         firstName,
@@ -89,7 +92,7 @@ const SignUpForm: React.FC = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}>
+      style={styles.wrapper}>
       <TouchableNativeFeedback onPress={Keyboard.dismiss}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -185,6 +188,7 @@ const SignUpForm: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {flex: 1},
   container: {
     borderRadius: 10,
     paddingHorizontal: 30,

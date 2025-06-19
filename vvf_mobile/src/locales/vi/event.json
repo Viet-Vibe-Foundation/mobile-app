@@ -5,5 +5,7 @@
   "min": "phút",
   "time_and_location": "Thời gian và địa điểm",
   "about_the_event": "Về sự kiện",
-  "schedule": "Lịch"
+  "schedule": "Lịch",
+  "may_change_according_to_instructor": "(Có thể thay đổi tùy theo người hướng dẫn)",
+  "reserve": "Đặt chỗ"
 }

@@ -1,11 +1,11 @@
 {
-  "sign_up": "Sign Up",
-  "let_us_get_you_all_set_up": "Let us get you all set up",
-  "first_name": "First Name",
-  "last_name": "Last Name",
-  "email": "Email",
-  "password": "Password",
-  "enter_your_password": "Enter your password",
-  "confirm_password": "Confirm Password",
-  "already_have_account": "Already have an account? "
+  "sign_up": "S'inscrire",
+  "let_us_get_you_all_set_up": "Laissez-nous tout mettre en place",
+  "first_name": "Prénom",
+  "last_name": "Nom",
+  "email": "Courriel",
+  "password": "Mot de passe",
+  "enter_your_password": "Entrez votre mot de passe",
+  "confirm_password": "Confirmez le mot de passe",
+  "already_have_account": "Vous avez déjà un compte? "
 }

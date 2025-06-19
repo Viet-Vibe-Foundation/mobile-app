@@ -1,5 +1,5 @@
 import ResponseDTO from '@data/responseDTO';
-import axiosInstance from './apis/axios';
+import axiosInstance from '../libs/apis/axios';
 import {Event} from '@data/event';
 import {Alert} from 'react-native';
 

@@ -15,8 +15,8 @@ import {getEvents} from 'src/services/eventService';
 import ResponseDTO from '@data/responseDTO';
 import {Event} from '@data/event';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from 'src/libs/redux/store';
-import {updatePost} from 'src/libs/redux/postSlice';
+import {RootState} from '@libs/redux/store';
+import {updatePost} from '@libs/redux/postSlice';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
@@ -27,11 +27,10 @@ const HomeScreen = () => {
     pageNum: 0,
     total: 0,
   });
-  const [isEventsLoading, setEventLoading] = useState<boolean>(false);
+  const [isEventsLoading, setEventLoading] = useState<boolean>(true);
   const [isPostsLoading, setPostsLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  // Event doesn't need to update anything
   useEffect(() => {
     getEventByPageNum(events.pageNum ?? 0);
   }, [events.pageNum]);
@@ -39,7 +38,6 @@ const HomeScreen = () => {
   useEffect(() => {
     const getPostsByPageNum = async (pageNum: number) => {
       setPostsLoading(true);
-
       const postResponse = await getPosts(pageNum);
       dispatch(updatePost(postResponse));
       setPostsLoading(false);
@@ -100,10 +98,12 @@ const HomeScreen = () => {
               events.data &&
               events.total &&
               events.data?.length < events.total ? (
-                <ActivityIndicator
-                  style={styles.rightIndicator}
-                  size={'large'}
-                />
+                <View style={styles.rightIndicatorWrapper}>
+                  <ActivityIndicator
+                    size="small"
+                    style={styles.activityIndicator}
+                  />
+                </View>
               ) : null
             }
           />
@@ -118,7 +118,7 @@ const HomeScreen = () => {
       onEndReached={handlePostEndReached}
       ListEmptyComponent={
         isPostsLoading ? (
-          <ActivityIndicator style={styles.activityIndicator} size={'large'} />
+          <ActivityIndicator size={'large'} />
         ) : (
           <Text style={styles.emptyText}>No Data</Text>
         )
@@ -156,10 +156,11 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignSelf: 'center',
   },
-  rightIndicator: {
-    position: 'absolute',
-    right: 10,
-    alignSelf: 'center',
+  rightIndicatorWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    minWidth: 60,
   },
   activityIndicator: {
     marginVertical: 20,

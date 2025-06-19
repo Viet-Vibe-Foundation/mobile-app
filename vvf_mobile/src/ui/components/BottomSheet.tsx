@@ -1,77 +1,122 @@
 import React, {ReactNode, useEffect} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
-  withDelay,
+  useSharedValue,
   withTiming,
-  SharedValue,
+  interpolate,
+  Extrapolate,
+  runOnJS,
 } from 'react-native-reanimated';
+import {GestureDetector, Gesture} from 'react-native-gesture-handler';
 
-interface Props {
+const {height: SCREEN_HEIGHT} = Dimensions.get('window');
+
+interface BottomSheetProps {
   isOpen: boolean;
   toggleSheet: () => void;
+  children: ReactNode;
   duration?: number;
-  children: ReactNode | SharedValue<ReactNode>;
 }
 
 const BottomSheet = ({
   isOpen,
   toggleSheet,
-  duration = 500,
   children,
-}: Props) => {
-  const height = useSharedValue(0);
-  const progress = useSharedValue(1);
+  duration = 300,
+}: BottomSheetProps) => {
+  const translateY = useSharedValue(SCREEN_HEIGHT);
+
+  const context = useSharedValue({y: 0});
 
   useEffect(() => {
-    progress.value = withTiming(isOpen ? 0 : 1, {duration});
-  }, [isOpen]);
+    translateY.value = withTiming(isOpen ? 0 : SCREEN_HEIGHT, {duration});
+  }, [isOpen, duration, translateY]);
 
-  const sheetStyle = useAnimatedStyle(() => ({
-    transform: [{translateY: progress.value * 2 * height.value}],
+  const gesture = Gesture.Pan()
+    .onStart(() => {
+      context.value = {y: translateY.value};
+    })
+    .onUpdate(event => {
+      const offset = context.value.y + event.translationY;
+      translateY.value = Math.max(offset, 0);
+    })
+    .onEnd(() => {
+      if (translateY.value > SCREEN_HEIGHT * 0.3) {
+        runOnJS(toggleSheet)();
+      } else {
+        translateY.value = withTiming(0, {duration});
+      }
+    });
+
+  const rSheetStyle = useAnimatedStyle(() => ({
+    transform: [{translateY: translateY.value}],
   }));
 
-  const backdropStyle = useAnimatedStyle(() => ({
-    opacity: 1 - progress.value,
-    zIndex: isOpen ? 1 : withDelay(duration, withTiming(-1, {duration: 0})),
-  }));
+  const rBackdropStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      translateY.value,
+      [0, SCREEN_HEIGHT],
+      [0.5, 0],
+      Extrapolate.CLAMP,
+    );
+    return {
+      opacity,
+      pointerEvents: isOpen ? 'auto' : 'none',
+    };
+  });
 
   return (
     <>
-      <Animated.View style={[styles.backdrop, backdropStyle]}>
-        <TouchableOpacity style={styles.flex} onPress={toggleSheet} />
+      <Animated.View style={[styles.backdrop, rBackdropStyle]}>
+        <TouchableWithoutFeedback onPress={toggleSheet}>
+          <View style={styles.flex} />
+        </TouchableWithoutFeedback>
       </Animated.View>
-      <Animated.View
-        onLayout={e => {
-          height.value = e.nativeEvent.layout.height;
-        }}
-        style={[styles.sheet, sheetStyle]}>
-        {children}
-      </Animated.View>
+
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles.sheetContainer, rSheetStyle]}>
+          <View style={styles.indicator} />
+          {children}
+        </Animated.View>
+      </GestureDetector>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#000',
+    zIndex: 10,
+  },
   flex: {
     flex: 1,
   },
-  sheet: {
-    padding: 16,
-    height: 150,
-    width: '100%',
+  sheetContainer: {
     position: 'absolute',
     bottom: 0,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    zIndex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    paddingBottom: 20,
+    paddingTop: 8,
+    paddingHorizontal: 16,
+    zIndex: 50,
   },
-  backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  indicator: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#ccc',
+    alignSelf: 'center',
+    marginBottom: 8,
   },
 });
 
