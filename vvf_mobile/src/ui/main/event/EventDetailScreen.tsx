@@ -20,6 +20,7 @@ import {dateToString} from 'src/utils/dateTimeUtil';
 import EventScheduleItem from './components/EventScheduleItem';
 import Divider from '@components/Divider';
 import {useTranslation} from 'react-i18next';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 type EventDetailScreenParams = {
   eventId: string;
@@ -33,6 +34,7 @@ const EventDetailScreen = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [eventInfo, setEventInfo] = useState<Event | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const theme = useAppColor();
 
   useEffect(() => {
     const getEventInfo = async (requestEventId: String) => {
@@ -74,7 +76,9 @@ const EventDetailScreen = () => {
   if (error) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>{error}</Text>
+        <Text style={[styles.errorText, {color: theme.textError}]}>
+          {error}
+        </Text>
       </View>
     );
   }
@@ -82,7 +86,9 @@ const EventDetailScreen = () => {
   if (!eventInfo) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.errorText}>No event details available.</Text>
+        <Text style={[styles.errorText, {color: theme.textError}]}>
+          No event details available.
+        </Text>
       </View>
     );
   }
@@ -96,12 +102,18 @@ const EventDetailScreen = () => {
           )}
 
           <View style={styles.eventTitleInfoContainer}>
-            <Text style={[styles.eventTitleInfoText]}>
+            <Text
+              style={[styles.eventTitleInfoText, {color: theme.textSecondary}]}>
               {`${dateToString(eventInfo.startDate, 'DD/MM/YYYY hh:mm')} | ${
                 eventInfo.location
               }`}
             </Text>
-            <Text style={[styles.eventTitleInfoText, styles.title]}>
+            <Text
+              style={[
+                styles.eventTitleInfoText,
+                styles.title,
+                {color: theme.onPrimary},
+              ]}>
               {eventInfo.title}
             </Text>
             <FilledButtonComponent
@@ -112,20 +124,26 @@ const EventDetailScreen = () => {
             />
           </View>
         </View>
-        <SectionTitle title={t('time_and_location')} />
+        <SectionTitle title={t('time_and_location')} color={theme.onPrimary} />
         <View style={styles.timeAndLocationContainer}>
-          <Text>Date: {dateToString(eventInfo.startDate, 'DD/MM/YYYY')}</Text>
-          <Text>Time: {eventInfo.startTime}</Text>
-          <Text>Location: {eventInfo.location}</Text>
+          <Text style={{color: theme.onPrimary}}>
+            Date: {dateToString(eventInfo.startDate, 'DD/MM/YYYY')}
+          </Text>
+          <Text style={{color: theme.onPrimary}}>
+            Time: {eventInfo.startTime}
+          </Text>
+          <Text style={{color: theme.onPrimary}}>
+            Location: {eventInfo.location}
+          </Text>
         </View>
 
-        <SectionTitle title={t('about_the_event')} />
+        <SectionTitle title={t('about_the_event')} color={theme.onPrimary} />
         {eventInfo.description && (
           <HtmlComponent html={eventInfo.description} />
         )}
 
-        <SectionTitle title={t('schedule')} />
-        <Text style={styles.subTitle}>
+        <SectionTitle title={t('schedule')} color={theme.onPrimary} />
+        <Text style={{color: theme.textSecondary}}>
           {t('may_change_according_to_instructor')}
         </Text>
         <View style={styles.eventScheduleList}>
@@ -141,8 +159,8 @@ const EventDetailScreen = () => {
   );
 };
 
-const SectionTitle = ({title}: {title: string}) => (
-  <Text style={styles.title}>{title}</Text>
+const SectionTitle = ({title, color}: {title: string; color: string}) => (
+  <Text style={[styles.title, {color: color}]}>{title}</Text>
 );
 
 const styles = StyleSheet.create({
@@ -175,7 +193,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   eventTitleInfoText: {
-    color: 'white',
     textAlign: 'center',
   },
   reserveBtn: {
@@ -191,9 +208,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  subTitle: {
-    color: 'grey',
-  },
+
   timeAndLocationContainer: {
     gap: 5,
     fontSize: 18,
@@ -210,7 +225,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   errorText: {
-    color: 'red',
     fontSize: 16,
     textAlign: 'center',
   },

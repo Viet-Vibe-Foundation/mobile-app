@@ -35,3 +35,16 @@ export const socialButtonData = [
     icon: require('@assets/icons/insta_icon.svg'),
   },
 ];
+
+export const themeButtonData = [
+  {
+    themeMode: 'dark',
+    icon: 'light-mode',
+    color: 'yellow',
+  },
+  {
+    themeMode: 'light',
+    icon: 'dark-mode',
+    color: 'grey',
+  },
+];

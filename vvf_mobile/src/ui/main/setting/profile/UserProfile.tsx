@@ -21,9 +21,11 @@ import FilledButtonComponent from '@components/FilledButtonComponent';
 import BottomSheet from '@components/BottomSheet';
 import ImageSelectOptionBottomSheet from '../components/ImageSelectOptionBottomSheet';
 import {performCamera, performGallery} from 'src/services/imageService';
+import {useAppColor} from 'src/hooks/useAppColor';
 import {cardStyles} from '@styles/cardStyles';
 
 const UserProfile = () => {
+  const theme = useAppColor();
   const [userStorage, setUserStorage] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
@@ -260,7 +262,12 @@ const UserProfile = () => {
               onChangeImage={() => setOpenBottomSheet(!isOpenBottomSheet)}
               style={styles.userInfoContainer}
             />
-            <View style={cardStyles}>
+            <View
+              style={[
+                styles.userInfoContainer,
+                cardStyles,
+                {backgroundColor: theme.cardColor},
+              ]}>
               <TextInputComponent
                 enable={false}
                 placeHolder="Email"
@@ -306,20 +313,21 @@ const UserProfile = () => {
                   <Text style={styles.errorText}>{error.phone.message}</Text>
                 )}
               </>
+              <FilledButtonComponent
+                style={styles.saveBtn}
+                onPress={handleUpdate}
+                title="Save"
+                loading={isLoading}
+                enabled={
+                  hasChanged?.address ||
+                  hasChanged?.age ||
+                  hasChanged?.image ||
+                  hasChanged?.name ||
+                  hasChanged?.phone
+                }
+                textStyle={{color: theme.onPrimary}}
+              />
             </View>
-            <FilledButtonComponent
-              style={styles.saveBtn}
-              onPress={handleUpdate}
-              title="Save"
-              loading={isLoading}
-              enabled={
-                hasChanged?.address ||
-                hasChanged?.age ||
-                hasChanged?.image ||
-                hasChanged?.name ||
-                hasChanged?.phone
-              }
-            />
           </View>
         </TouchableNativeFeedback>
       </KeyboardAvoidingView>
@@ -339,9 +347,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 10,
+    gap: 10,
   },
   userInfoContainer: {
     marginVertical: 10,
+    gap: 10,
+    padding: 10,
   },
   errorText: {
     fontSize: 16,

@@ -5,12 +5,21 @@ import {socialButtonData} from '@constants';
 import {useTranslation} from 'react-i18next';
 import {cardStyles} from '@styles/cardStyles';
 import {openFacebook, openInstagram} from 'src/utils/socialDeepLinkUtil';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const SocialContactComponent = () => {
   const {t} = useTranslation();
+  const theme = useAppColor();
   return (
-    <View style={cardStyles}>
-      <Text style={styles.title}>{t('contact_us')}</Text>
+    <View
+      style={[
+        styles.container,
+        cardStyles,
+        {backgroundColor: theme.cardColor},
+      ]}>
+      <Text style={[styles.title, {color: theme.onPrimary}]}>
+        {t('contact_us')}
+      </Text>
 
       <View style={styles.iconContainer}>
         {socialButtonData.map(item => (
@@ -21,7 +30,9 @@ const SocialContactComponent = () => {
               item.platform === 'facebook' ? openFacebook() : openInstagram();
             }}>
             <VectorImage source={item.icon} width={40} height={40} />
-            <Text style={styles.label}>{item.label}</Text>
+            <Text style={[styles.label, {color: theme.onPrimary}]}>
+              {item.label}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -30,6 +41,9 @@ const SocialContactComponent = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
   title: {
     textAlign: 'center',
     fontSize: 16,

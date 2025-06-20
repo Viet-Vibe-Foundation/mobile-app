@@ -5,7 +5,6 @@ import PostScreen from 'src/ui/main/post/PostScreen';
 import HeaderComponent from '@components/HeaderComponent';
 import EventDetailScreen from 'src/ui/main/event/EventDetailScreen';
 import UserProfile from 'src/ui/main/setting/profile/UserProfile';
-import {appColor} from '@styles/appColor';
 import {MainStackParamList} from '@custom-types/navigationType';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -17,9 +16,7 @@ const MainRoute: React.FC = () => {
     <Stack.Navigator
       initialRouteName="Index"
       screenOptions={{
-        statusBarTranslucent: true,
         headerTitleAlign: 'center',
-        headerTintColor: appColor.primaryColor,
         header: renderHeader,
       }}>
       <Stack.Screen

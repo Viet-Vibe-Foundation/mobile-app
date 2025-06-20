@@ -3,6 +3,7 @@ import React from 'react';
 import {EventSchedule} from '@data/eventSchedule';
 import {calculateMinute} from 'src/utils/dateTimeUtil';
 import Divider from '@components/Divider';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 interface Prop {
   item: EventSchedule;
@@ -10,22 +11,23 @@ interface Prop {
 
 const EventScheduleItem = (prop: Prop) => {
   const {item} = prop;
+  const theme = useAppColor();
   return (
     <View style={styles.container}>
       <View style={styles.timeContainer}>
-        <Text>
+        <Text style={{color: theme.onPrimary}}>
           {item.startTime} - {item.endTime}
         </Text>
 
         {item.startTime && item.endTime && (
-          <Text style={styles.timeText}>
-            {calculateMinute(item.startTime, item.endTime)}
+          <Text style={{color: theme.textSecondary}}>
+            ({calculateMinute(item.startTime, item.endTime)})
           </Text>
         )}
       </View>
       <Divider type="vertical" />
       <View style={styles.descriptionContainer}>
-        <Text>{item.description}</Text>
+        <Text style={{color: theme.onPrimary}}>{item.description}</Text>
       </View>
     </View>
   );
@@ -45,9 +47,6 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     width: '70%',
-  },
-  timeText: {
-    color: 'grey',
   },
 });
 

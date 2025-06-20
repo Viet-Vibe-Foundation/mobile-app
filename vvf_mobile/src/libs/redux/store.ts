@@ -3,6 +3,7 @@ import LanguageReducer from '../redux/languageSlice';
 import AuthReducer from '../redux/authSlice';
 import PostReducer from '../redux/postSlice';
 import LanguageModalReducer from './languageModalSlice';
+import ThemeReducer from './themeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     languageModal: LanguageModalReducer,
     auth: AuthReducer,
     post: PostReducer,
+    theme: ThemeReducer,
   },
 });
 
