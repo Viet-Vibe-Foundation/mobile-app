@@ -108,12 +108,7 @@ const EventDetailScreen = () => {
                 eventInfo.location
               }`}
             </Text>
-            <Text
-              style={[
-                styles.eventTitleInfoText,
-                styles.title,
-                {color: theme.onPrimary},
-              ]}>
+            <Text style={[styles.eventTitleInfoText, styles.title]}>
               {eventInfo.title}
             </Text>
             <FilledButtonComponent
@@ -207,6 +202,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
+    color: 'white',
   },
 
   timeAndLocationContainer: {
