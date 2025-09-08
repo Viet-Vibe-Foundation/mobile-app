@@ -17,9 +17,11 @@ import {Event} from '@data/event';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@libs/redux/store';
 import {updatePost} from '@libs/redux/postSlice';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const HomeScreen = () => {
   const {t} = useTranslation();
+  const theme = useAppColor();
   const posts = useSelector((state: RootState) => state.post);
   const [postPageNum, setPostPageNum] = useState<number>(0);
   const [events, setEvents] = useState<ResponseDTO<Event[]>>({
@@ -70,10 +72,12 @@ const HomeScreen = () => {
 
   return (
     <FlatList
-      style={styles.container}
+      style={[styles.container, {backgroundColor: theme.backgroundColor}]}
       ListHeaderComponent={
         <View>
-          <Text style={styles.sectionHeader}>{t('events')}</Text>
+          <Text style={[styles.sectionHeader, {color: theme.onPrimary}]}>
+            {t('events')}
+          </Text>
           <FlatList
             data={events?.data}
             renderItem={({item}) => <EventCard event={item} />}
@@ -108,7 +112,9 @@ const HomeScreen = () => {
             }
           />
 
-          <Text style={styles.sectionHeader}>{t('posts')}</Text>
+          <Text style={[styles.sectionHeader, {color: theme.onPrimary}]}>
+            {t('posts')}
+          </Text>
         </View>
       }
       showsVerticalScrollIndicator={false}
@@ -120,7 +126,9 @@ const HomeScreen = () => {
         isPostsLoading ? (
           <ActivityIndicator size={'large'} />
         ) : (
-          <Text style={styles.emptyText}>No Data</Text>
+          <Text style={[styles.emptyText, {color: theme.onPrimary}]}>
+            No Data
+          </Text>
         )
       }
       ListFooterComponent={
@@ -139,7 +147,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    marginBottom: 10,
   },
   sectionHeader: {
     fontSize: 24,

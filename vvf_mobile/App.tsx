@@ -7,21 +7,27 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import LanguageBottomSheet from '@components/LanguageBottomSheet';
+import {useAppColor} from 'src/hooks/useAppColor';
 
-const App = (): React.ReactNode => {
+const AppContent = () => {
+  const colorScheme = useAppColor();
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={styles.container}>
-        <NavigationContainer>
-          <Provider store={store}>
-            <GlobalRoute />
-            <LanguageBottomSheet />
-          </Provider>
+        <NavigationContainer theme={colorScheme}>
+          <GlobalRoute />
+          <LanguageBottomSheet />
         </NavigationContainer>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 };
+
+const App = (): React.ReactNode => (
+  <Provider store={store}>
+    <AppContent />
+  </Provider>
+);
 
 const styles = StyleSheet.create({
   container: {

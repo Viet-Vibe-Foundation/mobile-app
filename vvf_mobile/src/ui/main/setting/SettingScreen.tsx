@@ -18,6 +18,7 @@ import {
   MainStackParamList,
 } from '@custom-types/navigationType';
 import {logout} from '@libs/redux/authSlice';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 type MainNavigationProp = NativeStackNavigationProp<
   MainStackParamList,
@@ -33,6 +34,7 @@ type NavigationProp = CompositeNavigationProp<
 
 const SettingScreen = () => {
   const {t} = useTranslation();
+  const theme = useAppColor();
   const [user, setUser] = useMMKVStorage<User | null>(
     storagePropertiesName.userInfo,
     mmkvStorage,
@@ -61,7 +63,7 @@ const SettingScreen = () => {
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, {backgroundColor: theme.backgroundColor}]}>
       <View style={styles.userInfoCard}>
         {user != null ? (
           <UserInfoComponent
@@ -71,7 +73,12 @@ const SettingScreen = () => {
           />
         ) : null}
 
-        <View style={[cardStyles, styles.optionContainer]}>
+        <View
+          style={[
+            cardStyles,
+            styles.optionContainer,
+            {backgroundColor: theme.cardColor},
+          ]}>
           {user ? (
             <FilledButtonComponent
               title={t('your_profile')}
@@ -104,7 +111,9 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   optionContainer: {
+    padding: 16,
     width: '100%',
+    gap: 10,
   },
   title: {
     fontSize: 22,

@@ -4,6 +4,7 @@ import {Post} from '@data/post';
 import {dateToString} from 'src/utils/dateTimeUtil';
 import IconTextComponent from './IconTextComponent';
 import {useNavigation} from '@react-navigation/native';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 interface Prop {
   post: Post;
@@ -12,7 +13,7 @@ interface Prop {
 const PostListItem = (props: Prop) => {
   const {post} = props;
   const navigation = useNavigation<any>();
-
+  const theme = useAppColor();
   const handleOnPress = (id: string | null) => {
     if (!id) {
       return;
@@ -22,7 +23,7 @@ const PostListItem = (props: Prop) => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, {backgroundColor: theme.cardColor}]}
       onPress={() => handleOnPress(post.id)}>
       {post.imgUrl ? (
         <Image source={{uri: post.imgUrl}} style={styles.image} />
@@ -31,21 +32,33 @@ const PostListItem = (props: Prop) => {
       )}
 
       <View style={styles.infoContainer}>
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+        <Text
+          style={[styles.title, {color: theme.onPrimary}]}
+          numberOfLines={2}
+          ellipsizeMode="tail">
           {post.title}
         </Text>
-        <Text>{dateToString(post.updatedAt, 'DD/MM/YY hh:mm')}</Text>
-        <Text style={styles.sumary} numberOfLines={2} ellipsizeMode="tail">
+        <Text style={{color: theme.textSecondary}}>
+          {dateToString(post.updatedAt, 'DD/MM/YY hh:mm')}
+        </Text>
+        <Text
+          style={[styles.sumary, {color: theme.textSecondary}]}
+          numberOfLines={2}
+          ellipsizeMode="tail">
           {post.summary ?? 'No content'}
         </Text>
         <View style={styles.statisticContainer}>
           <IconTextComponent
             icon="thumb-up"
             text={`${post._count.postLikes}`}
+            iconColor={theme.textSecondary}
+            textColor={theme.textSecondary}
           />
           <IconTextComponent
             icon="bar-chart"
             text={`${post._count.postVisits}`}
+            iconColor={theme.textSecondary}
+            textColor={theme.textSecondary}
           />
         </View>
       </View>
@@ -82,7 +95,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   sumary: {
-    color: 'gray',
     fontSize: 15,
     flexShrink: 1,
   },

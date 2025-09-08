@@ -11,6 +11,7 @@ import {
 import React, {useState} from 'react';
 import MaterialIcons from '@react-native-vector-icons/material-icons';
 import {MaterialIconName} from '@custom-types/materialType';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 interface Props {
   type: 'normal' | 'password';
@@ -37,6 +38,7 @@ const TextInputComponent: React.FC<Props> = ({
   onSubmitEditting,
   enable = true,
 }: Props) => {
+  const theme = useAppColor();
   const [focusState, setFocusState] = useState(false);
   const [isHidePassword, setHidePassword] = useState(type === 'password');
   const [internalValue, setInternalValue] = useState<string>('');
@@ -54,7 +56,12 @@ const TextInputComponent: React.FC<Props> = ({
   };
 
   return (
-    <View style={[styles.inputContainer, style]}>
+    <View
+      style={[
+        styles.inputContainer,
+        {backgroundColor: theme.textfield.placeHolder},
+        style,
+      ]}>
       {type === 'password' ? (
         <TouchableOpacity
           onPress={() => setHidePassword(prev => !prev)}
@@ -88,7 +95,7 @@ const TextInputComponent: React.FC<Props> = ({
         onSubmitEditing={onSubmitEditting}
         onChangeText={handleChangeText}
         keyboardType={keyboardType}
-        placeholderTextColor={'grey'}
+        placeholderTextColor={theme.textfield.placeHolderText}
       />
     </View>
   );
@@ -103,7 +110,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     height: 60,
-    backgroundColor: '#fff',
   },
   icon: {
     marginRight: 10,

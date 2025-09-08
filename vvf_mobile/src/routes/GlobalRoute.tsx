@@ -7,6 +7,8 @@ import MainRoute from './MainRoute';
 import {mmkvStorage} from '@libs/mmvkStorage';
 import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {GlobalStackParamList} from '@custom-types/navigationType';
+import {useSelector} from 'react-redux';
+import {RootState} from '@libs/redux/store';
 
 const Stack = createNativeStackNavigator<GlobalStackParamList>();
 
@@ -16,10 +18,14 @@ const GlobalRoute: React.FC = () => {
     mmkvStorage,
     true,
   );
-
+  const theme = useSelector((state: RootState) => state.theme);
   return (
     <Stack.Navigator
-      screenOptions={{headerShown: false, statusBarTranslucent: true}}
+      screenOptions={{
+        headerShown: false,
+        statusBarTranslucent: true,
+        statusBarStyle: theme.value === 'light' ? 'dark' : 'light',
+      }}
       initialRouteName={shouldWelcome ? 'Welcome' : 'Main'}>
       <Stack.Screen name="Auth" component={AuthRoute} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />

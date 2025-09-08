@@ -14,11 +14,13 @@ import {Post} from '@data/post';
 import PostListItem from '../home/components/PostListItem';
 import {useTranslation} from 'react-i18next';
 import {getPosts} from 'src/services/postService';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const SearchScreen = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
   const {t} = useTranslation();
+  const theme = useAppColor();
 
   useEffect(() => {
     getPostsByPageNum(0);
@@ -46,7 +48,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
       <TextInputComponent
         onChangeText={val => debouce(() => handleSearch(val), 1000)}
         onSubmitEditting={({nativeEvent}) => handleSearch(nativeEvent.text)}
@@ -59,7 +61,9 @@ const SearchScreen = () => {
         data={posts}
         renderItem={({item}) => <PostListItem post={item} />}
         ListHeaderComponent={
-          <Text style={styles.listHeader}>{t('result')}</Text>
+          <Text style={[styles.listHeader, {color: theme.onPrimary}]}>
+            {t('result')}
+          </Text>
         }
         ListEmptyComponent={
           isLoading ? (

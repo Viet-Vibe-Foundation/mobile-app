@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import AutoHeightWebView from 'react-native-autoheight-webview';
+import {useAppColor} from 'src/hooks/useAppColor';
 import {htmlContent, normalizeHTML} from 'src/utils/htmlUtil';
 
 interface Props {
@@ -10,12 +11,13 @@ interface Props {
 const HtmlComponent = ({html}: Props) => {
   const [height, setHeight] = useState<number>(300);
   const [loading, setLoading] = useState<boolean>(true);
+  const theme = useAppColor();
 
   if (!html) {
     return null;
   }
 
-  const rawContent = htmlContent(html);
+  const rawContent = htmlContent(html, theme.onPrimary);
   const normalizedContent = normalizeHTML(rawContent);
 
   return (

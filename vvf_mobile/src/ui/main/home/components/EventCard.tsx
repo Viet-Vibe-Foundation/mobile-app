@@ -7,6 +7,8 @@ import {useNavigation} from '@react-navigation/native';
 import {appColor} from '@styles/appColor';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MainStackParamList} from '@custom-types/navigationType';
+import {useAppColor} from 'src/hooks/useAppColor';
+import {cardStyles} from '@styles/cardStyles';
 
 interface Prop {
   event: Event;
@@ -18,11 +20,11 @@ type MainNavigationProp = NativeStackNavigationProp<
 >;
 
 const EventCard = ({event}: Prop) => {
+  const theme = useAppColor();
   const navigation = useNavigation<MainNavigationProp>();
-
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, cardStyles, {backgroundColor: theme.cardColor}]}
       onPress={() => navigation.push('EventDetail', {eventId: event.id!})}>
       <View style={styles.imageWrapper}>
         <Image
@@ -39,7 +41,10 @@ const EventCard = ({event}: Prop) => {
         </View>
       </View>
 
-      <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+      <Text
+        style={[styles.title, {color: theme.onPrimary}]}
+        numberOfLines={2}
+        ellipsizeMode="tail">
         {event.title}
       </Text>
 
@@ -50,12 +55,16 @@ const EventCard = ({event}: Prop) => {
             text={`$${event.price}`}
             iconSize={15}
             textSize={15}
+            textColor={theme.textSecondary}
+            iconColor={theme.textSecondary}
           />
           <IconTextComponent
             icon="confirmation-number"
             text={`${event.remainingTicket} remaining`}
             iconSize={15}
             textSize={15}
+            textColor={theme.textSecondary}
+            iconColor={theme.textSecondary}
           />
         </View>
         <View style={styles.section}>
@@ -64,8 +73,8 @@ const EventCard = ({event}: Prop) => {
             text={event.location ?? 'N/A'}
             iconSize={15}
             textSize={15}
-            textColor="gray"
-            iconColor="gray"
+            textColor={theme.textSecondary}
+            iconColor={theme.textSecondary}
           />
         </View>
       </View>
@@ -87,9 +96,7 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 250,
     margin: 10,
-    backgroundColor: 'white',
     borderRadius: 10,
-    elevation: 5,
     overflow: 'hidden',
     justifyContent: 'space-between',
   },

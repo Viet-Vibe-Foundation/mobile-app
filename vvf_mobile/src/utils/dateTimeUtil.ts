@@ -31,5 +31,9 @@ export const calculateMinute = (from: string, to: string): string => {
     return `${minutes}m`;
   }
 
+  if (minutes === 0) {
+    return `${hours} hours`;
+  }
+
   return `${hours}h:${minutes}m`;
 };

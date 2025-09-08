@@ -10,6 +10,7 @@ import React from 'react';
 import Icon from '@react-native-vector-icons/material-icons';
 import type {MaterialIconName} from '@custom-types/materialType';
 import {appColor} from '@styles/appColor';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 interface Props {
   onPress: () => void;
@@ -23,19 +24,18 @@ interface Props {
   textStyle?: TextStyle | TextStyle[];
 }
 
-const FilledButtonComponent = (props: Props) => {
-  const {
-    onPress,
-    title,
-    iconName,
-    backgroundColor,
-    textStyle,
-    style,
-    iconColor,
-    loading,
-    enabled = true,
-  } = props;
-
+const FilledButtonComponent = ({
+  onPress,
+  title,
+  iconName,
+  backgroundColor,
+  textStyle,
+  style,
+  iconColor,
+  loading,
+  enabled = true,
+}: Props) => {
+  const theme = useAppColor();
   const opacityValue = enabled ? 1 : 0.6;
   const textColorWithoutIcon = !enabled ? appColor.disabledTextColor : 'white';
   const textColorWithIcon = !enabled
@@ -51,7 +51,10 @@ const FilledButtonComponent = (props: Props) => {
             backgroundColor: backgroundColor,
             borderColor: backgroundColor,
           },
-        !enabled && styles.disabledStyle,
+        !enabled && {
+          borderColor: theme.buttonDisabled,
+          backgroundColor: theme.buttonDisabled,
+        },
         {opacity: opacityValue},
         style,
       ]}
@@ -66,6 +69,9 @@ const FilledButtonComponent = (props: Props) => {
               style={[
                 styles.title,
                 {
+                  color: theme.onPrimary,
+                },
+                {
                   color: textColorWithoutIcon,
                 },
                 textStyle,
@@ -74,7 +80,11 @@ const FilledButtonComponent = (props: Props) => {
             </Text>
           )}
           {iconName && (
-            <Icon name={iconName} size={30} color={textColorWithIcon} />
+            <Icon
+              name={iconName}
+              size={30}
+              color={textColorWithIcon || theme.onPrimary}
+            />
           )}
         </>
       )}
@@ -94,11 +104,6 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    color: 'white',
-  },
-  disabledStyle: {
-    backgroundColor: '#cccccc',
-    borderColor: '#cccccc',
   },
 });
 

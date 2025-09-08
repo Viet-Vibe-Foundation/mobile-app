@@ -14,6 +14,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import {GestureDetector, Gesture} from 'react-native-gesture-handler';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -30,8 +31,8 @@ const BottomSheet = ({
   children,
   duration = 300,
 }: BottomSheetProps) => {
+  const theme = useAppColor();
   const translateY = useSharedValue(SCREEN_HEIGHT);
-
   const context = useSharedValue({y: 0});
 
   useEffect(() => {
@@ -80,7 +81,12 @@ const BottomSheet = ({
       </Animated.View>
 
       <GestureDetector gesture={gesture}>
-        <Animated.View style={[styles.sheetContainer, rSheetStyle]}>
+        <Animated.View
+          style={[
+            styles.sheetContainer,
+            rSheetStyle,
+            {backgroundColor: theme.cardColor},
+          ]}>
           <View style={styles.indicator} />
           {children}
         </Animated.View>

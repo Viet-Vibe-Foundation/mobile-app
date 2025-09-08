@@ -21,6 +21,7 @@ import AuthHeaderComponent from './components/AuthHeaderComponent';
 import axios from 'axios';
 import axiosInstance from '@libs/apis/axios';
 import {appColor} from '@styles/appColor';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 const SignUpForm: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -34,6 +35,7 @@ const SignUpForm: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const theme = useAppColor();
 
   const handleSignUp = async () => {
     try {
@@ -96,7 +98,7 @@ const SignUpForm: React.FC = () => {
       <TouchableNativeFeedback onPress={Keyboard.dismiss}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          style={styles.container}>
+          style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
           <AuthHeaderComponent
             subTitle={t('let_us_get_you_all_set_up')}
             title={t('sign_up')}
@@ -169,14 +171,18 @@ const SignUpForm: React.FC = () => {
               onChangeText={setConfirmPassword}
             />
           </View>
-          <Text style={styles.errorText}>{errorMessage}</Text>
+          <Text style={[styles.errorText, {color: theme.textError}]}>
+            {errorMessage}
+          </Text>
           <FilledButtonComponent
             style={styles.signUpBtn}
             onPress={handleSignUp}
             title={t('create_account')}
           />
           <View style={styles.textSignUpContainer}>
-            <Text>{t('already_have_account')} </Text>
+            <Text style={{color: theme.onPrimary}}>
+              {t('already_have_account')}{' '}
+            </Text>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text style={styles.textLinkSignUp}>{t('login')}</Text>
             </TouchableOpacity>
@@ -193,7 +199,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 30,
     paddingTop: 40,
-    backgroundColor: 'whitesmoke',
     marginBottom: 30,
   },
 
@@ -204,6 +209,7 @@ const styles = StyleSheet.create({
   },
   inputTitle: {
     color: appColor.primaryColor,
+    fontSize: 18,
   },
   signUpBtn: {
     marginTop: 10,
@@ -219,7 +225,6 @@ const styles = StyleSheet.create({
   errorText: {
     marginTop: 5,
     fontSize: 15,
-    color: 'red',
   },
 });
 

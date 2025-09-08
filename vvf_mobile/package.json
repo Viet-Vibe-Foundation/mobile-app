@@ -6,7 +6,7 @@
     "android": "react-native-vector-image generate && react-native run-android",
     "ios": "react-native-vector-image generate && react-native run-ios",
     "start": "react-native-vector-image generate && react-native start --reset-cache",
-    "build-android": "react-native-vector-image generate && react-native build-android --mode=\"release\"",
+    "build-android": "bash scripts/build_android.sh",
     "lint": "eslint .",
     "test": "jest"
   },

@@ -3,6 +3,7 @@ import MaterialIcon from '@react-native-vector-icons/material-icons';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {appColor} from '@styles/appColor';
+import {useAppColor} from 'src/hooks/useAppColor';
 
 interface Props {
   title: string;
@@ -11,7 +12,7 @@ interface Props {
 
 const AuthHeaderComponent = (prop: Props) => {
   const {title, subTitle} = prop;
-
+  const theme = useAppColor();
   const navigation = useNavigation<any>();
 
   return (
@@ -22,8 +23,10 @@ const AuthHeaderComponent = (prop: Props) => {
         <MaterialIcon name="close" />
       </TouchableOpacity>
       <View>
-        <Text style={styles.title}>{title}</Text>
-        <Text>{subTitle}</Text>
+        <Text style={[styles.title]}>{title}</Text>
+        <Text style={(styles.subTitle, {color: theme.textSecondary})}>
+          {subTitle}
+        </Text>
       </View>
     </View>
   );
@@ -40,12 +43,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: appColor.primaryColor,
     marginVertical: 10,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   subTitle: {
     textAlign: 'left',
     fontSize: 20,
-    color: appColor.textSecondary,
+    fontWeight: '500',
   },
   existBtn: {
     position: 'absolute',
