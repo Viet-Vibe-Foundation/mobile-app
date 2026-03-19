@@ -81,3 +81,6 @@ yarn-error.log
 
 #Key store android
 key-store-vvf-android.jks
+
+#
+gradle.properties

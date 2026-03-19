@@ -42,7 +42,6 @@ const EventDetailScreen = () => {
           `/events/get?eventId=${requestEventId}`,
         );
         if (res.data?.data) {
-          console.log(res.data.data);
           setEventInfo(res.data.data);
         } else {
           setError('Event data is unavailable.');
@@ -59,12 +58,11 @@ const EventDetailScreen = () => {
   }, [eventId]);
 
   const handleReserve = () => {
-    if (eventInfo?.formLink) {
-      Linking.openURL(eventInfo.formLink).catch(err => {
-        Alert.alert('Error', 'Could not open link.');
-        console.error(err);
-      });
-    }
+    const url = `https://www.vietvibe.org/events/${eventInfo?.eventType}/${eventInfo?.keyName}`;
+    Linking.openURL(url).catch(err => {
+      Alert.alert('Error', 'Could not open link.');
+      console.error(err);
+    });
   };
 
   if (isLoading) {
