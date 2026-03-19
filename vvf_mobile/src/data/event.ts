@@ -1,5 +1,5 @@
 import {EventSchedule} from './eventSchedule';
-
+import {EventTicket} from './eventTicket';
 export interface Event {
   id: string | null;
   title: string | null;
@@ -18,8 +18,10 @@ export interface Event {
   isPublished: Boolean;
   remainingTicket: number | null; // Capacity - ticketSold
   eventType: string | null;
+  keyName: string | null;
   schedules?: EventSchedule[];
   socialLinks?: SocialLink[];
+  tickets?: EventTicket[];
 }
 
 export interface SocialLink {

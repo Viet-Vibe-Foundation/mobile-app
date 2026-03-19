@@ -19,7 +19,13 @@ type MainNavigationProp = NativeStackNavigationProp<
 
 const EventCard = ({event}: Prop) => {
   const navigation = useNavigation<MainNavigationProp>();
-
+  const lowestPrice = event.tickets?.reduce((min, ticket) => {
+    return Math.min(min, ticket.price ?? 0);
+  }, Infinity);
+  const highestPrice = event.tickets?.reduce((max, ticket) => {
+    return Math.max(max, ticket.price ?? 0);
+  }, 0);
+  
   return (
     <TouchableOpacity
       style={styles.container}
@@ -47,7 +53,7 @@ const EventCard = ({event}: Prop) => {
         <View style={styles.section}>
           <IconTextComponent
             icon="sell"
-            text={`$${event.price}`}
+            text={`$${lowestPrice} - $${highestPrice}`}
             iconSize={15}
             textSize={15}
           />
